@@ -26,14 +26,14 @@ Reproduce assets with `python scripts/prepare-archive.py` (Python and Pillow; do
 
 ## Temporary photography for hero and disciplines
 
-The user requested placeholders for the new editorial composition. These four placements use two existing stock photographs, **not photographs of Crazy Gang School, its students, teachers or lessons**. Every placement has a visible “Fotografia segnaposto” caption and empty decorative alt text.
+The redesign currently uses one placeholder placement in the hero. It is an existing stock photograph, **not a photograph of Crazy Gang School, its students, teachers or lessons**. The placement has a visible “Fotografia segnaposto” caption and empty decorative alt text. Both prepared source sets remain independently replaceable for later approved photography.
 
 | Responsive variants | Intrinsic source size | Roles / replacement |
 | --- | --- | --- |
-| `public/images/placeholder-stage-{480,900,1300}.webp` | 1400 × 1869 px | Hero main image and second discipline detail; replace with approved school photography |
-| `public/images/placeholder-studio-{480,900,1100}.webp` | 1100 × 1650 px | Hero detail and first discipline insert; replace independently through the central metadata |
+| `public/images/placeholder-stage-{480,900,1300}.webp` | 1400 × 1869 px | Current hero image; replace with approved school photography |
+| `public/images/placeholder-studio-{480,900,1100}.webp` | 1100 × 1650 px | Prepared alternative, not currently loaded; available for a later independent placement |
 
-WebP quality 82. Stage variants: 19.5 / 49.5 / 82.7 KB; studio: 16.5 / 41.1 / 59.4 KB. Prepared from the local source JPEGs using `python scripts/prepare-placeholders.py` (Python and Pillow, no downloads). CSS controls contextual crops; colours are not altered.
+WebP quality 82. Stage variants: 19.5 / 49.5 / 82.7 KB; studio: 16.5 / 41.1 / 59.4 KB. Prepared from the local source JPEGs using `python scripts/prepare-placeholders.py` (Python and Pillow, no downloads). Source files are unaltered; the interface applies a removable monochrome and blue colour treatment in CSS.
 
 The photographic placeholders illustrate composition only. Juxtaposition with course names does not identify a lesson, age group or discipline. The site footer identifies the mix of placeholders and archive photography.
 

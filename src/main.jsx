@@ -1,193 +1,149 @@
-﻿import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { photos, disciplines, faculty, contact } from './content';
+import { contact, disciplines, faculty, photos } from './content';
 import './styles.css';
-import './atlas.css';
+import './sections.css';
+import './chapters.css';
+import './responsive.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-function Arrow({ diagonal = false, className = '' }) {
-  return <svg className={`arrow ${className}`} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={diagonal ? 'M5 19 19 5M5 5h14v14' : 'M4 12h16m-7-7 7 7-7 7'} stroke="currentColor" strokeWidth="1.5" /></svg>;
+function Arrow({ down = false }) {
+  const path = down ? 'M12 3v18m-7-7 7 7 7-7' : 'M5 19 19 5M7 5h12v12';
+  return <svg className="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={path} stroke="currentColor" strokeWidth="1.7" /></svg>;
 }
 
-function BrandLogo({ className = '', sizes = '160px' }) {
-  return <img className={`brand-logo ${className}`} src="/brand/crazy-gang-640.webp" srcSet="/brand/crazy-gang-320.webp 320w, /brand/crazy-gang-640.webp 640w, /brand/crazy-gang-960.webp 960w" sizes={sizes} width="2307" height="1157" alt="Crazy Gang School" />;
+function Brand({ footer = false, onNavigate }) {
+  return <a className={`brand ${footer ? 'brand--footer' : ''}`} href="#inizio" onClick={onNavigate} aria-label="Crazy Gang School, torna all'inizio"><img src="/brand/crazy-gang-640.webp" width="2307" height="1157" alt="Crazy Gang School" /></a>;
 }
 
-function Wordmark({ footer = false, onNavigate }) {
-  return <a href="#inizio" onClick={onNavigate} className={`wordmark ${footer ? 'wordmark-footer' : ''}`} aria-label="Crazy Gang School, torna all'inizio"><BrandLogo sizes={footer ? '(max-width: 800px) 220px, 260px' : '(max-width: 800px) 134px, 158px'} /></a>;
-}
-
-function Photo({ name, className = '', priority = false, caption = true, sizes = '(max-width: 800px) calc(100vw - 46px), 46vw' }) {
-  const photo = photos[name];
-  return <figure className={`photo ${className}`} data-placeholder={photo.placeholder || undefined} style={{ '--photo-position': photo.position, '--photo-mobile-position': photo.mobilePosition }}>
-    <div className="photo-frame"><img src={photo.src} srcSet={photo.srcSet} sizes={sizes} alt={photo.alt} width={photo.width} height={photo.height} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" /></div>
-    {caption && <figcaption>{photo.caption}</figcaption>}
-  </figure>;
+function Photo({ name, className = '', priority = false, sizes = '50vw' }) {
+  const p = photos[name];
+  return <figure className={`photo ${className}`} data-placeholder={p.placeholder ? 'true' : undefined} style={{ '--position': p.position, '--mobile-position': p.mobilePosition }}><div className="photo__frame"><img src={p.src} srcSet={p.srcSet} sizes={sizes} width={p.width} height={p.height} alt={p.alt} loading={priority ? 'eager' : 'lazy'} /></div><figcaption>{p.caption}</figcaption></figure>;
 }
 
 function Navigation() {
   const [open, setOpen] = useState(false);
-  const menu = useRef(null);
+  const panel = useRef(null);
   const toggle = useRef(null);
-  const links = [['La scuola', '#scuola'], ['Le discipline', '#discipline'], ['Spettacoli', '#palcoscenico']];
-
+  const links = [['La scuola', '#scuola'], ['Discipline', '#discipline'], ['Archivio', '#archivio'], ['Contatti', '#contatti']];
   useEffect(() => {
-    if (!open) return;
+    if (!open) return undefined;
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    const first = menu.current.querySelector('a');
-    first?.focus();
-    const handleKey = (event) => {
+    panel.current?.querySelector('a')?.focus();
+    const onKey = (event) => {
       if (event.key === 'Escape') { setOpen(false); toggle.current?.focus(); }
       if (event.key === 'Tab') {
-        const controls = [toggle.current, ...menu.current.querySelectorAll('a')];
-        const index = controls.indexOf(document.activeElement);
-        if (event.shiftKey && index === 0) { event.preventDefault(); controls.at(-1).focus(); }
-        if (!event.shiftKey && index === controls.length - 1) { event.preventDefault(); controls[0].focus(); }
+        const items = [toggle.current, ...panel.current.querySelectorAll('a')];
+        const current = items.indexOf(document.activeElement);
+        if (event.shiftKey && current === 0) { event.preventDefault(); items.at(-1)?.focus(); }
+        if (!event.shiftKey && current === items.length - 1) { event.preventDefault(); items[0]?.focus(); }
       }
     };
-    const onResize = () => { if (window.innerWidth > 800) setOpen(false); };
-    document.addEventListener('keydown', handleKey);
-    window.addEventListener('resize', onResize);
-    return () => { document.body.style.overflow = previous; document.removeEventListener('keydown', handleKey); window.removeEventListener('resize', onResize); };
+    document.addEventListener('keydown', onKey);
+    return () => { document.body.style.overflow = previous; document.removeEventListener('keydown', onKey); };
   }, [open]);
-
-  return <header className={`header ${open ? 'menu-open' : ''}`}>
-    <div className="header-inner"><Wordmark onNavigate={() => setOpen(false)} /><nav className="desktop-nav" aria-label="Navigazione principale">{links.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav><a className="nav-contact" href="#contatti">Contatti <Arrow diagonal /></a><button ref={toggle} className="menu-toggle" type="button" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>{open ? 'Chiudi' : 'Menu'}<span className="menu-bars" aria-hidden="true"><i /><i /></span></button></div>
-    <nav ref={menu} id="mobile-menu" className="mobile-menu" aria-label="Navigazione mobile" hidden={!open}>{[...links, ['Gli insegnanti', '#insegnanti'], ['Contatti', '#contatti']].map(([label, href]) => <a key={href} href={href} onClick={() => { setOpen(false); requestAnimationFrame(() => document.querySelector(href)?.focus({ preventScroll: true })); }}>{label}<Arrow diagonal /></a>)}<span>Crazy Gang School · Roma</span></nav>
-  </header>;
+  const close = () => setOpen(false);
+  return <header className={`site-header ${open ? 'is-open' : ''}`}><div className="nav-shell"><Brand onNavigate={close} /><nav className="desktop-nav" aria-label="Navigazione principale">{links.slice(0, 3).map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav><a className="nav-cta" href="#contatti">Richiedi informazioni <Arrow /></a><button ref={toggle} className="menu-toggle" type="button" aria-expanded={open} aria-controls="menu-mobile" onClick={() => setOpen(value => !value)}><span>{open ? 'Chiudi' : 'Menu'}</span><i aria-hidden="true" /></button></div><nav ref={panel} id="menu-mobile" className="mobile-nav" aria-label="Navigazione mobile" hidden={!open}>{links.map(([label, href]) => <a key={href} href={href} onClick={close}>{label}<Arrow /></a>)}<p>Crazy Gang School<br />Roma, Colli Albani</p></nav></header>;
 }
 
-function Disciplines() {
-  return <section id="discipline" tabIndex={-1} className="discipline-atlas section-pad" aria-labelledby="discipline-title">
-    <div className="discipline-intro"><h2 id="discipline-title">Discipline</h2><p>Per corsi attivi, livelli e orari,<br /><a href="#contatti">contatta la scuola <Arrow diagonal /></a></p></div>
-    <ul className="discipline-list" aria-label="Discipline riportate nel sito della scuola">
-      {disciplines.map((course, index) => <React.Fragment key={course.id}>
-        <li className={`discipline-item discipline-${course.id}`}>
-          <a href={`mailto:${contact.email}?subject=${encodeURIComponent('Informazioni: ' + course.name)}`} aria-label={`Informazioni su ${course.name}`}><span>{course.name}</span><Arrow diagonal /></a>
-        </li>
-        {index === 1 && <li className="discipline-image discipline-image--first" role="presentation"><Photo name="disciplineOne" sizes="(max-width: 800px) 50vw, 24vw" /></li>}
-        {index === 6 && <li className="discipline-image discipline-image--second" role="presentation"><Photo name="disciplineTwo" sizes="(max-width: 800px) 44vw, 25vw" /></li>}
-      </React.Fragment>)}
-    </ul>
-    <details className="other-disciplines" onToggle={() => ScrollTrigger.refresh()}><summary>Altre attività <span aria-hidden="true">+</span></summary><div><p>Il sito originale cita anche il Kuai. Per informazioni su contenuti e disponibilità, contatta la segreteria.</p><a className="text-link" href={`mailto:${contact.email}?subject=Informazioni%20sulle%20attivit%C3%A0`}>Scrivi alla scuola <Arrow diagonal /></a></div></details>
-  </section>;
+function Marquee() {
+  const names = disciplines.map(item => item.name).join(' · ');
+  return <div className="marquee" aria-label={`Discipline: ${names}`}><div className="marquee__track" aria-hidden="true"><span>{names} · </span><span>{names} · </span></div></div>;
+}
+
+function DisciplineAccordion() {
+  return <div className="discipline-accordion" role="list" aria-label="Discipline riportate nel sito della scuola">{disciplines.map((course, index) => <a key={course.id} className={`discipline-slice discipline-slice--${(index % 4) + 1}`} href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${course.name}`)}`} role="listitem"><span aria-hidden="true" /><strong>{course.name}</strong><span className="slice-action">Chiedi informazioni <Arrow /></span></a>)}</div>;
 }
 
 function App() {
   const root = useRef(null);
   const [teachersOpen, setTeachersOpen] = useState(false);
+  const statement = 'Una scuola di danza a Roma. Le discipline, il lavoro in sala e un archivio di spettacoli che attraversa danza, canto e recitazione.';
   useGSAP(() => {
     const media = gsap.matchMedia();
-    let mounted = true;
-    media.add({
-      motion: '(prefers-reduced-motion: no-preference)',
-      desktop: '(min-width: 1000px)',
-    }, context => {
-      const { motion, desktop } = context.conditions;
-      if (!motion) return;
-      const entrance = gsap.timeline({ defaults: { ease: 'power3.out' } });
-      entrance.from('.hero-line', {
-        yPercent: 108, duration: desktop ? 0.65 : 0.5, stagger: 0.09,
-        clearProps: 'transform',
-      }, 0);
-      // Partial opening keeps the priority image visible while it settles.
-      entrance.from('.atlas-image--main .photo-frame', {
-        clipPath: 'inset(0 16% 0 0)', duration: desktop ? 0.85 : 0.6,
-        ease: 'power3.inOut', clearProps: 'clipPath',
-      }, 0.04);
-      entrance.from('.atlas-image--detail .photo-frame', {
-        clipPath: 'inset(0 0 18% 0)', x: desktop ? -18 : -8,
-        duration: desktop ? 0.8 : 0.55, clearProps: 'clipPath,transform',
-      }, 0.12);
-
-      gsap.utils.toArray('.stage-photo .photo-frame, .discipline-image .photo-frame').forEach((frame, index) => {
-        gsap.from(frame, {
-          clipPath: index % 2 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)',
-          duration: desktop ? 0.85 : 0.6, ease: 'power3.inOut',
-          scrollTrigger: { trigger: frame, start: 'top 94%', once: true },
-          clearProps: 'clipPath',
-        });
-      });
-      gsap.utils.toArray('.reveal, .section-intro h2, .stage-heading h2, .contact-headline h2, .discipline-intro h2, .discipline-item').forEach(element => {
-        gsap.from(element, {
-          y: desktop ? 22 : 12, duration: 0.6, ease: 'power3.out',
-          scrollTrigger: { trigger: element, start: 'top 94%', once: true },
-          clearProps: 'transform',
-        });
-      });
-      if (desktop) {
-        ScrollTrigger.create({
-          trigger: '.stage-heading', start: 'top 110px',
-          endTrigger: '.stage-gallery', end: 'bottom 75%',
-          pin: true, pinSpacing: false,
-        });
-        gsap.utils.toArray('.stage-photo .photo-frame').forEach(frame => {
-          gsap.fromTo(frame, { y: 12 }, {
-            y: -12, ease: 'none',
-            scrollTrigger: { trigger: frame.closest('.stage-piece'), start: 'top bottom', end: 'bottom top', scrub: 0.45 },
-          });
-        });
-        gsap.to('.atlas-image--detail', {
-          y: -24, ease: 'none',
-          scrollTrigger: { trigger: '.atlas-hero', start: 'top top', end: 'bottom top', scrub: 0.45 },
-        });
-      }
+    media.add({ motion: '(prefers-reduced-motion: no-preference)', desktop: '(min-width: 1000px)' }, ({ conditions }) => {
+      if (!conditions.motion) return;
+      gsap.timeline({ defaults: { ease: 'power3.out' } })
+        .from('.hero-title__line span', { yPercent: 110, duration: .8, stagger: .09, clearProps: 'transform' })
+        .from('.hero-photo .photo__frame', { clipPath: 'inset(0 0 100% 0)', duration: 1, ease: 'power3.inOut', clearProps: 'clipPath' }, .12)
+        .from('.hero-aside > *', { opacity: 0, y: 18, duration: .55, stagger: .08 }, .35);
+      gsap.to('.story-word', { opacity: 1, stagger: .035, ease: 'none', scrollTrigger: { trigger: '.story-statement', start: 'top 78%', end: 'bottom 50%', scrub: .6 } });
+      gsap.utils.toArray('.reveal').forEach(element => gsap.from(element, { y: 34, opacity: 0, duration: .75, ease: 'power3.out', scrollTrigger: { trigger: element, start: 'top 90%', once: true } }));
+      gsap.utils.toArray('.photo:not(.hero-photo) .photo__frame').forEach(frame => gsap.fromTo(frame, { scale: .86 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: frame, start: 'top 95%', end: 'center 55%', scrub: .55 } }));
+      if (conditions.desktop) ScrollTrigger.create({ trigger: '.archive-layout', start: 'top 108px', endTrigger: '.archive-rail', end: 'bottom 72%', pin: '.archive-copy', pinSpacing: false });
     });
-    const refresh = () => { if (mounted) ScrollTrigger.refresh(); };
+    const refresh = () => ScrollTrigger.refresh();
     document.fonts.ready.then(refresh);
     window.addEventListener('load', refresh);
-    return () => {
-      mounted = false;
-      media.revert();
-      window.removeEventListener('load', refresh);
-    };
+    return () => { media.revert(); window.removeEventListener('load', refresh); };
   }, { scope: root });
+  useEffect(() => ScrollTrigger.refresh(), [teachersOpen]);
 
-  useEffect(() => { ScrollTrigger.refresh(); }, [teachersOpen]);
-
-  const story = 'Danza, canto e recitazione fanno parte degli spettacoli documentati nell’archivio della scuola.';
-
-  return <div ref={root}>
+  return <div ref={root} className="site-root">
     <a className="skip-link" href="#contenuto">Vai al contenuto</a>
     <Navigation />
-    <main id="contenuto" tabIndex={-1} className="page-shell">
-      <section id="inizio" className="atlas-hero" aria-labelledby="hero-title">
-        <div className="atlas-meta"><span>Scuola di danza · Roma</span><span>Colli Albani</span></div>
-        <h1 className="atlas-title" id="hero-title" aria-label="Crazy Gang School"><span className="atlas-title-row"><span className="hero-line">Crazy Gang</span></span><span className="atlas-title-row"><span className="hero-line">School</span></span></h1>
-        <Photo name="heroMain" priority className="atlas-image atlas-image--main" sizes="(max-width: 800px) 78vw, 35vw" />
-        <Photo name="heroDetail" className="atlas-image atlas-image--detail" sizes="(max-width: 800px) 40vw, 23vw" />
-        <div className="atlas-copy"><p>Informazioni su corsi, <br />orari e disponibilità.</p><a className="text-link" href="#discipline">Vedi le discipline <Arrow diagonal /></a></div>
+    <main id="contenuto" tabIndex={-1}>
+      <section id="inizio" className="hero" aria-labelledby="hero-title">
+        <div className="hero-copy">
+          <div className="hero-kicker"><span>Scuola di danza</span><span>Roma · Colli Albani</span></div>
+          <h1 id="hero-title" className="hero-title"><span className="hero-title__line"><span>Il movimento</span></span><span className="hero-title__line hero-title__line--accent"><span>prende spazio.</span></span></h1>
+          <div className="hero-actions"><a className="button button--acid" href="#discipline">Scopri le discipline <Arrow /></a><a className="text-action" href="#contatti">Parla con la scuola <Arrow /></a></div>
+        </div>
+        <div className="hero-visual"><Photo name="heroMain" className="hero-photo" priority sizes="(max-width: 820px) 100vw, 43vw" /><div className="hero-aside"><span>Foto segnaposto</span><p>Le immagini definitive saranno inserite indipendentemente dall’interfaccia.</p><a href="#scuola" aria-label="Continua alla sezione La scuola"><Arrow down /></a></div></div>
+      </section>
+      <Marquee />
+
+      <section id="scuola" className="story section-space" tabIndex={-1} aria-labelledby="story-title">
+        <div className="section-heading reveal"><p>Crazy Gang School</p><h2 id="story-title">Sala, scena,<br />persone.</h2></div>
+        <p className="story-statement" aria-label={statement}>{statement.split(' ').map((word, index) => <span className="story-word" key={`${word}-${index}`}>{word}{' '}</span>)}</p>
+        <div className="story-facts reveal"><p>Il sito della scuola presenta percorsi per bambini e adulti, principianti ed esperti.</p><p>Per sapere quali attività sono attive oggi, contatta direttamente la segreteria.</p></div>
       </section>
 
-      <section id="scuola" tabIndex={-1} className="school section-pad">
-        <div className="school-top"><h2>La scuola</h2><span className="small-location">Roma, Colli Albani <span aria-hidden="true">↗</span></span></div>
-        <p className="story-copy">{story}</p>
-        <div className="school-foot"><span className="school-rule" /><p>Il sito originale presenta percorsi per bambini e adulti. Per informazioni sulle attività attuali, contatta la segreteria.</p><a href="#insegnanti" className="text-link">Gli insegnanti <Arrow diagonal /></a></div>
+      <section className="facts-bento" aria-label="Scopri Crazy Gang School">
+        <a className="bento-card bento-card--main" href="#discipline"><div><span>Le discipline</span><Arrow /></div><strong>Danza in sala.<br />Esperienza sul palco.</strong></a>
+        <a className="bento-card bento-card--archive" href="#archivio"><span>Archivio</span><strong>Saggi, rassegne e spettacoli documentati dal sito della scuola.</strong><Arrow /></a>
+        <div className="bento-card bento-card--place"><span>Dove</span><strong>Roma<br />Colli Albani</strong></div>
+        <a className="bento-card bento-card--contact" href="#contatti"><span>Prima di venire</span><strong>Conferma apertura e attività disponibili.</strong><Arrow /></a>
       </section>
 
-      <Disciplines />
-
-
-      <section id="palcoscenico" tabIndex={-1} className="stage section-pad">
-        <div className="stage-heading"><span className="eyebrow">Archivio</span><h2>Spettacoli</h2><p>Il sito originale raccoglie saggi, rassegne e fotografie di musical.</p><a className="text-link light" href="https://www.crazygangschool.com/blank" target="_blank" rel="noreferrer">Apri l’archivio storico <Arrow diagonal /><span className="sr-only"> (si apre in una nuova scheda)</span></a><span className="stage-line" aria-hidden="true" /></div>
-        <div className="stage-gallery"><div className="stage-piece"><Photo name="stage" className="stage-photo" /></div><div className="stage-piece second"><Photo name="studio" className="stage-photo" /></div><p className="archive-note">Nell’archivio della scuola: Crazy Party, saggi e fotografie dedicate a musical come Sister Act, Dracula e Mary Poppins.</p></div>
+      <section id="discipline" className="disciplines section-space" tabIndex={-1} aria-labelledby="discipline-title">
+        <div className="section-heading section-heading--wide reveal"><p>Le attività riportate dal sito</p><h2 id="discipline-title">Trova il tuo<br />linguaggio.</h2><p className="section-note">Disponibilità, livelli e orari sono da confermare con la scuola.</p></div>
+        <DisciplineAccordion />
       </section>
 
-      <section id="insegnanti" tabIndex={-1} className="teachers section-pad"><div className="section-intro"><div><h2>Insegnanti</h2></div><p>Nomi e ruoli riportati nel sito originale.</p></div><div className="directors"><article className="director reveal"><span>Direzione artistica</span><h3>Marco<br /><strong>Stopponi</strong></h3><p>Coreografo e insegnante</p></article><article className="director reveal"><span>Direzione artistica</span><h3>Stefano<br /><strong>Stopponi</strong></h3><p>Coreografo e insegnante</p></article><aside className="faculty-aside"><span className="large-asterisk" aria-hidden="true">↗</span><button className="text-link" aria-expanded={teachersOpen} aria-controls="faculty-list" onClick={() => setTeachersOpen(!teachersOpen)}>{teachersOpen ? 'Chiudi l’elenco' : 'Gli altri insegnanti'}<span aria-hidden="true">{teachersOpen ? '−' : '+'}</span></button></aside></div><div id="faculty-list" hidden={!teachersOpen}><p className="faculty-note">Docenti presentati nel sito della scuola. Per conoscere il team e le assegnazioni attuali, contatta la segreteria.</p><ul className="faculty-list">{faculty.map(([name, discipline]) => <li key={name}><span>{name}</span><span>{discipline}</span></li>)}</ul></div><p className="verification-note">Ruoli riportati dal sito della scuola; composizione attuale da confermare.</p></section>
+      <section id="archivio" className="archive section-space" tabIndex={-1} aria-labelledby="archive-title">
+        <div className="archive-layout">
+          <div className="archive-copy"><p>Memoria in movimento</p><h2 id="archive-title">Il palco<br />fa parte<br />della storia.</h2><p>Il sito originale conserva titoli e immagini di saggi, Crazy Party e musical. Date, crediti e contesto restano da verificare.</p><a className="button button--light" href="https://www.crazygangschool.com/blank" target="_blank" rel="noreferrer">Apri l’archivio storico <Arrow /><span className="sr-only"> (nuova scheda)</span></a></div>
+          <div className="archive-rail">
+            <article className="archive-piece reveal"><Photo name="stage" sizes="(max-width: 820px) 100vw, 52vw" /><h3>Sister Act</h3><p>Etichetta presente nell’archivio fotografico originale.</p></article>
+            <article className="archive-piece archive-piece--offset reveal"><Photo name="studio" sizes="(max-width: 820px) 100vw, 42vw" /><h3>Ensemble</h3><p>Immagine dalla galleria Danza Moderna del sito originale.</p></article>
+          </div>
+        </div>
+      </section>
 
-      <section className="animation-section"><h2>Animazione</h2><div><p>Il sito originale descrive animazione nei villaggi turistici, spettacoli di magia e feste per bambini e ragazzi.</p><a className="text-link" href={`mailto:${contact.email}?subject=Informazioni%20animazione`}>Informazioni sull’animazione <Arrow diagonal /></a></div></section>
+      <section className="people section-space" aria-labelledby="people-title">
+        <div className="section-heading reveal"><p>Persone</p><h2 id="people-title">La direzione<br />artistica.</h2></div>
+        <div className="people-grid">
+          <article className="person-card reveal"><span>Coreografo, insegnante, direttore artistico</span><h3>Marco<br />Stopponi</h3></article>
+          <article className="person-card person-card--blue reveal"><span>Coreografo, insegnante, direttore artistico</span><h3>Stefano<br />Stopponi</h3></article>
+          <div className="people-list"><button type="button" aria-expanded={teachersOpen} aria-controls="faculty-list" onClick={() => setTeachersOpen(value => !value)}>{teachersOpen ? 'Nascondi gli altri nomi' : 'Vedi gli altri nomi riportati'}<span aria-hidden="true">{teachersOpen ? '−' : '+'}</span></button><p>La composizione attuale del corpo docente è da confermare.</p></div>
+        </div>
+        <ul id="faculty-list" className="faculty-list" hidden={!teachersOpen}>{faculty.map(([name, role]) => <li key={name}><strong>{name}</strong><span>{role}</span></li>)}</ul>
+      </section>
 
-      <section id="contatti" tabIndex={-1} className="contact section-pad"><div className="contact-top"><span className="eyebrow">Informazioni</span><span>Crazy Gang School · Roma</span></div><a className="contact-headline" href={`mailto:${contact.email}`}><h2>Contatti</h2><Arrow diagonal /></a><div className="contact-grid"><p>Per informazioni su attività,<br />orari e disponibilità.</p><div><span className="contact-label">Scrivici o chiamaci</span><a href={`mailto:${contact.email}`}>{contact.email}</a><a href={`tel:${contact.phone}`}>{contact.phone}</a><a className="mobile-number" href={`tel:${contact.mobile}`}>Cell. {contact.mobile}</a></div><div><span className="contact-label">La sede indicata dalla scuola</span><address>{contact.address}</address><span>Metro A · Colli Albani</span><a className="map-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}`} target="_blank" rel="noreferrer">Apri la mappa <Arrow diagonal /><span className="sr-only"> (nuova scheda)</span></a></div></div><p className="contact-note">Prima di una visita, contatta la scuola per confermare l’apertura e la disponibilità delle attività.</p></section>
+      <section id="contatti" className="contact" tabIndex={-1} aria-labelledby="contact-title">
+        <div className="contact-intro"><p>Vuoi conoscere attività, orari e disponibilità?</p><h2 id="contact-title">Parliamone.</h2></div>
+        <div className="contact-actions"><a href={`mailto:${contact.email}`}>{contact.email}<Arrow /></a><a href={`tel:${contact.phone}`}>{contact.phone}<Arrow /></a></div>
+        <div className="contact-details"><div><span>Sede indicata</span><address>{contact.address}</address><p>Metro A · Colli Albani</p></div><div><span>Prima della visita</span><p>Contatta la scuola per confermare apertura e disponibilità delle attività.</p></div></div>
+      </section>
     </main>
-    <footer className="footer"><div className="footer-top"><Wordmark footer /><p>Crazy Gang School<br />Roma, Colli Albani.</p><div className="social-links"><a href={contact.instagram} target="_blank" rel="noreferrer">Instagram <Arrow diagonal /><span className="sr-only"> (nuova scheda)</span></a><a href={contact.facebook} target="_blank" rel="noreferrer">Facebook <Arrow diagonal /><span className="sr-only"> (nuova scheda)</span></a></div><a className="back-top" href="#inizio">Torna su <Arrow diagonal /></a></div><div className="footer-bottom"><span>Crazy Gang School</span><span>Anteprima locale · fotografie segnaposto e d’archivio</span></div></footer>
+    <footer className="footer"><Brand footer /><p>Crazy Gang School<br />Roma, Colli Albani</p><div><a href={contact.instagram} target="_blank" rel="noreferrer">Instagram <Arrow /></a><a href={contact.facebook} target="_blank" rel="noreferrer">Facebook <Arrow /></a></div><a href="#inizio">Torna su <Arrow down /></a><small>Anteprima locale · fotografie segnaposto e materiali d’archivio da verificare</small></footer>
   </div>;
 }
 
 createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);
-
-
