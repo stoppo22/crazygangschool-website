@@ -30,9 +30,11 @@ The script uses an installed Chrome or Edge on Windows. On other systems, set `B
 
 ## Implementation
 
-React + Vite, custom CSS, GSAP ScrollTrigger and `@gsap/react`. There is no router, CMS, backend or component library. A small pathname renderer handles the seven local `/corsi/*` pages without adding routing infrastructure. The homepage includes anchor navigation, an accessible mobile menu, a responsive photographic course accordion, an expandable teacher list and a desktop pinned archive section. Reduced-motion preferences disable movement, transitions and pinning.
+React + Vite, custom CSS, GSAP ScrollTrigger, `@gsap/react` and Framer Motion. There is no router, CMS, backend or component library. A small pathname renderer handles the seven local `/corsi/*` pages without adding routing infrastructure. The homepage includes anchor navigation, an accessible mobile menu, a responsive photographic course accordion, a three-step school story and a desktop pinned archive section. Reduced-motion preferences disable movement, transitions and pinning.
 
 The desktop navigation uses GodUI’s Magic Tab installed from the official registry source via its documented manual route. The project-specific adapter lives in `src/components/godui/MagicTab.jsx`: it preserves the controlled state and keyboard/hover interaction while using real anchors, the existing custom CSS stack and a restrained non-rainbow indicator. No Tailwind or theme package was added solely for this component.
+
+The school section uses GodUI’s Sticky Scroll installed from its official registry source. The adapter in `src/components/godui/StickyScroll.jsx` retains the observed active step, pinned visual swap, Framer Motion transition and reduced-motion fallback. Its internal nested scroller was intentionally adapted to window scroll so the component does not hijack the page. Mobile renders the three items as a normal vertical sequence.
 
 Course routes:
 

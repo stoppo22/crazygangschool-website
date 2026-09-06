@@ -310,5 +310,6 @@ Le informazioni seguenti sono state confermate direttamente dal proprietario e p
 - **Tip Tap:** corso disponibile; ulteriori dettagli da verificare.
 - **K-Pop:** corso disponibile; ulteriori dettagli da verificare.
 - **Danze Latino Americane:** Salsa Cubana base, 1&deg; e 2&deg; livello; Bachata base e 1&deg; livello; Lady Style; Danze Standard, Latino Americane e Latin Style per single con Samba, Cha Cha Cha, Rumba, Paso Doble e Jive, a livello amatoriale e competizione, per tutte le et&agrave;.
+- **Sede e accesso:** Largo Orazi e Curiazi, 12, 00181 Roma; Metro A, fermata Colli Albani; descrizione approvata: “A pochi passi dalla stazione”. Non associare un tempo esatto al percorso.
 
 Gli orari reali non sono ancora disponibili e non devono essere inventati. Usare una richiesta di informazioni alla scuola.

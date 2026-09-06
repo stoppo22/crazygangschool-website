@@ -3,17 +3,19 @@ import { createRoot } from 'react-dom/client';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { contact, faculty, photos } from './content';
+import { contact, photos } from './content';
 import { courses, findCourse } from './course-data';
 import { CourseAccordion } from './CourseAccordion';
 import { CoursePage } from './CoursePage';
 import { MagicTab } from './components/godui/MagicTab';
+import { SchoolStory } from './SchoolStory';
 import './styles.css';
 import './sections.css';
 import './chapters.css';
 import './responsive.css';
 import './courses.css';
 import './magic-tab.css';
+import './school-story.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -51,9 +53,14 @@ function Navigation() {
       setScrolled(window.scrollY > 20);
       const marker = Math.min(260, window.innerHeight * .34);
       let current = links[0].value;
+      let closestTop = -Infinity;
       for (const item of links) {
         const section = document.querySelector(item.href);
-        if (section && section.getBoundingClientRect().top <= marker) current = item.value;
+        const top = section?.getBoundingClientRect().top;
+        if (top <= marker && top > closestTop) {
+          current = item.value;
+          closestTop = top;
+        }
       }
       setActiveSection(previous => previous === current ? previous : current);
     };
@@ -91,8 +98,6 @@ function Marquee() {
 
 function App() {
   const root = useRef(null);
-  const [teachersOpen, setTeachersOpen] = useState(false);
-  const statement = 'Una scuola di danza a Roma. Le discipline, il lavoro in sala e un archivio di spettacoli che attraversa danza, canto e recitazione.';
   useGSAP(() => {
     const media = gsap.matchMedia();
     media.add({ motion: '(prefers-reduced-motion: no-preference)', desktop: '(min-width: 1000px)' }, ({ conditions }) => {
@@ -101,7 +106,6 @@ function App() {
         .from('.hero-title__line span', { yPercent: 110, duration: .8, stagger: .09, clearProps: 'transform' })
         .from('.hero-photo .photo__frame', { clipPath: 'inset(0 0 100% 0)', duration: 1, ease: 'power3.inOut', clearProps: 'clipPath' }, .12)
         .from('.hero-aside > *', { opacity: 0, y: 18, duration: .55, stagger: .08 }, .35);
-      gsap.to('.story-word', { opacity: 1, stagger: .035, ease: 'none', scrollTrigger: { trigger: '.story-statement', start: 'top 78%', end: 'bottom 50%', scrub: .6 } });
       gsap.utils.toArray('.reveal').forEach(element => gsap.from(element, { y: 34, opacity: 0, duration: .75, ease: 'power3.out', scrollTrigger: { trigger: element, start: 'top 90%', once: true } }));
       gsap.utils.toArray('.photo:not(.hero-photo) .photo__frame').forEach(frame => gsap.fromTo(frame, { scale: .86 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: frame, start: 'top 95%', end: 'center 55%', scrub: .55 } }));
       if (conditions.desktop) ScrollTrigger.create({ trigger: '.archive-layout', start: 'top 108px', endTrigger: '.archive-rail', end: 'bottom 72%', pin: '.archive-copy', pinSpacing: false });
@@ -111,7 +115,6 @@ function App() {
     window.addEventListener('load', refresh);
     return () => { media.revert(); window.removeEventListener('load', refresh); };
   }, { scope: root });
-  useEffect(() => ScrollTrigger.refresh(), [teachersOpen]);
 
   return <div ref={root} className="site-root">
     <a className="skip-link" href="#contenuto">Vai al contenuto</a>
@@ -127,18 +130,7 @@ function App() {
       </section>
       <Marquee />
 
-      <section id="scuola" className="story section-space" tabIndex={-1} aria-labelledby="story-title">
-        <div className="section-heading reveal"><p>Crazy Gang School</p><h2 id="story-title">Sala, scena,<br />persone.</h2></div>
-        <p className="story-statement" aria-label={statement}>{statement.split(' ').map((word, index) => <span className="story-word" key={`${word}-${index}`}>{word}{' '}</span>)}</p>
-        <div className="story-facts reveal"><p>Il sito della scuola presenta percorsi per bambini e adulti, principianti ed esperti.</p><p>Per sapere quali attività sono attive oggi, contatta direttamente la segreteria.</p></div>
-      </section>
-
-      <section className="facts-bento" aria-label="Scopri Crazy Gang School">
-        <a className="bento-card bento-card--main" href="#discipline"><div><span>Le discipline</span><Arrow /></div><strong>Danza in sala.<br />Esperienza sul palco.</strong></a>
-        <a className="bento-card bento-card--archive" href="#archivio"><span>Archivio</span><strong>Saggi, rassegne e spettacoli documentati dal sito della scuola.</strong><Arrow /></a>
-        <div className="bento-card bento-card--place"><span>Dove</span><strong>Roma<br />Colli Albani</strong></div>
-        <a className="bento-card bento-card--contact" href="#contatti"><span>Prima di venire</span><strong>Conferma apertura e attività disponibili.</strong><Arrow /></a>
-      </section>
+      <SchoolStory />
 
       <section id="discipline" className="disciplines section-space" tabIndex={-1} aria-labelledby="discipline-title">
         <div className="section-heading section-heading--wide reveal"><p>I corsi principali</p><h2 id="discipline-title">Scopri<br />i corsi.</h2><p className="section-note">Apri un corso per vedere le informazioni disponibili. Gli orari sono in aggiornamento.</p></div>
@@ -153,16 +145,6 @@ function App() {
             <article className="archive-piece archive-piece--offset reveal"><Photo name="studio" sizes="(max-width: 820px) 100vw, 42vw" /><h3>Ensemble</h3><p>Immagine dalla galleria Danza Moderna del sito originale.</p></article>
           </div>
         </div>
-      </section>
-
-      <section id="insegnanti" className="people section-space" tabIndex={-1} aria-labelledby="people-title">
-        <div className="section-heading reveal"><p>Persone</p><h2 id="people-title">La direzione<br />artistica.</h2></div>
-        <div className="people-grid">
-          <article className="person-card reveal"><span>Coreografo, insegnante, direttore artistico</span><h3>Marco<br />Stopponi</h3></article>
-          <article className="person-card person-card--blue reveal"><span>Coreografo, insegnante, direttore artistico</span><h3>Stefano<br />Stopponi</h3></article>
-          <div className="people-list"><button type="button" aria-expanded={teachersOpen} aria-controls="faculty-list" onClick={() => setTeachersOpen(value => !value)}>{teachersOpen ? 'Nascondi gli altri nomi' : 'Vedi gli altri nomi riportati'}<span aria-hidden="true">{teachersOpen ? '−' : '+'}</span></button><p>La composizione attuale del corpo docente è da confermare.</p></div>
-        </div>
-        <ul id="faculty-list" className="faculty-list" hidden={!teachersOpen}>{faculty.map(([name, role]) => <li key={name}><strong>{name}</strong><span>{role}</span></li>)}</ul>
       </section>
 
       <section id="contatti" className="contact" tabIndex={-1} aria-labelledby="contact-title">

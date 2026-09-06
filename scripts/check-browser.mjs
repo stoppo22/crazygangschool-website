@@ -45,7 +45,9 @@ try {
     assert.equal(brand.alt, 'Crazy Gang School');
     assert.ok(Math.abs(brand.ratio - 2307 / 1157) < .03, `${name}: logo distorted`);
     assert.equal(await page.locator('.course-panel').count(), 7);
-    assert.equal(await page.locator('[data-placeholder]').count(), 8);
+    assert.equal(await page.locator('[data-placeholder]').count(), 9);
+    assert.equal(await page.locator('.sticky-scroll__step').count(), 3);
+    assert.equal(await page.locator('.facts-bento,.people').count(), 0);
     assert.deepEqual(await page.locator('.course-panel').evaluateAll(links => links.map(link => link.getAttribute('href'))), courseRoutes.map(([slug]) => `/corsi/${slug}`));
     if (width > 820) {
       assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La scuola', 'Corsi', 'Insegnanti', 'Spettacoli', 'Contatti']);
@@ -65,6 +67,46 @@ try {
     assert.deepEqual(clipped, [], `${name}: clipped heading`);
     for (const href of new Set(await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute('href'))))) assert.equal(await page.locator(href).count(), 1, `Missing anchor ${href}`);
     await page.screenshot({ path: `artifacts/${name}-hero.png` });
+    await page.locator('.sticky-scroll__step').first().scrollIntoViewIfNeeded();
+    await page.waitForTimeout(220);
+    if (width > 820) {
+      assert.equal(await page.locator('.sticky-scroll__step[data-active="true"] h2').textContent(), 'Dal 1985, a Roma.');
+      const stickyTop = await page.locator('.sticky-scroll__visual').evaluate(element => element.getBoundingClientRect().top);
+      await page.locator('.sticky-scroll__step').nth(1).scrollIntoViewIfNeeded();
+      await page.waitForTimeout(220);
+      assert.equal(await page.locator('.sticky-scroll__step[data-active="true"] h2').textContent(), 'Dove siamo');
+      assert.ok(Math.abs(await page.locator('.sticky-scroll__visual').evaluate(element => element.getBoundingClientRect().top) - stickyTop) < 2, `${name}: visual is not sticky`);
+      const map = page.locator('.sticky-scroll__visual iframe');
+      assert.ok((await map.getAttribute('src')).startsWith('https://maps.google.com/maps'));
+      assert.equal(await map.getAttribute('loading'), 'lazy');
+      assert.ok((await map.getAttribute('title')).includes('Crazy Gang School'));
+      assert.equal(await map.evaluate(element => getComputedStyle(element).pointerEvents), 'none');
+      const activateMap = page.getByRole('button', { name: 'Attiva la mappa' });
+      await activateMap.focus();
+      await page.keyboard.press('Enter');
+      assert.equal(await map.evaluate(element => getComputedStyle(element).pointerEvents), 'auto');
+      assert.equal(await map.getAttribute('tabindex'), '0');
+      await page.waitForTimeout(1800);
+      await page.screenshot({ path: `artifacts/${name}-school-map.png` });
+      await page.getByRole('button', { name: 'Disattiva interazione' }).click();
+      await page.locator('#insegnanti').scrollIntoViewIfNeeded();
+      await page.waitForTimeout(220);
+      assert.equal(await page.locator('.sticky-scroll__step[data-active="true"] h2').textContent(), 'La direzione artistica');
+      assert.equal(await page.locator('.sticky-scroll__visual [data-placeholder="true"]').count(), 1);
+      await page.screenshot({ path: `artifacts/${name}-school-direction.png` });
+    } else {
+      assert.equal(await page.locator('.sticky-scroll__visual-column:visible').count(), 0);
+      assert.equal(await page.locator('.sticky-scroll__mobile-visual:visible').count(), 3);
+      assert.ok(await page.locator('.sticky-scroll__step').evaluateAll(steps => steps.every(step => Number(getComputedStyle(step).opacity) === 1)));
+      await page.locator('.sticky-scroll__step').nth(1).scrollIntoViewIfNeeded();
+      const mobileMap = page.locator('.sticky-scroll__step').nth(1).locator('iframe');
+      assert.equal(await mobileMap.evaluate(element => getComputedStyle(element).pointerEvents), 'none');
+      await page.locator('.sticky-scroll__step').nth(1).getByRole('button', { name: 'Attiva la mappa' }).click();
+      assert.equal(await mobileMap.evaluate(element => getComputedStyle(element).pointerEvents), 'auto');
+      await page.screenshot({ path: `artifacts/${name}-school-map.png` });
+      await page.locator('.sticky-scroll__step').nth(2).scrollIntoViewIfNeeded();
+      await page.screenshot({ path: `artifacts/${name}-school-direction.png` });
+    }
     await page.locator('#discipline').scrollIntoViewIfNeeded();
     await page.waitForTimeout(180);
     if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Corsi');
@@ -76,10 +118,6 @@ try {
     } else {
       assert.ok(await page.locator('.course-panel').first().evaluate(link => link.getBoundingClientRect().height >= 300));
     }
-    const faculty = page.getByRole('button', { name: 'Vedi gli altri nomi riportati' });
-    await faculty.click();
-    assert.equal(await page.locator('.faculty-list li').count(), 11);
-    await page.screenshot({ path: `artifacts/${name}-faculty-expanded.png` });
     if (width <= 820) {
       await page.evaluate(() => scrollTo(0, 0));
       await page.getByRole('button', { name: 'Menu', exact: true }).click();

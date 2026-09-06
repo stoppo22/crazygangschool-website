@@ -65,6 +65,10 @@ The browser loads only local WebP variants. Source-page links and credits are al
 
 Cabinet Grotesk comes from [Fontshare](https://www.fontshare.com/fonts/cabinet-grotesk). Locally hosted WOFF2 weights: 400, 500, 700, 800, 900. `public/fonts/fontshare-source.css` records source URLs. Confirm font license obligations before launch.
 
-No remote image, font, video, map or tracking embed is loaded by the homepage or course pages. The site remains a local, noindex prototype. Confirm placeholder licenses, archival image rights/credits, logo approval, current operational content and final alt/captions before public launch.
+## External map
+
+The “Dove siamo” step contains one lazy-loaded Google Maps iframe for the published address, Largo Orazi e Curiazi 12, Rome. Pointer interaction and keyboard focus are disabled until the visitor explicitly selects “Attiva la mappa”; an external Google Maps link remains available. Google may receive connection metadata when the iframe loads. No API key, analytics or custom location data is used.
+
+No remote image, font, video or tracking embed is loaded by the homepage or course pages. Google Maps is the only remote iframe. The site remains a local, noindex prototype. Confirm placeholder licenses, archival image rights/credits, logo approval, current operational content and final alt/captions before public launch.
 
 
