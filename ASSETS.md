@@ -61,6 +61,12 @@ The seven course images are visual placeholders downloaded on 6 September 2026. 
 
 The browser loads only local WebP variants. Source-page links and credits are also centralized in `src/course-data.js`. The downloaded source JPEGs are retained in `source-assets/course-placeholders/`, outside the public browser payload. Rebuild the responsive sets with `python scripts/prepare-course-placeholders.py` (Pillow, WebP quality 82). The script performs resizing only; it does not generate or artistically alter images.
 
+## Original teacher portraits
+
+The 13 portraits in `public/images/teachers/` were downloaded on 6 September 2026 from the corresponding named image links on the official [Insegnanti page](https://www.crazygangschool.com/insegnanti). They are matched only to the names attached to those images on that page; no stock portrait is used for a real person. The original JPEG files are retained in `source-assets/teacher-originals/` and the browser-ready WebP files can be reproduced with `python scripts/prepare-teacher-images.py`.
+
+These are source-site materials for the local prototype. Current staff composition, image rights, photographer credits and consent for reuse remain **NEEDS VERIFICATION** before launch. The interface states that the published list requires confirmation.
+
 ## Typography and launch
 
 Cabinet Grotesk comes from [Fontshare](https://www.fontshare.com/fonts/cabinet-grotesk). Locally hosted WOFF2 weights: 400, 500, 700, 800, 900. `public/fonts/fontshare-source.css` records source URLs. Confirm font license obligations before launch.

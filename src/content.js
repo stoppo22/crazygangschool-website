@@ -42,13 +42,28 @@ export const disciplines = [
   { id: 'propedeutica', name: 'Propedeutica' },
 ];
 
+const teacher = (id, name, role, width, height, position = '50% 50%') => ({
+  id, name, role,
+  image: {
+    src: `/images/teachers/${id}.webp`, width, height, position,
+    alt: name === 'Massimo e Tiziana' ? 'Ritratto di Massimo e Tiziana.' : `Ritratto di ${name}.`,
+    source: 'https://www.crazygangschool.com/insegnanti',
+  },
+});
 export const faculty = [
-  ['Lucrezia Stopponi', 'Danza Moderna'], ['Claudio Salvatori', 'Danza Moderna'],
-  ['Dina Serri', 'Danza Moderna'], ['Giulia Segneri', 'Danza Moderna'],
-  ['Flavia Fraietta', 'Danza Classica e Propedeutica'], ["Emiliano D'Angelo", 'Hip Hop'],
-  ['Gaia Stopponi', 'Danza Moderna'], ['Sabrina Sottile', 'Salsa Cubana'],
-  ['Angelo Riolo', 'Kung Fu e Kuai'], ['Massimo e Tiziana', 'Danze Standard e Latino Americane'],
-  ['Gloria di Domizio', 'Danza Moderna'],
+  teacher('marco-stopponi', 'Marco Stopponi', 'Coreografo, insegnante, direttore artistico', 312, 305),
+  teacher('stefano-stopponi', 'Stefano Stopponi', 'Coreografo, insegnante, direttore artistico', 344, 273),
+  teacher('lucrezia-stopponi', 'Lucrezia Stopponi', 'Ballerina, insegnante Danza Moderna', 365, 513),
+  teacher('claudio-salvatori', 'Claudio Salvatori', 'Insegnante Danza Moderna', 960, 960),
+  teacher('dina-serri', 'Dina Serri', 'Insegnante Danza Moderna', 1000, 1023),
+  teacher('giulia-segneri', 'Giulia Segneri', 'Insegnante Danza Moderna', 862, 1178),
+  teacher('flavia-fraietta', 'Flavia Fraietta', 'Insegnante Danza Classica e Propedeutica', 507, 478),
+  teacher('emiliano-dangelo', "Emiliano D'Angelo", 'Insegnante Hip Hop', 719, 601),
+  teacher('gaia-stopponi', 'Gaia Stopponi', 'Insegnante Danza Moderna', 1000, 1117),
+  teacher('sabrina-sottile', 'Sabrina Sottile', 'Insegnante Salsa Cubana', 342, 310),
+  teacher('angelo-riolo', 'Angelo Riolo', 'Insegnante Kung Fu e Kuai', 185, 183),
+  teacher('massimo-e-tiziana', 'Massimo e Tiziana', 'Insegnanti Danze Standard e Latino Americane', 1000, 667),
+  teacher('gloria-di-domizio', 'Gloria di Domizio', 'Insegnante Danza Moderna', 531, 569),
 ];
 
 export const contact = {
