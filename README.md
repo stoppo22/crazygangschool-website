@@ -1,6 +1,6 @@
 ﻿# Crazy Gang School
 
-Local homepage with the original Crazy Gang identity and archival photography. Factual source: `CONTEXT.md`. Project rules: `AGENTS.md`. Media provenance: `ASSETS.md`. Visual direction: `DESIGN.md`.
+Local homepage with the original Crazy Gang identity and archival photography. Factual source: `CONTEXT.md`. Project rules: `AGENTS.md`. Media provenance: `ASSETS.md`. Visual direction: `DESIGN.md` (the approved editorial revision and plain, descriptive titles).
 
 ## Run
 
@@ -35,10 +35,11 @@ React + Vite, custom CSS, GSAP ScrollTrigger and `@gsap/react`. There is no rout
 ## Content boundaries
 
 - All operating information is unconfirmed. No open-enrollment claim, class timetable, price, qualification or testimonial is invented.
-- The course presentation is an editorial grouping of documented disciplines, not a new official course taxonomy. The faculty list follows the main historical teacher page; it does not reconcile the alternate Home2 roster.
+- Disciplines are presented by their documented names in an open list, with no invented grouping or slogan. The faculty list follows the main historical teacher page; it does not reconcile the alternate Home2 roster.
 - The CTA opens email or telephone links. No message is automatically sent and no booking or payment is simulated.
 - External archive and social links go to the documented destinations. The map is a search link, not a claim of verified coordinates.
-- Historical photography is labelled and documented; image rights and credits remain to be confirmed. This prototype is `noindex` and has not been published.
+- Hero and disciplines use labelled stock placeholders; the archive section uses documented historical photographs. Image rights and credits remain to be confirmed. This prototype is `noindex` and has not been published.
 - Legal information, current opening status, active courses, current staff and final photography must be confirmed before launch.
 - `DESIGN.md` records the approved contemporary interpretation of the original brand: strong neutrals, deep indigo and selective plum/amber accents.
+
 

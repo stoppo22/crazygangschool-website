@@ -13,12 +13,33 @@ const sisterAct = archivePhoto('sister-act', 3300, 2156,
   'Un ensemble in costumi da suora danza sul palco; la scenografia riporta il nome Crazy Gang.',
   'Sister Act · etichetta dell’archivio originale',
   'https://www.crazygangschool.com/');
-export const photos = { hero: ensemble, studio: ensemble, stage: sisterAct };
+const placeholder = (name, widths, width, height) => ({
+  src: `/images/placeholder-${name}-900.webp`,
+  srcSet: widths.map(size => `/images/placeholder-${name}-${size}.webp ${size}w`).join(', '),
+  width, height, alt: '', caption: 'Fotografia segnaposto', placeholder: true,
+  position: '50% 50%', mobilePosition: '50% 50%',
+});
+const stagePlaceholder = placeholder('stage', [480, 900, 1300], 1400, 1869);
+const studioPlaceholder = placeholder('studio', [480, 900, 1100], 1100, 1650);
+export const photos = {
+  heroMain: { ...stagePlaceholder, position: '50% 45%', mobilePosition: '50% 45%' },
+  heroDetail: { ...studioPlaceholder, position: '50% 32%', mobilePosition: '50% 32%' },
+  disciplineOne: { ...studioPlaceholder, position: '50% 48%', mobilePosition: '50% 48%' },
+  disciplineTwo: { ...stagePlaceholder, position: '50% 68%', mobilePosition: '50% 68%' },
+  studio: ensemble, stage: sisterAct,
+};
 
-export const courseGroups = [
-  { id: 'danza', title: 'Danza', subtitle: 'Classica, moderna, primi passi.', names: ['Danza Classica', 'Danza Moderna', 'Propedeutica'], photo: 'studio' },
-  { id: 'ritmo', title: 'Ritmo', subtitle: 'Linguaggi del movimento.', names: ['Hip Hop', 'Break Dance', 'Tap'], photo: 'stage' },
-  { id: 'incontro', title: 'Incontro', subtitle: 'Danze di coppia e arti marziali.', names: ['Salsa Cubana', 'Danze Standard', 'Danze Latino Americane', 'Kung Fu'], photo: 'studio' },
+export const disciplines = [
+  { id: 'classica', name: 'Danza Classica' },
+  { id: 'moderna', name: 'Danza Moderna' },
+  { id: 'hip-hop', name: 'Hip Hop' },
+  { id: 'tap', name: 'Tap' },
+  { id: 'break-dance', name: 'Break Dance' },
+  { id: 'salsa', name: 'Salsa Cubana' },
+  { id: 'standard', name: 'Danze Standard' },
+  { id: 'latino', name: 'Danze Latino Americane' },
+  { id: 'kung-fu', name: 'Kung Fu' },
+  { id: 'propedeutica', name: 'Propedeutica' },
 ];
 
 export const faculty = [
@@ -36,4 +57,5 @@ export const contact = {
   instagram: 'https://www.instagram.com/crazygangschool/',
   facebook: 'https://www.facebook.com/crazygangschool85/?fref=ts',
 };
+
 

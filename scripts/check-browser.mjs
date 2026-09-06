@@ -37,7 +37,7 @@ try {
     const layout = await page.evaluate(() => {
       const heading = document.querySelector('h1');
       const lines = [...heading.children].map(span => { const range = document.createRange(); range.selectNodeContents(span); const r = range.getBoundingClientRect(); return { left: r.left, right: r.right }; });
-      return { width: innerWidth, scrollWidth: document.documentElement.scrollWidth, lines, imageErrors: [...document.images].filter(img => !img.complete || img.naturalWidth === 0).map(img => img.src), reducedWordsVisible: [...document.querySelectorAll('.story-word')].every(el => getComputedStyle(el).opacity === '1') };
+      return { width: innerWidth, scrollWidth: document.documentElement.scrollWidth, lines, imageErrors: [...document.images].filter(img => !img.complete || img.naturalWidth === 0).map(img => img.src), reducedWordsVisible: getComputedStyle(document.querySelector('.story-copy')).opacity === '1' };
     });
     assert.ok(layout.scrollWidth <= layout.width, `${name}: page overflows horizontally`);
     assert.ok(layout.lines.every(line => line.left >= 0 && line.right <= width), `${name}: hero heading overflows`);
@@ -51,11 +51,11 @@ try {
     assert.equal(brand.alt, 'Crazy Gang School');
     assert.ok(Math.abs(brand.ratio - 2307 / 1157) < 0.01, 'Logo proportions changed');
     assert.ok(brand.source.includes('/brand/crazy-gang-'));
-    assert.equal(await page.locator('.hero-brand .brand-logo').count(), 1);
+    assert.equal(await page.locator('.footer .brand-logo').count(), 1);
     assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'), 'noindex, nofollow');
     assert.equal(await page.locator('.marquee-track').count(), 0);
 
-    const headingOverflow = await page.locator('h1,h2,h3').evaluateAll(headings => headings.flatMap(heading => {
+    const headingOverflow = await page.locator('h1,h2,h3,.discipline-item a').evaluateAll(headings => headings.flatMap(heading => {
       const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
       const overflow = [];
       while (walker.nextNode()) {
@@ -71,16 +71,30 @@ try {
 
     const anchors = await page.locator('a[href^="#"]').evaluateAll(links => links.map(a => a.getAttribute('href')));
     for (const href of new Set(anchors)) assert.equal(await page.locator(href).count(), 1, `Missing anchor ${href}`);
-    await page.locator('#trigger-ritmo').click();
-    assert.equal(await page.locator('#trigger-ritmo').getAttribute('aria-expanded'), 'true');
-    assert.ok(await page.locator('#panel-ritmo').isVisible());
-    assert.ok(!await page.locator('#panel-danza').isVisible());
-    await page.locator('#trigger-incontro').focus();
-    await page.keyboard.press('Enter');
-    assert.ok(await page.locator('#panel-incontro').isVisible());
-    assert.match(await page.locator('#panel-incontro a').getAttribute('href'), /^mailto:info@crazygang\.it\?subject=/);
-    await page.screenshot({ path: `artifacts/${name}-courses-expanded.png` });
-    await page.locator('#trigger-danza').click();
+    const courseNames = ['Danza Classica', 'Danza Moderna', 'Hip Hop', 'Tap', 'Break Dance', 'Salsa Cubana', 'Danze Standard', 'Danze Latino Americane', 'Kung Fu', 'Propedeutica'];
+    assert.equal(await page.locator('.discipline-item').count(), courseNames.length);
+    assert.equal(await page.locator('.course-panel').count(), 0);
+    assert.equal(await page.getByRole('heading', { name: 'Crazy Gang School', exact: true }).count(), 1);
+    for (const courseName of courseNames) {
+      const link = page.getByRole('link', { name: 'Informazioni su ' + courseName, exact: true });
+      assert.ok(await link.isVisible(), name + ': course is hidden');
+      const href = await link.getAttribute('href');
+      assert.equal(href, 'mailto:info@crazygang.it?subject=' + encodeURIComponent('Informazioni: ' + courseName));
+    }
+    await page.getByRole('link', { name: 'Informazioni su Hip Hop', exact: true }).focus();
+    await page.keyboard.press('Tab');
+    assert.ok(await page.getByRole('link', { name: 'Informazioni su Tap', exact: true }).evaluate(el => el === document.activeElement));
+    await page.evaluate(() => document.activeElement?.blur());
+    assert.ok(await page.locator('.skip-link').evaluate(el => el.getBoundingClientRect().bottom <= 0));
+    await page.locator('#discipline').scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `artifacts/${name}-disciplines.png` });
+    await page.locator('.discipline-salsa').scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `artifacts/${name}-disciplines-lower.png` });
+    for (const photo of await page.locator('[data-placeholder]').all()) {
+      assert.equal(await photo.locator('img').getAttribute('alt'), '');
+      assert.match(await photo.locator('figcaption').textContent(), /segnaposto/);
+    }
+    assert.equal(await page.locator('[data-placeholder]').count(), 4);
 
     const facultyButton = page.getByRole('button', { name: 'Gli altri insegnanti' });
     await facultyButton.click();
@@ -118,7 +132,7 @@ try {
     assert.ok(resources.every(entry => new URL(entry.name).origin === new URL(baseURL).origin), name + ': unexpected remote resource');
     assert.ok(resources.every(entry => !entry.name.includes('crazy-gang-original.png') && !entry.name.includes('dance-stage.jpg') && !entry.name.includes('dance-studio.jpg')), name + ': unoptimized or retired asset loaded');
     const metrics = await page.evaluate(() => window.__reviewMetrics);
-    results.push({ name, viewport: { width, height }, ...layout, brand, localLabMetrics: metrics, imageTransferBytes: resources.filter(entry => /\\.(webp|png)/.test(entry.name)).reduce((sum, entry) => sum + entry.bytes, 0), passed: true });
+    results.push({ name, viewport: { width, height }, ...layout, brand, localLabMetrics: metrics, imageTransferBytes: resources.filter(entry => /\.(webp|png)/.test(entry.name)).reduce((sum, entry) => sum + entry.bytes, 0), passed: true });
     await context.close();
   }
 
@@ -128,15 +142,23 @@ try {
   await page.goto(baseURL, { waitUntil: 'networkidle' });
   await page.waitForTimeout(1800);
   assert.ok(await page.locator('.hero-line').evaluateAll(lines => lines.every(line => getComputedStyle(line).transform === 'none')));
-  assert.ok(await page.locator('.hero-photo .photo-frame').evaluate(el => getComputedStyle(el).clipPath === 'none'));
+  assert.ok(await page.locator('.atlas-image--main .photo-frame').evaluate(el => getComputedStyle(el).clipPath === 'none'));
   await page.screenshot({ path: 'artifacts/desktop-motion-hero.png' });
+  for (const frame of await page.locator('.discipline-image .photo-frame').all()) {
+    await frame.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1000);
+    assert.equal(await frame.evaluate(el => getComputedStyle(el).clipPath), 'none');
+  }
+  await page.locator('#discipline').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(750);
+  await page.screenshot({ path: 'artifacts/desktop-motion-disciplines.png' });
   await page.locator('.story-copy').scrollIntoViewIfNeeded();
   await page.waitForTimeout(1000);
   await page.screenshot({ path: 'artifacts/desktop-motion-story.png' });
   await page.locator('.other-disciplines summary').click();
   await page.waitForTimeout(300);
   const stageY = await page.locator('#palcoscenico').evaluate(el => el.getBoundingClientRect().top + scrollY);
-  await page.evaluate(y => window.scrollTo(0, y + 450), stageY);
+  await page.evaluate(y => window.scrollTo(0, y + 160), stageY);
   await page.waitForTimeout(1000);
   const pinTop = await page.locator('.stage-heading').evaluate(el => el.getBoundingClientRect().top);
   assert.ok(Math.abs(pinTop - 110) < 3, `Stage heading not pinned: ${pinTop}`);
@@ -168,6 +190,11 @@ try {
   await mobilePage.goto(baseURL, { waitUntil: 'networkidle' });
   await mobilePage.waitForTimeout(1800);
   await mobilePage.screenshot({ path: 'artifacts/mobile-motion-hero.png' });
+  for (const frame of await mobilePage.locator('.discipline-image .photo-frame').all()) {
+    await frame.scrollIntoViewIfNeeded();
+    await mobilePage.waitForTimeout(750);
+    assert.equal(await frame.evaluate(el => getComputedStyle(el).clipPath), 'none');
+  }
   await mobilePage.locator('#palcoscenico').scrollIntoViewIfNeeded();
   assert.notEqual(await mobilePage.locator('.stage-heading').evaluate(el => getComputedStyle(el).position), 'fixed');
   for (const frame of await mobilePage.locator('.stage-photo .photo-frame').all()) {
@@ -205,8 +232,9 @@ try {
     return { foreground, background, ratio: Number(ratio.toFixed(2)) };
   });
   await writeFile('artifacts/browser-report.json', JSON.stringify({ baseURL, results, motion: 'passed', contrast, errors }, null, 2));
-  console.log('Passed: five responsive viewports, keyboard, navigation, images, accordions, faculty, motion and reduced motion. Screenshots: artifacts/');
+  console.log('Passed: five responsive viewports, keyboard, navigation, images, open disciplines, faculty, motion and reduced motion. Screenshots: artifacts/');
 } finally {
   await browser.close();
 }
+
 

@@ -3,8 +3,9 @@ import { createRoot } from 'react-dom/client';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { photos, courseGroups, faculty, contact } from './content';
+import { photos, disciplines, faculty, contact } from './content';
 import './styles.css';
+import './atlas.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -20,10 +21,10 @@ function Wordmark({ footer = false, onNavigate }) {
   return <a href="#inizio" onClick={onNavigate} className={`wordmark ${footer ? 'wordmark-footer' : ''}`} aria-label="Crazy Gang School, torna all'inizio"><BrandLogo sizes={footer ? '(max-width: 800px) 220px, 260px' : '(max-width: 800px) 134px, 158px'} /></a>;
 }
 
-function Photo({ name, className = '', priority = false, caption = true }) {
+function Photo({ name, className = '', priority = false, caption = true, sizes = '(max-width: 800px) calc(100vw - 46px), 46vw' }) {
   const photo = photos[name];
-  return <figure className={`photo ${className}`} style={{ '--photo-position': photo.position, '--photo-mobile-position': photo.mobilePosition }}>
-    <div className="photo-frame"><img src={photo.src} srcSet={photo.srcSet} sizes={priority ? '(max-width: 800px) calc(100vw - 46px), 68vw' : '(max-width: 800px) calc(100vw - 46px), 46vw'} alt={photo.alt} width={photo.width} height={photo.height} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" /></div>
+  return <figure className={`photo ${className}`} data-placeholder={photo.placeholder || undefined} style={{ '--photo-position': photo.position, '--photo-mobile-position': photo.mobilePosition }}>
+    <div className="photo-frame"><img src={photo.src} srcSet={photo.srcSet} sizes={sizes} alt={photo.alt} width={photo.width} height={photo.height} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" /></div>
     {caption && <figcaption>{photo.caption}</figcaption>}
   </figure>;
 }
@@ -32,7 +33,7 @@ function Navigation() {
   const [open, setOpen] = useState(false);
   const menu = useRef(null);
   const toggle = useRef(null);
-  const links = [['La scuola', '#scuola'], ['Le discipline', '#discipline'], ['Il palcoscenico', '#palcoscenico']];
+  const links = [['La scuola', '#scuola'], ['Le discipline', '#discipline'], ['Spettacoli', '#palcoscenico']];
 
   useEffect(() => {
     if (!open) return;
@@ -56,22 +57,24 @@ function Navigation() {
   }, [open]);
 
   return <header className={`header ${open ? 'menu-open' : ''}`}>
-    <div className="header-inner"><Wordmark onNavigate={() => setOpen(false)} /><nav className="desktop-nav" aria-label="Navigazione principale">{links.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav><a className="nav-contact" href="#contatti">Parliamone <Arrow diagonal /></a><button ref={toggle} className="menu-toggle" type="button" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>{open ? 'Chiudi' : 'Menu'}<span className="menu-bars" aria-hidden="true"><i /><i /></span></button></div>
+    <div className="header-inner"><Wordmark onNavigate={() => setOpen(false)} /><nav className="desktop-nav" aria-label="Navigazione principale">{links.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav><a className="nav-contact" href="#contatti">Contatti <Arrow diagonal /></a><button ref={toggle} className="menu-toggle" type="button" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>{open ? 'Chiudi' : 'Menu'}<span className="menu-bars" aria-hidden="true"><i /><i /></span></button></div>
     <nav ref={menu} id="mobile-menu" className="mobile-menu" aria-label="Navigazione mobile" hidden={!open}>{[...links, ['Gli insegnanti', '#insegnanti'], ['Contatti', '#contatti']].map(([label, href]) => <a key={href} href={href} onClick={() => { setOpen(false); requestAnimationFrame(() => document.querySelector(href)?.focus({ preventScroll: true })); }}>{label}<Arrow diagonal /></a>)}<span>Crazy Gang School · Roma</span></nav>
   </header>;
 }
 
 function Disciplines() {
-  const [active, setActive] = useState(0);
-  return <section id="discipline" tabIndex={-1} className="disciplines section-pad">
-    <div className="section-intro"><div><span className="eyebrow">Le discipline</span><h2>Un corpo.<br /><span className="type-accent">Tanti linguaggi.</span></h2></div><p>Classica, moderna, hip hop e non solo.<br />Esplora le discipline raccontate dalla scuola e chiedi informazioni sul percorso che ti interessa.</p></div>
-    <div className="course-grid" style={{ '--course-columns': courseGroups.map((_, i) => `minmax(0, ${active === i ? 6 : 3}fr)`).join(' ') }}>{courseGroups.map((group, index) => <article key={group.id} className={`course-panel ${active === index ? 'active' : ''}`}>
-
-      <button className="course-trigger" id={`trigger-${group.id}`} aria-expanded={active === index} aria-controls={`panel-${group.id}`} onClick={() => setActive(index)}><span>{group.title}</span><span className="course-symbol" aria-hidden="true">{active === index ? '−' : '+'}</span></button>
-      <div className="course-content" id={`panel-${group.id}`} role="region" aria-labelledby={`trigger-${group.id}`} hidden={active !== index}><p>{group.subtitle}</p><ul>{group.names.map(name => <li key={name}>{name}</li>)}</ul><a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${group.names.join(', ')}`)}`}>Chiedi informazioni <Arrow diagonal /></a></div>
-    </article>)}</div>
-    <div className="course-note"><p>Per corsi attivi, livelli e orari, contatta direttamente la scuola.</p><span>Percorsi raccontati dalla scuola</span></div>
-    <details className="other-disciplines" onToggle={() => ScrollTrigger.refresh()}><summary>Propedeutica e altre attività <span aria-hidden="true">+</span></summary><div><p>Il sito della scuola cita anche la propedeutica per bambini e il Kuai. Per conoscere età, contenuti e disponibilità, scrivi alla segreteria.</p><a className="text-link" href={`mailto:${contact.email}?subject=Informazioni%20sulle%20attivit%C3%A0`}>Scrivi alla scuola <Arrow diagonal /></a></div></details>
+  return <section id="discipline" tabIndex={-1} className="discipline-atlas section-pad" aria-labelledby="discipline-title">
+    <div className="discipline-intro"><h2 id="discipline-title">Discipline</h2><p>Per corsi attivi, livelli e orari,<br /><a href="#contatti">contatta la scuola <Arrow diagonal /></a></p></div>
+    <ul className="discipline-list" aria-label="Discipline riportate nel sito della scuola">
+      {disciplines.map((course, index) => <React.Fragment key={course.id}>
+        <li className={`discipline-item discipline-${course.id}`}>
+          <a href={`mailto:${contact.email}?subject=${encodeURIComponent('Informazioni: ' + course.name)}`} aria-label={`Informazioni su ${course.name}`}><span>{course.name}</span><Arrow diagonal /></a>
+        </li>
+        {index === 1 && <li className="discipline-image discipline-image--first" role="presentation"><Photo name="disciplineOne" sizes="(max-width: 800px) 50vw, 24vw" /></li>}
+        {index === 6 && <li className="discipline-image discipline-image--second" role="presentation"><Photo name="disciplineTwo" sizes="(max-width: 800px) 44vw, 25vw" /></li>}
+      </React.Fragment>)}
+    </ul>
+    <details className="other-disciplines" onToggle={() => ScrollTrigger.refresh()}><summary>Altre attività <span aria-hidden="true">+</span></summary><div><p>Il sito originale cita anche il Kuai. Per informazioni su contenuti e disponibilità, contatta la segreteria.</p><a className="text-link" href={`mailto:${contact.email}?subject=Informazioni%20sulle%20attivit%C3%A0`}>Scrivi alla scuola <Arrow diagonal /></a></div></details>
   </section>;
 }
 
@@ -93,12 +96,16 @@ function App() {
         clearProps: 'transform',
       }, 0);
       // Partial opening keeps the priority image visible while it settles.
-      entrance.from('.hero-photo .photo-frame', {
+      entrance.from('.atlas-image--main .photo-frame', {
         clipPath: 'inset(0 16% 0 0)', duration: desktop ? 0.85 : 0.6,
         ease: 'power3.inOut', clearProps: 'clipPath',
       }, 0.04);
+      entrance.from('.atlas-image--detail .photo-frame', {
+        clipPath: 'inset(0 0 18% 0)', x: desktop ? -18 : -8,
+        duration: desktop ? 0.8 : 0.55, clearProps: 'clipPath,transform',
+      }, 0.12);
 
-      gsap.utils.toArray('.stage-photo .photo-frame').forEach((frame, index) => {
+      gsap.utils.toArray('.stage-photo .photo-frame, .discipline-image .photo-frame').forEach((frame, index) => {
         gsap.from(frame, {
           clipPath: index % 2 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)',
           duration: desktop ? 0.85 : 0.6, ease: 'power3.inOut',
@@ -106,7 +113,7 @@ function App() {
           clearProps: 'clipPath',
         });
       });
-      gsap.utils.toArray('.reveal, .section-intro h2, .stage-heading h2, .contact-headline h2').forEach(element => {
+      gsap.utils.toArray('.reveal, .section-intro h2, .stage-heading h2, .contact-headline h2, .discipline-intro h2, .discipline-item').forEach(element => {
         gsap.from(element, {
           y: desktop ? 22 : 12, duration: 0.6, ease: 'power3.out',
           scrollTrigger: { trigger: element, start: 'top 94%', once: true },
@@ -125,6 +132,10 @@ function App() {
             scrollTrigger: { trigger: frame.closest('.stage-piece'), start: 'top bottom', end: 'bottom top', scrub: 0.45 },
           });
         });
+        gsap.to('.atlas-image--detail', {
+          y: -24, ease: 'none',
+          scrollTrigger: { trigger: '.atlas-hero', start: 'top top', end: 'bottom top', scrub: 0.45 },
+        });
       }
     });
     const refresh = () => { if (mounted) ScrollTrigger.refresh(); };
@@ -139,45 +150,44 @@ function App() {
 
   useEffect(() => { ScrollTrigger.refresh(); }, [teachersOpen]);
 
-  const story = 'La danza è tecnica, espressione e piacere di muoversi. Un percorso che dalla sala incontra il teatro, il canto e la recitazione.';
+  const story = 'Danza, canto e recitazione fanno parte degli spettacoli documentati nell’archivio della scuola.';
 
   return <div ref={root}>
     <a className="skip-link" href="#contenuto">Vai al contenuto</a>
     <Navigation />
     <main id="contenuto" tabIndex={-1} className="page-shell">
-      <section id="inizio" className="hero" aria-labelledby="hero-title">
-        <div className="hero-topline"><span>Scuola di danza · Roma</span><span>Danza / Teatro / Movimento</span></div>
-        <Photo name="hero" priority className="hero-photo" />
-        <h1 className="hero-title" id="hero-title"><span><span className="hero-line">INSIEME,</span></span><span><span className="hero-line">IN <em>SCENA.</em></span></span></h1>
-        <div className="hero-brand"><BrandLogo sizes="(max-width: 800px) 210px, (max-width: 1100px) 230px, 290px" /><span>Una scuola. Molti linguaggi.</span></div>
-        <div className="hero-bottom"><div className="hero-copy"><p>Dalla scoperta della danza<br />all’esperienza del palcoscenico.</p><a className="button button-orange" href="#discipline">Esplora le discipline <Arrow diagonal /></a></div><a className="hero-scroll" href="#scuola"><span>Entra nel nostro mondo</span><Arrow /></a></div>
-
+      <section id="inizio" className="atlas-hero" aria-labelledby="hero-title">
+        <div className="atlas-meta"><span>Scuola di danza · Roma</span><span>Colli Albani</span></div>
+        <h1 className="atlas-title" id="hero-title" aria-label="Crazy Gang School"><span className="atlas-title-row"><span className="hero-line">Crazy Gang</span></span><span className="atlas-title-row"><span className="hero-line">School</span></span></h1>
+        <Photo name="heroMain" priority className="atlas-image atlas-image--main" sizes="(max-width: 800px) 78vw, 35vw" />
+        <Photo name="heroDetail" className="atlas-image atlas-image--detail" sizes="(max-width: 800px) 40vw, 23vw" />
+        <div className="atlas-copy"><p>Informazioni su corsi, <br />orari e disponibilità.</p><a className="text-link" href="#discipline">Vedi le discipline <Arrow diagonal /></a></div>
       </section>
 
       <section id="scuola" tabIndex={-1} className="school section-pad">
-        <div className="school-top"><span className="eyebrow">Crazy Gang School</span><span className="small-location">Roma, Colli Albani <span aria-hidden="true">↗</span></span></div>
-        <h2 className="story-copy" aria-label={story}>{story.split(' ').map((word, i) => <React.Fragment key={i}><span className="story-word" aria-hidden="true">{word} </span></React.Fragment>)}</h2>
-        <div className="school-foot"><span className="school-rule" /><p>La scuola si racconta attraverso percorsi per bambini e adulti, dalla propedeutica alla preparazione avanzata.</p><a href="#insegnanti" className="text-link">Conosci gli insegnanti <Arrow diagonal /></a></div>
+        <div className="school-top"><h2>La scuola</h2><span className="small-location">Roma, Colli Albani <span aria-hidden="true">↗</span></span></div>
+        <p className="story-copy">{story}</p>
+        <div className="school-foot"><span className="school-rule" /><p>Il sito originale presenta percorsi per bambini e adulti. Per informazioni sulle attività attuali, contatta la segreteria.</p><a href="#insegnanti" className="text-link">Gli insegnanti <Arrow diagonal /></a></div>
       </section>
 
       <Disciplines />
 
-      <div className="scene-interlude" aria-hidden="true"><span>Danza.</span><span>Teatro.</span><span>Crazy Gang.</span></div>
 
       <section id="palcoscenico" tabIndex={-1} className="stage section-pad">
-        <div className="stage-heading"><span className="eyebrow">L’esperienza del teatro</span><h2>Dalla sala<br />al <span className="type-accent">palco.</span></h2><p>Saggi, rassegne, musical. Il palcoscenico fa parte del racconto della Crazy Gang School: un incontro tra danza, canto e recitazione.</p><a className="text-link light" href="https://www.crazygangschool.com/blank" target="_blank" rel="noreferrer">Esplora l’archivio storico <Arrow diagonal /><span className="sr-only"> (si apre in una nuova scheda)</span></a><span className="stage-line" aria-hidden="true" /></div>
-        <div className="stage-gallery"><div className="stage-piece"><Photo name="stage" className="stage-photo" /><div className="stage-caption"><span>Il movimento, in scena.</span><span>Danza & performance</span></div></div><div className="stage-piece second"><Photo name="studio" className="stage-photo" /><div className="stage-caption"><span>Il teatro, nel percorso.</span><span>Espressione & presenza</span></div></div><p className="archive-note">Nell’archivio della scuola: Crazy Party, saggi e fotografie dedicate a musical come Sister Act, Dracula e Mary Poppins.</p></div>
+        <div className="stage-heading"><span className="eyebrow">Archivio</span><h2>Spettacoli</h2><p>Il sito originale raccoglie saggi, rassegne e fotografie di musical.</p><a className="text-link light" href="https://www.crazygangschool.com/blank" target="_blank" rel="noreferrer">Apri l’archivio storico <Arrow diagonal /><span className="sr-only"> (si apre in una nuova scheda)</span></a><span className="stage-line" aria-hidden="true" /></div>
+        <div className="stage-gallery"><div className="stage-piece"><Photo name="stage" className="stage-photo" /></div><div className="stage-piece second"><Photo name="studio" className="stage-photo" /></div><p className="archive-note">Nell’archivio della scuola: Crazy Party, saggi e fotografie dedicate a musical come Sister Act, Dracula e Mary Poppins.</p></div>
       </section>
 
-      <section id="insegnanti" tabIndex={-1} className="teachers section-pad"><div className="section-intro"><div><span className="eyebrow">Le persone della scuola</span><h2>Il gesto si impara.<br />La passione <span className="type-accent">si incontra.</span></h2></div><p>Coreografia, insegnamento e direzione artistica. Le persone dietro il percorso della scuola.</p></div><div className="directors"><article className="director reveal"><span>Direzione artistica</span><h3>Marco<br /><strong>Stopponi</strong></h3><p>Coreografo e insegnante</p></article><article className="director reveal"><span>Direzione artistica</span><h3>Stefano<br /><strong>Stopponi</strong></h3><p>Coreografo e insegnante</p></article><aside className="faculty-aside"><span className="large-asterisk" aria-hidden="true">↗</span><p>Diversi linguaggi.<br />Una scuola da conoscere.</p><button className="text-link" aria-expanded={teachersOpen} aria-controls="faculty-list" onClick={() => setTeachersOpen(!teachersOpen)}>{teachersOpen ? 'Chiudi l’elenco' : 'Gli altri insegnanti'}<span aria-hidden="true">{teachersOpen ? '−' : '+'}</span></button></aside></div><div id="faculty-list" hidden={!teachersOpen}><p className="faculty-note">Docenti presentati nel sito della scuola. Per conoscere il team e le assegnazioni attuali, contatta la segreteria.</p><ul className="faculty-list">{faculty.map(([name, discipline]) => <li key={name}><span>{name}</span><span>{discipline}</span></li>)}</ul></div><p className="verification-note">Ruoli riportati dal sito della scuola; composizione attuale da confermare.</p></section>
+      <section id="insegnanti" tabIndex={-1} className="teachers section-pad"><div className="section-intro"><div><h2>Insegnanti</h2></div><p>Nomi e ruoli riportati nel sito originale.</p></div><div className="directors"><article className="director reveal"><span>Direzione artistica</span><h3>Marco<br /><strong>Stopponi</strong></h3><p>Coreografo e insegnante</p></article><article className="director reveal"><span>Direzione artistica</span><h3>Stefano<br /><strong>Stopponi</strong></h3><p>Coreografo e insegnante</p></article><aside className="faculty-aside"><span className="large-asterisk" aria-hidden="true">↗</span><button className="text-link" aria-expanded={teachersOpen} aria-controls="faculty-list" onClick={() => setTeachersOpen(!teachersOpen)}>{teachersOpen ? 'Chiudi l’elenco' : 'Gli altri insegnanti'}<span aria-hidden="true">{teachersOpen ? '−' : '+'}</span></button></aside></div><div id="faculty-list" hidden={!teachersOpen}><p className="faculty-note">Docenti presentati nel sito della scuola. Per conoscere il team e le assegnazioni attuali, contatta la segreteria.</p><ul className="faculty-list">{faculty.map(([name, discipline]) => <li key={name}><span>{name}</span><span>{discipline}</span></li>)}</ul></div><p className="verification-note">Ruoli riportati dal sito della scuola; composizione attuale da confermare.</p></section>
 
-      <section className="animation-section"><span className="eyebrow">Anche fuori scena</span><h2>La danza incontra<br /><span className="type-accent">l’intrattenimento.</span></h2><div><p>Nel racconto della scuola, anche animazione nei villaggi turistici, spettacoli di magia e feste per bambini e ragazzi.</p><a className="text-link" href={`mailto:${contact.email}?subject=Informazioni%20animazione`}>Informazioni sull’animazione <Arrow diagonal /></a></div></section>
+      <section className="animation-section"><h2>Animazione</h2><div><p>Il sito originale descrive animazione nei villaggi turistici, spettacoli di magia e feste per bambini e ragazzi.</p><a className="text-link" href={`mailto:${contact.email}?subject=Informazioni%20animazione`}>Informazioni sull’animazione <Arrow diagonal /></a></div></section>
 
-      <section id="contatti" tabIndex={-1} className="contact section-pad"><div className="contact-top"><span className="eyebrow">Facciamo il primo passo</span><span>Crazy Gang School · Roma</span></div><a className="contact-headline" href={`mailto:${contact.email}`}><h2>PARLIAMO<br />DI <span className="type-accent">DANZA.</span></h2><Arrow diagonal /></a><div className="contact-grid"><p>Hai una disciplina in mente?<br />Scrivici per conoscere attività,<br />orari e disponibilità.</p><div><span className="contact-label">Scrivici o chiamaci</span><a href={`mailto:${contact.email}`}>{contact.email}</a><a href={`tel:${contact.phone}`}>{contact.phone}</a><a className="mobile-number" href={`tel:${contact.mobile}`}>Cell. {contact.mobile}</a></div><div><span className="contact-label">La sede indicata dalla scuola</span><address>{contact.address}</address><span>Metro A · Colli Albani</span><a className="map-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}`} target="_blank" rel="noreferrer">Apri la mappa <Arrow diagonal /><span className="sr-only"> (nuova scheda)</span></a></div></div><p className="contact-note">Prima di una visita, contatta la scuola per confermare l’apertura e la disponibilità delle attività.</p></section>
+      <section id="contatti" tabIndex={-1} className="contact section-pad"><div className="contact-top"><span className="eyebrow">Informazioni</span><span>Crazy Gang School · Roma</span></div><a className="contact-headline" href={`mailto:${contact.email}`}><h2>Contatti</h2><Arrow diagonal /></a><div className="contact-grid"><p>Per informazioni su attività,<br />orari e disponibilità.</p><div><span className="contact-label">Scrivici o chiamaci</span><a href={`mailto:${contact.email}`}>{contact.email}</a><a href={`tel:${contact.phone}`}>{contact.phone}</a><a className="mobile-number" href={`tel:${contact.mobile}`}>Cell. {contact.mobile}</a></div><div><span className="contact-label">La sede indicata dalla scuola</span><address>{contact.address}</address><span>Metro A · Colli Albani</span><a className="map-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}`} target="_blank" rel="noreferrer">Apri la mappa <Arrow diagonal /><span className="sr-only"> (nuova scheda)</span></a></div></div><p className="contact-note">Prima di una visita, contatta la scuola per confermare l’apertura e la disponibilità delle attività.</p></section>
     </main>
-    <footer className="footer"><div className="footer-top"><Wordmark footer /><p>Danza, teatro, movimento.<br />Crazy Gang School, Roma.</p><div className="social-links"><a href={contact.instagram} target="_blank" rel="noreferrer">Instagram <Arrow diagonal /><span className="sr-only"> (nuova scheda)</span></a><a href={contact.facebook} target="_blank" rel="noreferrer">Facebook <Arrow diagonal /><span className="sr-only"> (nuova scheda)</span></a></div><a className="back-top" href="#inizio">Torna su <Arrow diagonal /></a></div><div className="footer-bottom"><span>Crazy Gang School</span><span>Anteprima locale · fotografie dall’archivio del sito originale</span></div></footer>
+    <footer className="footer"><div className="footer-top"><Wordmark footer /><p>Crazy Gang School<br />Roma, Colli Albani.</p><div className="social-links"><a href={contact.instagram} target="_blank" rel="noreferrer">Instagram <Arrow diagonal /><span className="sr-only"> (nuova scheda)</span></a><a href={contact.facebook} target="_blank" rel="noreferrer">Facebook <Arrow diagonal /><span className="sr-only"> (nuova scheda)</span></a></div><a className="back-top" href="#inizio">Torna su <Arrow diagonal /></a></div><div className="footer-bottom"><span>Crazy Gang School</span><span>Anteprima locale · fotografie segnaposto e d’archivio</span></div></footer>
   </div>;
 }
 
 createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);
+
 
