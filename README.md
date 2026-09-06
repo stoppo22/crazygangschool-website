@@ -30,7 +30,7 @@ The script uses an installed Chrome or Edge on Windows. On other systems, set `B
 
 ## Implementation
 
-React + Vite, custom CSS, GSAP ScrollTrigger and `@gsap/react`. There is no router, CMS, backend or component library. The homepage includes anchor navigation, an accessible mobile menu, expandable course groups, an expandable teacher list, a static typographic interlude, a desktop pinned stage section and restrained entrance animations. Reduced-motion preferences disable movement and pinning.
+React + Vite, custom CSS, GSAP ScrollTrigger and `@gsap/react`. There is no router, CMS, backend or component library. The homepage includes anchor navigation, an accessible mobile menu, expandable course groups, an expandable teacher list, a static typographic interlude, a desktop pinned stage section image mask reveals and entrance animations for heading lines. The stage imagery moves at most 24 px on desktop; there is no continuous animation. Reduced-motion preferences disable movement and pinning.
 
 ## Content boundaries
 

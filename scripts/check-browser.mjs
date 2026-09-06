@@ -19,6 +19,17 @@ try {
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(`${name}: ${error.message}`));
     page.on('console', message => { if (message.type() === 'error') errors.push(`${name}: ${message.text()}`); });
+    await page.addInitScript(() => {
+      window.__reviewMetrics = { cls: 0, lcp: null };
+      new PerformanceObserver(list => {
+        for (const entry of list.getEntries()) {
+          if (!entry.hadRecentInput) window.__reviewMetrics.cls += entry.value;
+        }
+      }).observe({ type: 'layout-shift', buffered: true });
+      new PerformanceObserver(list => {
+        for (const entry of list.getEntries()) window.__reviewMetrics.lcp = entry.startTime;
+      }).observe({ type: 'largest-contentful-paint', buffered: true });
+    });
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
     await page.evaluate(async () => { await Promise.all([...document.images].map(img => { img.loading = 'eager'; return img.decode().catch(() => {}); })); });
@@ -32,6 +43,31 @@ try {
     assert.ok(layout.lines.every(line => line.left >= 0 && line.right <= width), `${name}: hero heading overflows`);
     assert.deepEqual(layout.imageErrors, [], `${name}: broken images`);
     assert.ok(layout.reducedWordsVisible, `${name}: reduced motion hides content`);
+
+    const brand = await page.locator('.header .brand-logo').evaluate(img => ({
+      alt: img.alt, ratio: img.getBoundingClientRect().width / img.getBoundingClientRect().height,
+      source: img.currentSrc,
+    }));
+    assert.equal(brand.alt, 'Crazy Gang School');
+    assert.ok(Math.abs(brand.ratio - 2307 / 1157) < 0.01, 'Logo proportions changed');
+    assert.ok(brand.source.includes('/brand/crazy-gang-'));
+    assert.equal(await page.locator('.hero-brand .brand-logo').count(), 1);
+    assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'), 'noindex, nofollow');
+    assert.equal(await page.locator('.marquee-track').count(), 0);
+
+    const headingOverflow = await page.locator('h1,h2,h3').evaluateAll(headings => headings.flatMap(heading => {
+      const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+      const overflow = [];
+      while (walker.nextNode()) {
+        const range = document.createRange();
+        range.selectNodeContents(walker.currentNode);
+        for (const rect of range.getClientRects()) {
+          if (rect.width > 0 && (rect.left < -1 || rect.right > innerWidth + 1)) overflow.push(heading.textContent);
+        }
+      }
+      return overflow;
+    }));
+    assert.deepEqual(headingOverflow, [], name + ': heading text is clipped');
 
     const anchors = await page.locator('a[href^="#"]').evaluateAll(links => links.map(a => a.getAttribute('href')));
     for (const href of new Set(anchors)) assert.equal(await page.locator(href).count(), 1, `Missing anchor ${href}`);
@@ -76,7 +112,13 @@ try {
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: `artifacts/${name}.png`, fullPage: true });
     await page.screenshot({ path: `artifacts/${name}-hero.png` });
-    results.push({ name, viewport: { width, height }, ...layout, passed: true });
+    const resources = await page.evaluate(() => performance.getEntriesByType('resource').map(entry => ({
+      name: entry.name, bytes: entry.transferSize,
+    })));
+    assert.ok(resources.every(entry => new URL(entry.name).origin === new URL(baseURL).origin), name + ': unexpected remote resource');
+    assert.ok(resources.every(entry => !entry.name.includes('crazy-gang-original.png') && !entry.name.includes('dance-stage.jpg') && !entry.name.includes('dance-studio.jpg')), name + ': unoptimized or retired asset loaded');
+    const metrics = await page.evaluate(() => window.__reviewMetrics);
+    results.push({ name, viewport: { width, height }, ...layout, brand, localLabMetrics: metrics, imageTransferBytes: resources.filter(entry => /\\.(webp|png)/.test(entry.name)).reduce((sum, entry) => sum + entry.bytes, 0), passed: true });
     await context.close();
   }
 
@@ -85,6 +127,8 @@ try {
   page.on('pageerror', error => errors.push(`motion: ${error.message}`));
   await page.goto(baseURL, { waitUntil: 'networkidle' });
   await page.waitForTimeout(1800);
+  assert.ok(await page.locator('.hero-line').evaluateAll(lines => lines.every(line => getComputedStyle(line).transform === 'none')));
+  assert.ok(await page.locator('.hero-photo .photo-frame').evaluate(el => getComputedStyle(el).clipPath === 'none'));
   await page.screenshot({ path: 'artifacts/desktop-motion-hero.png' });
   await page.locator('.story-copy').scrollIntoViewIfNeeded();
   await page.waitForTimeout(1000);
@@ -97,9 +141,26 @@ try {
   const pinTop = await page.locator('.stage-heading').evaluate(el => el.getBoundingClientRect().top);
   assert.ok(Math.abs(pinTop - 110) < 3, `Stage heading not pinned: ${pinTop}`);
   await page.screenshot({ path: 'artifacts/desktop-motion-stage.png' });
+  for (const frame of await page.locator('.stage-photo .photo-frame').all()) {
+    await frame.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1000);
+    assert.equal(await frame.evaluate(el => getComputedStyle(el).clipPath), 'none', 'Image reveal did not finish');
+    assert.ok(await frame.evaluate(el => Math.abs(new DOMMatrixReadOnly(getComputedStyle(el).transform).m42) <= 12.1), 'Parallax exceeds 24 px travel');
+  }
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.waitForTimeout(200);
   assert.notEqual(await page.locator('.stage-heading').evaluate(el => getComputedStyle(el).position), 'fixed');
+  assert.equal(await page.locator('.pin-spacer').count(), 0, 'Reduced motion retains a pin spacer');
+  assert.ok(await page.locator('.photo-frame,.hero-line').evaluateAll(elements => elements.every(el => {
+    const style = getComputedStyle(el);
+    return style.clipPath === 'none' && style.transform === 'none' && style.opacity === '1';
+  })), 'Reduced motion leaves a mask or transform');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.waitForTimeout(1100);
+  assert.equal(await page.locator('.pin-spacer').count(), 1, 'Motion reactivation duplicates pinning');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.waitForTimeout(100);
+  assert.equal(await page.locator('.pin-spacer').count(), 0);
   await context.close();
   const mobileContext = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: 'no-preference' });
   const mobilePage = await mobileContext.newPage();
@@ -109,13 +170,41 @@ try {
   await mobilePage.screenshot({ path: 'artifacts/mobile-motion-hero.png' });
   await mobilePage.locator('#palcoscenico').scrollIntoViewIfNeeded();
   assert.notEqual(await mobilePage.locator('.stage-heading').evaluate(el => getComputedStyle(el).position), 'fixed');
+  for (const frame of await mobilePage.locator('.stage-photo .photo-frame').all()) {
+    await frame.scrollIntoViewIfNeeded();
+    await mobilePage.waitForTimeout(750);
+    assert.equal(await frame.evaluate(el => getComputedStyle(el).clipPath), 'none');
+    assert.equal(await frame.evaluate(el => getComputedStyle(el).transform), 'none', 'Mobile must not use parallax');
+  }
+  await mobilePage.screenshot({ path: 'artifacts/mobile-motion-stage.png' });
   await mobilePage.locator('#insegnanti').scrollIntoViewIfNeeded();
   await mobilePage.waitForTimeout(1000);
   assert.ok(await mobilePage.locator('.director').first().evaluate(el => Number(getComputedStyle(el).opacity) > 0.95));
   await mobilePage.screenshot({ path: 'artifacts/mobile-motion-teachers.png' });
+  await mobilePage.evaluate(() => window.scrollTo(0, 0));
+  await mobilePage.getByRole('button', { name: 'Menu', exact: true }).click();
+  await mobilePage.setViewportSize({ width: 1100, height: 844 });
+  await mobilePage.waitForTimeout(1100);
+  assert.ok(!await mobilePage.locator('#mobile-menu').isVisible(), 'Resize must close the mobile menu');
+  assert.equal(await mobilePage.evaluate(() => document.body.style.overflow), '');
+  assert.equal(await mobilePage.locator('.pin-spacer').count(), 1);
+  await mobilePage.setViewportSize({ width: 390, height: 844 });
+  await mobilePage.waitForTimeout(750);
+  assert.equal(await mobilePage.locator('.pin-spacer').count(), 0, 'Desktop pin remains after returning to mobile');
   await mobileContext.close();
   assert.deepEqual(errors, [], 'Browser errors');
-  await writeFile('artifacts/browser-report.json', JSON.stringify({ baseURL, results, motion: 'passed', errors }, null, 2));
+  const palette = { paper: '#f2f0e9', ink: '#181917', indigo: '#292f68', plum: '#713a70', amber: '#d78b52' };
+  const luminance = hex => {
+    const channels = hex.slice(1).match(/../g).map(value => parseInt(value, 16) / 255).map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+    return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  };
+  const contrast = [['ink', 'paper'], ['paper', 'indigo'], ['plum', 'paper'], ['ink', 'amber'], ['amber', 'indigo'], ['amber', 'ink']].map(([foreground, background]) => {
+    const a = luminance(palette[foreground]), b = luminance(palette[background]);
+    const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    assert.ok(ratio >= 4.5, foreground + '/' + background + ': insufficient contrast');
+    return { foreground, background, ratio: Number(ratio.toFixed(2)) };
+  });
+  await writeFile('artifacts/browser-report.json', JSON.stringify({ baseURL, results, motion: 'passed', contrast, errors }, null, 2));
   console.log('Passed: five responsive viewports, keyboard, navigation, images, accordions, faculty, motion and reduced motion. Screenshots: artifacts/');
 } finally {
   await browser.close();

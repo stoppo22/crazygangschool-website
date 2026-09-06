@@ -80,18 +80,61 @@ function App() {
   const [teachersOpen, setTeachersOpen] = useState(false);
   useGSAP(() => {
     const media = gsap.matchMedia();
-    media.add('(prefers-reduced-motion: no-preference)', () => {
-      gsap.from('.hero-title > span', { y: 60, opacity: 0, duration: 1.05, stagger: 0.13, ease: 'power3.out', clearProps: 'all' });
-      gsap.from('.hero-photo img', { scale: 1.08, duration: 1.7, ease: 'power2.out', clearProps: 'transform' });
-      gsap.utils.toArray('.reveal').forEach(element => gsap.from(element, { y: 32, opacity: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: element, start: 'top 94%', once: true }, clearProps: 'all' }));
+    let mounted = true;
+    media.add({
+      motion: '(prefers-reduced-motion: no-preference)',
+      desktop: '(min-width: 1000px)',
+    }, context => {
+      const { motion, desktop } = context.conditions;
+      if (!motion) return;
+      const entrance = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      entrance.from('.hero-line', {
+        yPercent: 108, duration: desktop ? 0.65 : 0.5, stagger: 0.09,
+        clearProps: 'transform',
+      }, 0);
+      // Partial opening keeps the priority image visible while it settles.
+      entrance.from('.hero-photo .photo-frame', {
+        clipPath: 'inset(0 16% 0 0)', duration: desktop ? 0.85 : 0.6,
+        ease: 'power3.inOut', clearProps: 'clipPath',
+      }, 0.04);
+
+      gsap.utils.toArray('.stage-photo .photo-frame').forEach((frame, index) => {
+        gsap.from(frame, {
+          clipPath: index % 2 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)',
+          duration: desktop ? 0.85 : 0.6, ease: 'power3.inOut',
+          scrollTrigger: { trigger: frame, start: 'top 94%', once: true },
+          clearProps: 'clipPath',
+        });
+      });
+      gsap.utils.toArray('.reveal, .section-intro h2, .stage-heading h2, .contact-headline h2').forEach(element => {
+        gsap.from(element, {
+          y: desktop ? 22 : 12, duration: 0.6, ease: 'power3.out',
+          scrollTrigger: { trigger: element, start: 'top 94%', once: true },
+          clearProps: 'transform',
+        });
+      });
+      if (desktop) {
+        ScrollTrigger.create({
+          trigger: '.stage-heading', start: 'top 110px',
+          endTrigger: '.stage-gallery', end: 'bottom 75%',
+          pin: true, pinSpacing: false,
+        });
+        gsap.utils.toArray('.stage-photo .photo-frame').forEach(frame => {
+          gsap.fromTo(frame, { y: 12 }, {
+            y: -12, ease: 'none',
+            scrollTrigger: { trigger: frame.closest('.stage-piece'), start: 'top bottom', end: 'bottom top', scrub: 0.45 },
+          });
+        });
+      }
     });
-    media.add('(min-width: 1000px) and (prefers-reduced-motion: no-preference)', () => {
-      ScrollTrigger.create({ trigger: '.stage-heading', start: 'top 110px', endTrigger: '.stage-gallery', end: 'bottom 75%', pin: true, pinSpacing: false });
-    });
-    const refresh = () => ScrollTrigger.refresh();
+    const refresh = () => { if (mounted) ScrollTrigger.refresh(); };
     document.fonts.ready.then(refresh);
     window.addEventListener('load', refresh);
-    return () => { media.revert(); window.removeEventListener('load', refresh); };
+    return () => {
+      mounted = false;
+      media.revert();
+      window.removeEventListener('load', refresh);
+    };
   }, { scope: root });
 
   useEffect(() => { ScrollTrigger.refresh(); }, [teachersOpen]);
@@ -105,7 +148,7 @@ function App() {
       <section id="inizio" className="hero" aria-labelledby="hero-title">
         <div className="hero-topline"><span>Scuola di danza · Roma</span><span>Danza / Teatro / Movimento</span></div>
         <Photo name="hero" priority className="hero-photo" />
-        <h1 className="hero-title" id="hero-title"><span>INSIEME,</span><span>IN <em>SCENA.</em></span></h1>
+        <h1 className="hero-title" id="hero-title"><span><span className="hero-line">INSIEME,</span></span><span><span className="hero-line">IN <em>SCENA.</em></span></span></h1>
         <div className="hero-brand"><BrandLogo sizes="(max-width: 800px) 210px, (max-width: 1100px) 230px, 290px" /><span>Una scuola. Molti linguaggi.</span></div>
         <div className="hero-bottom"><div className="hero-copy"><p>Dalla scoperta della danza<br />all’esperienza del palcoscenico.</p><a className="button button-orange" href="#discipline">Esplora le discipline <Arrow diagonal /></a></div><a className="hero-scroll" href="#scuola"><span>Entra nel nostro mondo</span><Arrow /></a></div>
 
