@@ -1,6 +1,6 @@
-# Crazy Gang School
+﻿# Crazy Gang School
 
-First local homepage prototype. Factual source: `CONTEXT.md`. Project rules: `AGENTS.md`. Temporary media: `ASSETS.md`.
+Local homepage with the original Crazy Gang identity and archival photography. Factual source: `CONTEXT.md`. Project rules: `AGENTS.md`. Media provenance: `ASSETS.md`. Visual direction: `DESIGN.md`.
 
 ## Run
 
@@ -8,7 +8,7 @@ Node.js 22.12+ (tested with 22.14) and npm are required.
 
 ```sh
 npm install
-npm run dev -- --port 5173 --strictPort
+npm run dev
 ```
 
 Open http://127.0.0.1:5173/.
@@ -30,7 +30,7 @@ The script uses an installed Chrome or Edge on Windows. On other systems, set `B
 
 ## Implementation
 
-React + Vite, custom CSS, GSAP ScrollTrigger and `@gsap/react`. There is no router, CMS, backend or component library. The homepage includes anchor navigation, an accessible mobile menu, expandable course groups, an expandable teacher list, an animated text strip with pause control, a desktop pinned stage section and scroll-linked text reveals. Reduced-motion preferences disable movement and pinning.
+React + Vite, custom CSS, GSAP ScrollTrigger and `@gsap/react`. There is no router, CMS, backend or component library. The homepage includes anchor navigation, an accessible mobile menu, expandable course groups, an expandable teacher list, a static typographic interlude, a desktop pinned stage section and restrained entrance animations. Reduced-motion preferences disable movement and pinning.
 
 ## Content boundaries
 
@@ -38,6 +38,7 @@ React + Vite, custom CSS, GSAP ScrollTrigger and `@gsap/react`. There is no rout
 - The course presentation is an editorial grouping of documented disciplines, not a new official course taxonomy. The faculty list follows the main historical teacher page; it does not reconcile the alternate Home2 roster.
 - The CTA opens email or telephone links. No message is automatically sent and no booking or payment is simulated.
 - External archive and social links go to the documented destinations. The map is a search link, not a claim of verified coordinates.
-- Temporary photography is labelled and documented. This prototype is `noindex` and has not been published.
+- Historical photography is labelled and documented; image rights and credits remain to be confirmed. This prototype is `noindex` and has not been published.
 - Legal information, current opening status, active courses, current staff and final photography must be confirmed before launch.
-- `DESIGN.md` intentionally remains absent until the user has reviewed this version.
+- `DESIGN.md` records the approved contemporary interpretation of the original brand: strong neutrals, deep indigo and selective plum/amber accents.
+

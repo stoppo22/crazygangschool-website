@@ -1,4 +1,4 @@
-import { chromium } from 'playwright';
+﻿import { chromium } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import assert from 'node:assert/strict';
@@ -43,12 +43,14 @@ try {
     await page.keyboard.press('Enter');
     assert.ok(await page.locator('#panel-incontro').isVisible());
     assert.match(await page.locator('#panel-incontro a').getAttribute('href'), /^mailto:info@crazygang\.it\?subject=/);
+    await page.screenshot({ path: `artifacts/${name}-courses-expanded.png` });
     await page.locator('#trigger-danza').click();
 
     const facultyButton = page.getByRole('button', { name: 'Gli altri insegnanti' });
     await facultyButton.click();
     assert.equal(await page.locator('.faculty-list li').count(), 11);
     assert.ok(await page.locator('.faculty-list').isVisible());
+    await page.screenshot({ path: `artifacts/${name}-faculty-expanded.png` });
     await page.getByRole('button', { name: 'Chiudi l’elenco' }).click();
 
     if (width <= 800) {
@@ -67,6 +69,8 @@ try {
       assert.ok(!await page.locator('#mobile-menu').isVisible());
       assert.equal(await page.evaluate(() => document.body.style.overflow), '');
     }
+    await page.locator('.footer').scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `artifacts/${name}-footer.png` });
     await page.locator('#contatti').scrollIntoViewIfNeeded();
     await page.screenshot({ path: `artifacts/${name}-contact.png` });
     await page.evaluate(() => window.scrollTo(0, 0));
@@ -85,9 +89,6 @@ try {
   await page.locator('.story-copy').scrollIntoViewIfNeeded();
   await page.waitForTimeout(1000);
   await page.screenshot({ path: 'artifacts/desktop-motion-story.png' });
-  await page.getByRole('button', { name: 'Metti in pausa il testo in movimento' }).click();
-  assert.equal(await page.locator('.marquee-track').evaluate(el => getComputedStyle(el).animationPlayState), 'paused');
-  await page.getByRole('button', { name: 'Riprendi il testo in movimento' }).click();
   await page.locator('.other-disciplines summary').click();
   await page.waitForTimeout(300);
   const stageY = await page.locator('#palcoscenico').evaluate(el => el.getBoundingClientRect().top + scrollY);
@@ -119,3 +120,4 @@ try {
 } finally {
   await browser.close();
 }
+

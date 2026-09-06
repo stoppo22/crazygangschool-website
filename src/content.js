@@ -1,10 +1,19 @@
-// Factual source: CONTEXT.md. All operational availability remains unconfirmed.
-// The photos below are temporary mood placeholders, never portraits of the school.
-export const photos = {
-  hero: { src: '/images/dance-stage.jpg', position: '50% 42%' },
-  studio: { src: '/images/dance-studio.jpg', position: '50% 47%' },
-  stage: { src: '/images/dance-stage.jpg', position: '50% 55%' },
-};
+﻿// Factual source: CONTEXT.md. All operational availability remains unconfirmed.
+// Historical material from the documented school website; rights and credits need verification.
+const archivePhoto = (name, width, height, alt, caption, source) => ({
+  src: `/images/archive-${name}-1100.webp`,
+  srcSet: [640, 1100, 1600].map(size => `/images/archive-${name}-${size}.webp ${size}w`).join(', '),
+  width, height, alt, caption, source, position: '50% 50%', mobilePosition: '50% 50%',
+});
+const ensemble = archivePhoto('ensemble', 2126, 1414,
+  'Un gruppo di interpreti in camicia bianca si esibisce su un palco con una scenografia teatrale.',
+  'Dalla galleria del sito Crazy Gang',
+  'https://www.crazygangschool.com/copia-di-galleria');
+const sisterAct = archivePhoto('sister-act', 3300, 2156,
+  'Un ensemble in costumi da suora danza sul palco; la scenografia riporta il nome Crazy Gang.',
+  'Sister Act · etichetta dell’archivio originale',
+  'https://www.crazygangschool.com/');
+export const photos = { hero: ensemble, studio: ensemble, stage: sisterAct };
 
 export const courseGroups = [
   { id: 'danza', title: 'Danza', subtitle: 'Classica, moderna, primi passi.', names: ['Danza Classica', 'Danza Moderna', 'Propedeutica'], photo: 'studio' },
@@ -27,3 +36,4 @@ export const contact = {
   instagram: 'https://www.instagram.com/crazygangschool/',
   facebook: 'https://www.facebook.com/crazygangschool85/?fref=ts',
 };
+
