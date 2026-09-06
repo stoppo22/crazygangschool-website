@@ -47,12 +47,12 @@ try {
     assert.equal(await page.locator('.course-panel').count(), 7);
     assert.equal(await page.locator('[data-placeholder]').count(), 9);
     assert.equal(await page.locator('.sticky-scroll__step').count(), 3);
-    assert.equal(await page.locator('.facts-bento,.people').count(), 0);
+    assert.equal(await page.locator('.facts-bento,.people,.archive').count(), 0);
     assert.deepEqual(await page.locator('.course-panel').evaluateAll(links => links.map(link => link.getAttribute('href'))), courseRoutes.map(([slug]) => `/corsi/${slug}`));
     if (width > 820) {
-      assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La scuola', 'Corsi', 'Insegnanti', 'Spettacoli', 'Contatti']);
+      assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La scuola', 'Corsi', 'Insegnanti', 'Contatti']);
       assert.equal(await page.locator('.magic-tab').count(), 1);
-      assert.equal(await page.locator('.nav-cta').textContent(), 'Scrivici ');
+      assert.equal(await page.locator('.nav-cta').textContent(), 'Contattaci ');
       const initialIndicator = await page.locator('.magic-tab__indicator').boundingBox();
       await page.getByRole('link', { name: 'Insegnanti', exact: true }).hover();
       const previewIndicator = await page.locator('.magic-tab__indicator').boundingBox();
@@ -96,6 +96,7 @@ try {
       await page.locator('#insegnanti').scrollIntoViewIfNeeded();
       await page.waitForTimeout(220);
       assert.equal(await page.locator('.sticky-scroll__step[data-active="true"] h2').textContent(), 'La direzione artistica');
+      assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'La scuola');
       assert.equal(await page.locator('.sticky-scroll__visual [data-placeholder="true"]').count(), 1);
       await page.screenshot({ path: `artifacts/${name}-school-direction.png` });
     } else {
@@ -126,15 +127,55 @@ try {
     } else {
       assert.ok(await page.locator('.course-panel').first().evaluate(link => link.getBoundingClientRect().height >= 300));
     }
+    await page.locator('#docenti').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(450);
+    assert.equal(await page.locator('.faculty-list .godui-accordion__trigger').count(), 13);
+    assert.equal(await page.locator('.faculty-list .godui-accordion__item[data-open="true"]').count(), 1);
+    if (width > 820) {
+      assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Insegnanti');
+      const teacherTriggers = page.locator('.faculty-list .godui-accordion__trigger');
+      await teacherTriggers.nth(7).hover();
+      await page.waitForTimeout(500);
+      assert.ok((await page.locator('.faculty-preview img').getAttribute('src')).includes('emiliano-dangelo'));
+      await teacherTriggers.nth(7).click();
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(500);
+      assert.equal(await teacherTriggers.nth(7).getAttribute('aria-expanded'), 'true');
+      assert.ok((await page.locator('.faculty-preview img').getAttribute('src')).includes('emiliano-dangelo'));
+      await teacherTriggers.nth(7).focus();
+      await page.keyboard.press('ArrowDown');
+      assert.ok((await page.evaluate(() => document.activeElement?.textContent)).includes('Gaia Stopponi'));
+    } else {
+      assert.equal(await page.locator('.faculty-preview:visible').count(), 0);
+      const teacherTriggers = page.locator('.faculty-list .godui-accordion__trigger');
+      await teacherTriggers.nth(1).click();
+      await page.waitForTimeout(450);
+      assert.equal(await teacherTriggers.first().getAttribute('aria-expanded'), 'false');
+      assert.equal(await teacherTriggers.nth(1).getAttribute('aria-expanded'), 'true');
+      assert.equal(await page.locator('.faculty-list .godui-accordion__panel:visible img').count(), 1);
+    }
+    await page.screenshot({ path: `artifacts/${name}-faculty.png` });
     if (width <= 820) {
       await page.evaluate(() => scrollTo(0, 0));
       await page.getByRole('button', { name: 'Menu', exact: true }).click();
       assert.ok(await page.locator('#menu-mobile').isVisible());
-      assert.deepEqual((await page.locator('#menu-mobile>a').allTextContents()).map(text => text.trim()), ['La scuola', 'Corsi', 'Insegnanti', 'Spettacoli', 'Contatti', 'Scrivici']);
+      assert.deepEqual((await page.locator('#menu-mobile>a').allTextContents()).map(text => text.trim()), ['La scuola', 'Corsi', 'Insegnanti', 'Contatti', 'Contattaci']);
+      assert.equal(await page.evaluate(() => document.body.style.overflow), 'hidden');
       await page.screenshot({ path: `artifacts/${name}-menu.png` });
       await page.keyboard.press('Escape');
       assert.equal(await page.getByRole('button', { name: 'Menu', exact: true }).getAttribute('aria-expanded'), 'false');
+      assert.equal(await page.evaluate(() => document.activeElement?.textContent), 'Menu');
+      assert.equal(await page.evaluate(() => document.body.style.overflow), '');
     }
+    await page.locator('#contatti').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(220);
+    assert.equal(await page.locator('#contatti address,#contatti iframe').count(), 0);
+    assert.equal(await page.locator('#contatti a[href^="mailto:"]').count(), 1);
+    assert.equal(await page.locator('#contatti a[href^="tel:"]').count(), 2);
+    assert.equal(await page.locator('#contatti a[href*="instagram"],#contatti a[href*="facebook"]').count(), 2);
+    assert.equal(await page.locator('#contatti [data-future-channel="whatsapp"] a').count(), 0);
+    if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Contatti');
+    await page.screenshot({ path: `artifacts/${name}-contacts.png` });
     await page.locator('.footer').scrollIntoViewIfNeeded();
     await page.screenshot({ path: `artifacts/${name}-footer.png` });
     await page.evaluate(() => scrollTo(0, 0));
@@ -214,16 +255,8 @@ try {
   await page.waitForTimeout(1400);
   assert.ok(await page.locator('.hero-title__line span').evaluateAll(lines => lines.every(line => getComputedStyle(line).transform === 'none')));
   assert.notEqual(await page.locator('.magic-tab__indicator').evaluate(element => getComputedStyle(element).transitionDuration), '0s');
-  await page.locator('#archivio').scrollIntoViewIfNeeded();
-  await page.waitForTimeout(500);
-  const archiveY = await page.locator('.archive-layout').evaluate(el => el.getBoundingClientRect().top + scrollY);
-  await page.evaluate(y => scrollTo(0, y + 220), archiveY);
-  await page.waitForTimeout(500);
-  assert.equal(await page.locator('.pin-spacer').count(), 1, 'Archive pin missing');
-  await page.screenshot({ path: 'artifacts/desktop-motion-archive.png' });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.waitForTimeout(300);
-  assert.equal(await page.locator('.pin-spacer').count(), 0, 'Reduced motion retains pinning');
   assert.equal(await page.locator('.magic-tab__indicator').evaluate(element => getComputedStyle(element).transitionDuration), '0s');
   assert.ok(await page.locator('.story-word,.photo__frame,.hero-title__line span').evaluateAll(elements => elements.every(el => {
     const style = getComputedStyle(el);

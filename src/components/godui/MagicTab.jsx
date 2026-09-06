@@ -22,7 +22,7 @@ export function MagicTab({ items, value, onValueChange, className = '', ...props
   const measure = useCallback(() => {
     const root = rootRef.current;
     const item = itemRefs.current.get(displayedValue);
-    if (!root || !item) return;
+    if (!root || !item) { setIndicator(previous => ({ ...previous, ready: false })); return; }
     const rootRect = root.getBoundingClientRect();
     const itemRect = item.getBoundingClientRect();
     setIndicator({ x: itemRect.left - rootRect.left, width: itemRect.width, ready: true });
