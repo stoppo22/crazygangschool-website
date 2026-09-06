@@ -62,6 +62,10 @@ try {
       assert.equal(await page.evaluate(() => document.activeElement?.textContent), 'Corsi');
     } else {
       assert.equal(await page.locator('.magic-tab:visible').count(), 0);
+      assert.ok(await page.locator('.sticky-scroll__copy,.sticky-scroll__mobile-visual,.course-panel').evaluateAll(elements => elements.every(element => {
+        const style = getComputedStyle(element);
+        return Number(style.opacity) === 1 && style.transform === 'none';
+      })), `${name}: reduced motion leaves mobile content transformed`);
     }
     const clipped = await page.locator('h1,h2,h3,.course-panel[data-active="true"] .course-panel__content strong,.course-panel__compact').evaluateAll(elements => elements.flatMap(element => Number(getComputedStyle(element).opacity) > .05 ? [...element.getClientRects()].filter(rect => rect.left < -1 || rect.right > innerWidth + 1).map(() => element.textContent) : []));
     assert.deepEqual(clipped, [], `${name}: clipped heading`);
@@ -182,6 +186,25 @@ try {
   await mobileCourse.locator('.course-footer').scrollIntoViewIfNeeded();
   await mobileCourse.screenshot({ path: 'artifacts/course-latino-mobile-footer.png' });
   await mobileCourseContext.close();
+
+  const mobileMotionContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'no-preference', isMobile: true, hasTouch: true });
+  const mobileMotion = await mobileMotionContext.newPage();
+  mobileMotion.on('pageerror', error => errors.push(`mobile-motion: ${error.message}`));
+  mobileMotion.on('console', message => { if (message.type() === 'error') errors.push(`mobile-motion: ${message.text()}`); });
+  await mobileMotion.goto(baseURL, { waitUntil: 'domcontentloaded', timeout: 15000 });
+  await mobileMotion.waitForTimeout(350);
+  assert.ok(Number(await mobileMotion.locator('.sticky-scroll__copy').first().evaluate(element => getComputedStyle(element).opacity)) < .1, 'Mobile school copy has no entrance state');
+  assert.ok(Number(await mobileMotion.locator('.course-panel').last().evaluate(element => getComputedStyle(element).opacity)) < .1, 'Mobile course has no entrance state');
+  await mobileMotion.locator('.sticky-scroll__step').first().scrollIntoViewIfNeeded();
+  await mobileMotion.waitForTimeout(850);
+  assert.ok(Number(await mobileMotion.locator('.sticky-scroll__copy').first().evaluate(element => getComputedStyle(element).opacity)) > .95, 'Mobile school copy did not reveal');
+  assert.ok(Number(await mobileMotion.locator('.sticky-scroll__mobile-visual').first().evaluate(element => getComputedStyle(element).opacity)) > .95, 'Mobile school visual did not reveal');
+  await mobileMotion.screenshot({ path: 'artifacts/mobile-motion-school.png' });
+  await mobileMotion.locator('.course-panel').first().scrollIntoViewIfNeeded();
+  await mobileMotion.waitForTimeout(850);
+  assert.ok(Number(await mobileMotion.locator('.course-panel').first().evaluate(element => getComputedStyle(element).opacity)) > .95, 'Mobile course did not reveal');
+  await mobileMotion.screenshot({ path: 'artifacts/mobile-motion-courses.png' });
+  await mobileMotionContext.close();
 
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'no-preference' });
   const page = await context.newPage();

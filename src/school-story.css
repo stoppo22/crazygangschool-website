@@ -55,5 +55,5 @@
 }
 
 @media(prefers-reduced-motion:reduce){
-  .sticky-scroll__step,.sticky-scroll__marker,.sticky-scroll__visual-inner{transition:none!important;transform:none!important}
+  .sticky-scroll__step,.sticky-scroll__marker,.sticky-scroll__copy,.sticky-scroll__mobile-visual,.sticky-scroll__visual-inner{transition:none!important;transform:none!important;opacity:1!important}
 }

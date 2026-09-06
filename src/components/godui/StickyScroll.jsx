@@ -20,6 +20,7 @@ export const StickyScroll = React.forwardRef(function StickyScroll(
   const containerRef = useRef(null);
   const itemRefs = useRef([]);
   const [active, setActive] = useState(0);
+  const [mobile, setMobile] = useState(() => window.matchMedia('(max-width: 820px)').matches);
 
   useImperativeHandle(forwardedRef, () => containerRef.current);
 
@@ -36,6 +37,13 @@ export const StickyScroll = React.forwardRef(function StickyScroll(
     return () => observer.disconnect();
   }, [items]);
 
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 820px)');
+    const update = event => setMobile(event.matches);
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
+
   const transition = reduce ? { duration: 0 } : SPRING;
 
   return <div ref={containerRef} data-slot="sticky-scroll" className={`sticky-scroll ${className}`} {...props}>
@@ -50,7 +58,7 @@ export const StickyScroll = React.forwardRef(function StickyScroll(
             ref={element => { itemRefs.current[index] = element; }}
             data-active={isActive ? 'true' : 'false'}
             className="sticky-scroll__step"
-            animate={{ opacity: isActive ? 1 : .3 }}
+            animate={{ opacity: mobile ? 1 : isActive ? 1 : .3 }}
             transition={transition}
           >
             <motion.span
@@ -59,11 +67,23 @@ export const StickyScroll = React.forwardRef(function StickyScroll(
               animate={{ scaleY: isActive ? 1 : .35, opacity: isActive ? 1 : .25 }}
               transition={transition}
             />
-            <div className="sticky-scroll__copy">
+            <motion.div
+              className="sticky-scroll__copy"
+              initial={mobile && !reduce ? { opacity: 0, y: 24 } : false}
+              whileInView={mobile ? { opacity: 1, y: 0 } : undefined}
+              viewport={{ once: true, amount: .28 }}
+              transition={reduce ? { duration: 0 } : { duration: .58, ease: [0.22, 1, 0.36, 1] }}
+            >
               <h2>{item.title}</h2>
               <div>{item.description}</div>
-            </div>
-            <div className="sticky-scroll__mobile-visual">{item.content}</div>
+            </motion.div>
+            <motion.div
+              className="sticky-scroll__mobile-visual"
+              initial={mobile && !reduce ? { opacity: 0, y: 18, scale: .96 } : false}
+              whileInView={mobile ? { opacity: 1, y: 0, scale: 1 } : undefined}
+              viewport={{ once: true, amount: .18 }}
+              transition={reduce ? { duration: 0 } : { duration: .72, ease: [0.22, 1, 0.36, 1] }}
+            >{item.content}</motion.div>
           </motion.article>;
         })}
       </div>

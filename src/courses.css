@@ -129,5 +129,6 @@
 
 @media(prefers-reduced-motion:reduce){
   .course-panel,.course-panel>img,.course-panel__shade,.course-panel__placeholder,.course-panel__compact,.course-panel__content,.course-page svg,.related-course img{transition:none!important}
+  .course-panel{transform:none!important;opacity:1!important}
   .course-panel[data-active=true]>img,.course-hero__title span,.course-hero .course-photo>div,.course-reveal,.related-course img{transform:none!important;clip-path:none!important;opacity:1!important}
 }
