@@ -100,6 +100,8 @@ try {
       assert.ok(await page.locator('.sticky-scroll__step').evaluateAll(steps => steps.every(step => Number(getComputedStyle(step).opacity) === 1)));
       await page.locator('.sticky-scroll__step').nth(1).scrollIntoViewIfNeeded();
       const mobileMap = page.locator('.sticky-scroll__step').nth(1).locator('iframe');
+      assert.equal(await page.locator('.sticky-scroll__step').nth(1).locator('.school-map>a:visible').count(), 0);
+      assert.equal(await page.locator('.sticky-scroll__step').nth(1).locator('.school-copy--place>a:visible').count(), 1);
       assert.equal(await mobileMap.evaluate(element => getComputedStyle(element).pointerEvents), 'none');
       await page.locator('.sticky-scroll__step').nth(1).getByRole('button', { name: 'Attiva la mappa' }).click();
       assert.equal(await mobileMap.evaluate(element => getComputedStyle(element).pointerEvents), 'auto');
@@ -112,7 +114,9 @@ try {
     if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Corsi');
     await page.screenshot({ path: `artifacts/${name}-courses.png` });
     if (width > 820) {
+      await page.mouse.move(0, 0);
       await page.locator('.course-panel').nth(3).focus();
+      await page.waitForFunction(() => document.querySelectorAll('.course-panel')[3]?.dataset.active === 'true');
       assert.equal(await page.locator('.course-panel').nth(3).getAttribute('data-active'), 'true');
       assert.equal(await page.locator('.course-panel').nth(3).getAttribute('aria-expanded'), 'true');
     } else {

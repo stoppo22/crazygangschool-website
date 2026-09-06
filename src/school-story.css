@@ -48,7 +48,7 @@
   .artistic-direction strong{font-size:34px}
   .sticky-scroll__mobile-visual{display:block;height:clamp(470px,135vw,680px);margin:75px -23px -110px}
   .sticky-scroll__visual-column{display:none}
-  .school-map>a{right:18px;justify-content:space-between}
+  .school-map>a{display:none}
   .school-map>button{font-size:15px}
   .school-story__contact{padding:26px 23px;line-height:1.5}
   .school-story__contact a{display:block;margin:4px 0 0}
