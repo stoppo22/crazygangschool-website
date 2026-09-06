@@ -90,8 +90,8 @@ function App() {
     <main id="contenuto" tabIndex={-1}>
       <section id="inizio" className="hero" aria-labelledby="hero-title">
         <div className="hero-copy">
-          <div className="hero-kicker"><span>Anno dichiarato dal sito della scuola</span><span>Roma · Colli Albani</span></div>
-          <h1 id="hero-title" className="hero-title"><span className="hero-title__line"><span>Dal 1985,</span></span><span className="hero-title__line hero-title__line--accent"><span>a Roma.</span></span></h1>
+          <div className="hero-kicker"><span>Scuola di danza</span><span>Roma · Colli Albani</span></div>
+          <h1 id="hero-title" className="hero-title"><span className="hero-title__line"><span>Dal 1985, a Roma:</span></span><span className="hero-title__line hero-title__line--accent"><span>Crazy Gang School</span></span></h1>
           <div className="hero-actions"><a className="button button--acid" href="#discipline">Scopri le discipline <Arrow /></a><a className="text-action" href="#contatti">Parla con la scuola <Arrow /></a></div>
         </div>
         <div className="hero-visual"><Photo name="heroMain" className="hero-photo" priority sizes="(max-width: 820px) 100vw, 43vw" /><div className="hero-aside"><span>Foto segnaposto</span><p>Le immagini definitive saranno inserite indipendentemente dall’interfaccia.</p><a href="#scuola" aria-label="Continua alla sezione La scuola"><Arrow down /></a></div></div>
