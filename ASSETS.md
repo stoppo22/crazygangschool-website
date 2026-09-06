@@ -45,10 +45,26 @@ The two original JPEGs are retained as sources for the responsive placeholders. 
 
 These are **placeholders, not photographs of Crazy Gang School**. The old `public/favicon.svg` is also a retired provisional treatment, not an official logo.
 
+## Temporary course photography
+
+The seven course images are visual placeholders downloaded on 6 September 2026. They are **not photographs of Crazy Gang School, its students, teachers or lessons** and do not document the current courses. Every placement is labelled “Foto segnaposto” or “Fotografia segnaposto” in the interface. Replace each set independently when original, approved school photography is available.
+
+| Local responsive variants | Photographer / source page | Current visual role |
+| --- | --- | --- |
+| `public/images/courses/dance-modern-{640,1200,1800}.webp` | Israyosoy S. · [Pexels](https://www.pexels.com/photo/contemporary-dancer-in-vibrant-motion-28972636/) | Danza Moderna |
+| `public/images/courses/dance-classical-{640,1200,1800}.webp` | Đậu Photograph · [Pexels](https://www.pexels.com/photo/artistic-dance-pose-in-modern-ballet-studio-30826528/) | Danza Classica |
+| `public/images/courses/tap-{640,1200,1800}.webp` | Jay Brand · [Pexels](https://www.pexels.com/photo/32448644) | Tip Tap |
+| `public/images/courses/kpop-{640,1200,1800}.webp` | Yan Krukau · [Pexels](https://www.pexels.com/photo/a-group-of-people-dancing-7312375/) | K-Pop |
+| `public/images/courses/kung-fu-{640,1200,1800}.webp` | Alireza Heidarpour · [Pexels](https://www.pexels.com/photo/martial-artist-in-focused-kung-fu-pose-29817841/) | Kung Fu |
+| `public/images/courses/hip-hop-{640,1200,1800}.webp` | Beatriz Braga · [Pexels](https://www.pexels.com/photo/street-dancer-performing-break-dance-11063348/) | Hip Hop |
+| `public/images/courses/latin-{640,1200,1800}.webp` | Nathana Rebouças · [Unsplash](https://unsplash.com/photos/couple-dancing-photograph-Zunukrg0Grg) | Danze Latino Americane |
+
+The browser loads only local WebP variants. Source-page links and credits are also centralized in `src/course-data.js`. The downloaded source JPEGs are retained in `source-assets/course-placeholders/`, outside the public browser payload. Rebuild the responsive sets with `python scripts/prepare-course-placeholders.py` (Pillow, WebP quality 82). The script performs resizing only; it does not generate or artistically alter images.
+
 ## Typography and launch
 
 Cabinet Grotesk comes from [Fontshare](https://www.fontshare.com/fonts/cabinet-grotesk). Locally hosted WOFF2 weights: 400, 500, 700, 800, 900. `public/fonts/fontshare-source.css` records source URLs. Confirm font license obligations before launch.
 
-No remote image, font, video, map or tracking embed is loaded by the homepage. The site remains a local, noindex prototype. Confirm archival image rights/credits, logo approval, current operational content and final alt/captions before public launch.
+No remote image, font, video, map or tracking embed is loaded by the homepage or course pages. The site remains a local, noindex prototype. Confirm placeholder licenses, archival image rights/credits, logo approval, current operational content and final alt/captions before public launch.
 
 

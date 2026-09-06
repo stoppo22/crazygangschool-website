@@ -298,3 +298,17 @@ Ricognizione dei link del menu, delle sette schede attività e di tutte le **22 
 Fonti di individuazione: [robots.txt](https://www.crazygangschool.com/robots.txt), [sitemap](https://www.crazygangschool.com/sitemap.xml), [pages-sitemap.xml](https://www.crazygangschool.com/pages-sitemap.xml). La sitemap riporta `lastmod` **2025-10-10** per tutte le pagine: metadato tecnico che **non certifica** la revisione dei contenuti o la validità dei regolamenti.
 
 Limiti residui: tabelle orarie dinamiche, elementi caricati successivamente nelle gallerie e riproduzione integrale dei video. Nessuna accessibilità pubblica può essere dedotta per contenuti non esposti da menu, sitemap o collegamenti consultati. Per chiudere tali lacune servono dati aggiornati del proprietario o un'esportazione dei contenuti originali.
+
+## Aggiornamento confermato dal proprietario - 6 settembre 2026
+
+Le informazioni seguenti sono state confermate direttamente dal proprietario e prevalgono, per questi soli punti, sulle precedenti indicazioni `NEEDS VERIFICATION`:
+
+- **Danza Moderna:** Gioco danza per bambini di 3-4 anni; danza moderna per bambini dai 5 anni compiuti; danza moderna per ragazzi, tutti i livelli.
+- **Danza Classica:** bambini dai 5 anni compiuti; ragazzi, tutti i livelli.
+- **Hip Hop:** bambini dai 5 anni compiuti.
+- **Kung Fu:** bambini dai 6 anni compiuti.
+- **Tip Tap:** corso disponibile; ulteriori dettagli da verificare.
+- **K-Pop:** corso disponibile; ulteriori dettagli da verificare.
+- **Danze Latino Americane:** Salsa Cubana base, 1&deg; e 2&deg; livello; Bachata base e 1&deg; livello; Lady Style; Danze Standard, Latino Americane e Latin Style per single con Samba, Cha Cha Cha, Rumba, Paso Doble e Jive, a livello amatoriale e competizione, per tutte le et&agrave;.
+
+Gli orari reali non sono ancora disponibili e non devono essere inventati. Usare una richiesta di informazioni alla scuola.

@@ -1,0 +1,69 @@
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { contact } from './content';
+import { courses } from './course-data';
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+function Arrow({ back = false }) {
+  return <svg className={back ? 'is-back' : ''} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12" stroke="currentColor" strokeWidth="1.7" /></svg>;
+}
+
+function CourseImage({ course, sizes }) {
+  return <figure className="course-photo" style={{ '--position': course.image.position }}>
+    <div><img src={course.image.src} srcSet={course.image.srcSet} sizes={sizes} width={course.image.width} height={course.image.height} alt={course.image.alt} data-placeholder="true" /></div>
+    <figcaption>Fotografia segnaposto · {course.image.credit}</figcaption>
+  </figure>;
+}
+
+function FactCard({ title, items, className = '' }) {
+  return <article className={`course-fact ${className}`}><h2>{title}</h2><ul>{items.map(item => <li key={item}>{item}</li>)}</ul></article>;
+}
+
+export function CoursePage({ course }) {
+  const root = useRef(null);
+  useEffect(() => {
+    document.title = `${course.title} — Crazy Gang School`;
+    window.scrollTo(0, 0);
+  }, [course]);
+
+  useGSAP(() => {
+    const media = gsap.matchMedia();
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.timeline({ defaults: { ease: 'power3.out' } })
+        .from('.course-hero__title span', { yPercent: 110, duration: .8, clearProps: 'transform' })
+        .from('.course-hero .course-photo>div', { clipPath: 'inset(100% 0 0)', duration: 1, ease: 'power3.inOut', clearProps: 'clipPath' }, .08);
+      gsap.utils.toArray('.course-reveal').forEach(element => gsap.from(element, { opacity: 0, y: 28, duration: .7, scrollTrigger: { trigger: element, start: 'top 90%', once: true } }));
+      gsap.fromTo('.related-course img', { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.related-courses', start: 'top bottom', end: 'bottom top', scrub: .5 } });
+    });
+    return () => media.revert();
+  }, { scope: root, dependencies: [course.slug] });
+
+  const related = courses.filter(item => item.slug !== course.slug);
+  return <div className="course-page" ref={root}>
+    <header className="course-nav"><a href="/" className="course-brand" aria-label="Crazy Gang School, home"><img src="/brand/crazy-gang-640.webp" width="2307" height="1157" alt="Crazy Gang School" /></a><a href="/#discipline" className="course-nav__back"><Arrow back /> Tutti i corsi</a><a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${course.title}`)}`}>Contatta la scuola <Arrow /></a></header>
+    <main>
+      <section className="course-hero">
+        <div className="course-hero__copy"><a href="/#discipline" className="course-back"><Arrow back /> Torna ai corsi</a><h1 className="course-hero__title"><span>{course.title}</span></h1><p>{course.summary}</p></div>
+        <CourseImage course={course} sizes="(max-width: 820px) 100vw, 55vw" />
+      </section>
+
+      <section className="course-information">
+        <div className="course-information__intro course-reveal"><p>Informazioni confermate</p><h2>Il corso,<br />in breve.</h2><p>I dettagli non ancora disponibili sono indicati senza aggiungere informazioni generiche.</p></div>
+        <div className="course-facts">
+          <FactCard title="Fasce d’età" items={course.ages} />
+          <FactCard title="Livelli" items={course.levels} className="course-fact--blue" />
+          <FactCard title="Percorsi e sottocorsi" items={course.programs} className="course-fact--pink" />
+          <article className="course-fact course-fact--schedule"><h2>Orari</h2><p>Orari in aggiornamento. Contatta la scuola per informazioni.</p><a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Orari: ${course.title}`)}`}>Chiedi gli orari <Arrow /></a></article>
+        </div>
+      </section>
+
+      <section className="related-courses course-reveal" aria-labelledby="related-title"><div><p>Continua a esplorare</p><h2 id="related-title">Gli altri corsi.</h2></div><div className="related-track">{related.map(item => <a className="related-course" href={`/corsi/${item.slug}`} key={item.slug}><img src={item.image.src} srcSet={item.image.srcSet} sizes="280px" alt="" loading="lazy" /><span>{item.title}</span><Arrow /></a>)}</div></section>
+
+      <section className="course-cta"><p>Per fasce d’età, livelli e orari ancora da definire</p><h2>Parla con<br />la scuola.</h2><a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${course.title}`)}`}>{contact.email}<Arrow /></a><a href={`tel:${contact.phone}`}>{contact.phone}<Arrow /></a></section>
+    </main>
+    <footer className="course-footer"><a href="/#discipline"><Arrow back /> Torna a tutti i corsi</a><span>Crazy Gang School · Roma, Colli Albani</span><span>Fotografie temporanee, da sostituire con immagini originali della scuola</span></footer>
+  </div>;
+}

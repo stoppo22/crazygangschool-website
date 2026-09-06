@@ -3,11 +3,17 @@ import { createRoot } from 'react-dom/client';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { contact, disciplines, faculty, photos } from './content';
+import { contact, faculty, photos } from './content';
+import { courses, findCourse } from './course-data';
+import { CourseAccordion } from './CourseAccordion';
+import { CoursePage } from './CoursePage';
+import { MagicTab } from './components/godui/MagicTab';
 import './styles.css';
 import './sections.css';
 import './chapters.css';
 import './responsive.css';
+import './courses.css';
+import './magic-tab.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -27,9 +33,36 @@ function Photo({ name, className = '', priority = false, sizes = '50vw' }) {
 
 function Navigation() {
   const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('scuola');
+  const [scrolled, setScrolled] = useState(false);
   const panel = useRef(null);
   const toggle = useRef(null);
-  const links = [['La scuola', '#scuola'], ['Discipline', '#discipline'], ['Archivio', '#archivio'], ['Contatti', '#contatti']];
+  const links = [
+    { value: 'scuola', label: 'La scuola', href: '#scuola' },
+    { value: 'corsi', label: 'Corsi', href: '#discipline' },
+    { value: 'insegnanti', label: 'Insegnanti', href: '#insegnanti' },
+    { value: 'spettacoli', label: 'Spettacoli', href: '#archivio' },
+    { value: 'contatti', label: 'Contatti', href: '#contatti' },
+  ];
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      setScrolled(window.scrollY > 20);
+      const marker = Math.min(260, window.innerHeight * .34);
+      let current = links[0].value;
+      for (const item of links) {
+        const section = document.querySelector(item.href);
+        if (section && section.getBoundingClientRect().top <= marker) current = item.value;
+      }
+      setActiveSection(previous => previous === current ? previous : current);
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
+  }, []);
   useEffect(() => {
     if (!open) return undefined;
     const previous = document.body.style.overflow;
@@ -48,16 +81,12 @@ function Navigation() {
     return () => { document.body.style.overflow = previous; document.removeEventListener('keydown', onKey); };
   }, [open]);
   const close = () => setOpen(false);
-  return <header className={`site-header ${open ? 'is-open' : ''}`}><div className="nav-shell"><Brand onNavigate={close} /><nav className="desktop-nav" aria-label="Navigazione principale">{links.slice(0, 3).map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav><a className="nav-cta" href="#contatti">Richiedi informazioni <Arrow /></a><button ref={toggle} className="menu-toggle" type="button" aria-expanded={open} aria-controls="menu-mobile" onClick={() => setOpen(value => !value)}><span>{open ? 'Chiudi' : 'Menu'}</span><i aria-hidden="true" /></button></div><nav ref={panel} id="menu-mobile" className="mobile-nav" aria-label="Navigazione mobile" hidden={!open}>{links.map(([label, href]) => <a key={href} href={href} onClick={close}>{label}<Arrow /></a>)}<p>Crazy Gang School<br />Roma, Colli Albani</p></nav></header>;
+  return <header className={`site-header ${open ? 'is-open' : ''} ${scrolled ? 'is-scrolled' : ''}`}><div className="nav-shell"><Brand onNavigate={close} /><MagicTab className="desktop-nav" aria-label="Navigazione principale" items={links} value={activeSection} onValueChange={setActiveSection} /><a className="nav-cta" href={`mailto:${contact.email}`}>Scrivici <Arrow /></a><button ref={toggle} className="menu-toggle" type="button" aria-expanded={open} aria-controls="menu-mobile" onClick={() => setOpen(value => !value)}><span>{open ? 'Chiudi' : 'Menu'}</span><i aria-hidden="true" /></button></div><nav ref={panel} id="menu-mobile" className="mobile-nav" aria-label="Navigazione mobile" hidden={!open}>{links.map(item => <a key={item.href} href={item.href} onClick={close}>{item.label}<Arrow /></a>)}<a className="mobile-nav__cta" href={`mailto:${contact.email}`} onClick={close}>Scrivici <Arrow /></a><p>Crazy Gang School<br />Roma, Colli Albani</p></nav></header>;
 }
 
 function Marquee() {
-  const names = disciplines.map(item => item.name).join(' · ');
+  const names = courses.map(item => item.title).join(' · ');
   return <div className="marquee" aria-label={`Discipline: ${names}`}><div className="marquee__track" aria-hidden="true"><span>{names} · </span><span>{names} · </span></div></div>;
-}
-
-function DisciplineAccordion() {
-  return <div className="discipline-accordion" role="list" aria-label="Discipline riportate nel sito della scuola">{disciplines.map((course, index) => <a key={course.id} className={`discipline-slice discipline-slice--${(index % 4) + 1}`} href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${course.name}`)}`} role="listitem"><span aria-hidden="true" /><strong>{course.name}</strong><span className="slice-action">Chiedi informazioni <Arrow /></span></a>)}</div>;
 }
 
 function App() {
@@ -112,8 +141,8 @@ function App() {
       </section>
 
       <section id="discipline" className="disciplines section-space" tabIndex={-1} aria-labelledby="discipline-title">
-        <div className="section-heading section-heading--wide reveal"><p>Le attività riportate dal sito</p><h2 id="discipline-title">Trova il tuo<br />linguaggio.</h2><p className="section-note">Disponibilità, livelli e orari sono da confermare con la scuola.</p></div>
-        <DisciplineAccordion />
+        <div className="section-heading section-heading--wide reveal"><p>I corsi principali</p><h2 id="discipline-title">Scopri<br />i corsi.</h2><p className="section-note">Apri un corso per vedere le informazioni disponibili. Gli orari sono in aggiornamento.</p></div>
+        <CourseAccordion courses={courses} />
       </section>
 
       <section id="archivio" className="archive section-space" tabIndex={-1} aria-labelledby="archive-title">
@@ -126,7 +155,7 @@ function App() {
         </div>
       </section>
 
-      <section className="people section-space" aria-labelledby="people-title">
+      <section id="insegnanti" className="people section-space" tabIndex={-1} aria-labelledby="people-title">
         <div className="section-heading reveal"><p>Persone</p><h2 id="people-title">La direzione<br />artistica.</h2></div>
         <div className="people-grid">
           <article className="person-card reveal"><span>Coreografo, insegnante, direttore artistico</span><h3>Marco<br />Stopponi</h3></article>
@@ -146,4 +175,5 @@ function App() {
   </div>;
 }
 
-createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);
+const selectedCourse = findCourse(window.location.pathname);
+createRoot(document.getElementById('root')).render(<React.StrictMode>{selectedCourse ? <CoursePage course={selectedCourse} /> : <App />}</React.StrictMode>);
