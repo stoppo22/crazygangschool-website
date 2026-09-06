@@ -69,6 +69,7 @@ export const faculty = [
 export const contact = {
   email: 'info@crazygang.it', phone: '067883621', mobile: '3334027525',
   address: 'L.go Orazi e Curiazi, 12 - Roma',
+  maps: 'https://www.google.com/maps/place/Crazy+Gang+School/@41.8724821,12.5294285,17z/data=!3m1!4b1!4m6!3m5!1s0x132f61f808a89c81:0xe5f28e8c08f3ea59!8m2!3d41.8724821!4d12.5294285!16s%2Fg%2F11cs2v__pm',
   instagram: 'https://www.instagram.com/crazygangschool/',
   facebook: 'https://www.facebook.com/crazygangschool85/?fref=ts',
 };

@@ -21,3 +21,13 @@ export function FacultySection() {
     </div>
   </section>;
 }
+
+export function ArtisticDirection() {
+  const directors = faculty.slice(0, 2);
+  return <section className="direction" aria-labelledby="direction-title">
+    <div className="direction__inner">
+      <h2 id="direction-title">La direzione artistica</h2>
+      <div>{directors.map(person => <article key={person.id}><strong>{person.name}</strong><span>{person.role}</span></article>)}</div>
+    </div>
+  </section>;
+}

@@ -8,16 +8,16 @@ import { courses, findCourse } from './course-data';
 import { CourseAccordion } from './CourseAccordion';
 import { CoursePage } from './CoursePage';
 import { MagicTab } from './components/godui/MagicTab';
-import { SchoolStory } from './SchoolStory';
-import { FacultySection } from './FacultySection';
+import { ArtisticDirection, FacultySection } from './FacultySection';
+import { ReviewsSection } from './ReviewsSection';
 import './styles.css';
 import './sections.css';
 import './chapters.css';
 import './responsive.css';
 import './courses.css';
 import './magic-tab.css';
-import './school-story.css';
 import './faculty.css';
+import './reviews.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -42,9 +42,10 @@ function Navigation() {
   const panel = useRef(null);
   const toggle = useRef(null);
   const links = [
-    { value: 'scuola', label: 'La scuola', href: '#scuola' },
+    { value: 'scuola', label: 'La scuola', href: '#inizio' },
     { value: 'corsi', label: 'Corsi', href: '#discipline' },
     { value: 'insegnanti', label: 'Insegnanti', href: '#docenti' },
+    { value: 'recensioni', label: 'Recensioni', href: '#recensioni' },
     { value: 'contatti', label: 'Contatti', href: '#contatti' },
   ];
   useEffect(() => {
@@ -118,14 +119,12 @@ function App() {
       <section id="inizio" className="hero" aria-labelledby="hero-title">
         <div className="hero-copy">
           <div className="hero-kicker"><span>Scuola di danza</span><span>Roma · Colli Albani</span></div>
-          <h1 id="hero-title" className="hero-title"><span className="hero-title__line"><span>Dal 1985, a Roma:</span></span><span className="hero-title__line hero-title__line--accent"><span>Crazy Gang School</span></span></h1>
+          <div className="hero-main"><h1 id="hero-title" className="hero-title"><span className="hero-title__line"><span>Dal 1985, a Roma:</span></span><span className="hero-title__line hero-title__line--accent"><span>Crazy Gang School</span></span></h1><div className="hero-description"><p>Crazy Gang School è a Roma dal 1985. La scuola propone percorsi per bambini, ragazzi e adulti: danza moderna e classica, Hip Hop, Tip Tap, K-Pop, danze latino-americane e Kung Fu.</p><p>Negli anni la scuola ha portato in scena saggi, rassegne, Crazy Party e spettacoli in cui danza, canto e recitazione fanno parte del lavoro sul palco.</p></div></div>
           <div className="hero-actions"><a className="button button--acid" href="#discipline">Scopri le discipline <Arrow /></a><a className="text-action" href="#contatti">Parla con la scuola <Arrow /></a></div>
         </div>
-        <div className="hero-visual"><Photo name="heroMain" className="hero-photo" priority sizes="(max-width: 820px) 100vw, 43vw" /><div className="hero-aside"><span>Foto segnaposto</span><p>Le immagini definitive saranno inserite indipendentemente dall’interfaccia.</p><a href="#scuola" aria-label="Continua alla sezione La scuola"><Arrow down /></a></div></div>
+        <div className="hero-visual"><Photo name="heroMain" className="hero-photo" priority sizes="(max-width: 820px) 100vw, 43vw" /><div className="hero-aside"><span>Dove siamo</span><p>Largo Orazi e Curiazi, 12 · Roma<br />Metro A · Colli Albani</p><a href={contact.maps} target="_blank" rel="noreferrer" aria-label="Apri la sede su Google Maps"><Arrow /></a></div></div>
       </section>
       <Marquee />
-
-      <SchoolStory />
 
       <section id="discipline" className="disciplines section-space" tabIndex={-1} aria-labelledby="discipline-title">
         <div className="section-heading section-heading--wide reveal"><p>I corsi principali</p><h2 id="discipline-title">Scopri<br />i corsi.</h2><p className="section-note">Apri un corso per vedere le informazioni disponibili. Gli orari sono in aggiornamento.</p></div>
@@ -133,15 +132,19 @@ function App() {
       </section>
 
       <FacultySection />
+      <ArtisticDirection />
+      <ReviewsSection />
 
       <section id="contatti" className="contact" tabIndex={-1} aria-labelledby="contact-title">
-        <div className="contact-intro"><p>Canali di contatto</p><h2 id="contact-title">Contatti.</h2></div>
-        <div className="contact-channels">
-          <a className="contact-channel" href={`mailto:${contact.email}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
-          <div className="contact-channel contact-channel--phones"><span>Telefono</span><div><a href={`tel:${contact.phone}`}>06 788 3621</a><a href={`tel:${contact.mobile}`}>333 402 7525</a></div><Arrow /></div>
-          <a className="contact-channel" href={contact.instagram} target="_blank" rel="noreferrer"><span>Social</span><strong>Instagram</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
-          <a className="contact-channel" href={contact.facebook} target="_blank" rel="noreferrer"><span>Social</span><strong>Facebook</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
-          <div className="contact-channel contact-channel--pending" data-future-channel="whatsapp"><span>WhatsApp Business</span><strong>Non ancora attivo</strong></div>
+        <div className="contact__inner">
+          <div className="contact-intro"><p>Canali di contatto</p><h2 id="contact-title">Contatti.</h2></div>
+          <div className="contact-channels">
+            <a className="contact-channel" href={`mailto:${contact.email}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
+            <div className="contact-channel contact-channel--phones"><span>Telefono</span><div><a href={`tel:${contact.phone}`}>06 788 3621</a><a href={`tel:${contact.mobile}`}>333 402 7525</a></div><Arrow /></div>
+            <a className="contact-channel" href={contact.instagram} target="_blank" rel="noreferrer"><span>Social</span><strong>Instagram</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
+            <a className="contact-channel" href={contact.facebook} target="_blank" rel="noreferrer"><span>Social</span><strong>Facebook</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
+            <div className="contact-channel contact-channel--pending" data-future-channel="whatsapp"><span>WhatsApp Business</span><strong>Non ancora attivo</strong></div>
+          </div>
         </div>
       </section>
     </main>

@@ -313,3 +313,10 @@ Le informazioni seguenti sono state confermate direttamente dal proprietario e p
 - **Sede e accesso:** Largo Orazi e Curiazi, 12, 00181 Roma; Metro A, fermata Colli Albani; descrizione approvata: “A pochi passi dalla stazione”. Non associare un tempo esatto al percorso.
 
 Gli orari reali non sono ancora disponibili e non devono essere inventati. Usare una richiesta di informazioni alla scuola.
+
+## Verifica Google Maps - 6 settembre 2026
+
+- Scheda pubblica verificata: [Crazy Gang School](https://www.google.com/maps/place/Crazy+Gang+School/@41.8724821,12.5294285,17z/data=!3m1!4b1!4m6!3m5!1s0x132f61f808a89c81:0xe5f28e8c08f3ea59!8m2!3d41.8724821!4d12.5294285!16s%2Fg%2F11cs2v__pm).
+- Il rating visibile durante la verifica era **4,8 su 5**.
+- La vista pubblica consultata non ha esposto in modo affidabile il numero totale, gli autori o i testi completi delle recensioni.
+- Non pubblicare numero o citazioni finche non sono verificati direttamente sulla scheda. Fonti terze con valori discordanti non sono considerate attendibili.

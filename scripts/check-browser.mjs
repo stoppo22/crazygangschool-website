@@ -45,13 +45,17 @@ try {
     assert.equal(brand.alt, 'Crazy Gang School');
     assert.ok(Math.abs(brand.ratio - 2307 / 1157) < .03, `${name}: logo distorted`);
     assert.equal(await page.locator('.course-panel').count(), 7);
-    assert.equal(await page.locator('[data-placeholder]').count(), 9);
-    assert.equal(await page.locator('.sticky-scroll__step').count(), 3);
+    assert.equal(await page.locator('[data-placeholder]').count(), 8);
+    assert.equal(await page.locator('.sticky-scroll,.school-story,.sticky-scroll__step,iframe').count(), 0);
     assert.equal(await page.locator('.facts-bento,.people,.archive').count(), 0);
+    assert.equal(await page.locator('.hero-description p').count(), 2);
+    assert.equal(await page.locator('.hero-aside a[href*="google.com/maps"]').count(), 1);
+    assert.deepEqual(await page.locator('main>section').evaluateAll(sections => sections.map(section => section.id)), ['inizio', 'discipline', 'docenti', '', 'recensioni', 'contatti']);
     assert.deepEqual(await page.locator('.course-panel').evaluateAll(links => links.map(link => link.getAttribute('href'))), courseRoutes.map(([slug]) => `/corsi/${slug}`));
     if (width > 820) {
-      assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La scuola', 'Corsi', 'Insegnanti', 'Contatti']);
+      assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Contatti']);
       assert.equal(await page.locator('.magic-tab').count(), 1);
+      assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'La scuola');
       assert.equal(await page.locator('.nav-cta').textContent(), 'Contattaci ');
       const initialIndicator = await page.locator('.magic-tab__indicator').boundingBox();
       await page.getByRole('link', { name: 'Insegnanti', exact: true }).hover();
@@ -62,7 +66,7 @@ try {
       assert.equal(await page.evaluate(() => document.activeElement?.textContent), 'Corsi');
     } else {
       assert.equal(await page.locator('.magic-tab:visible').count(), 0);
-      assert.ok(await page.locator('.sticky-scroll__copy,.sticky-scroll__mobile-visual,.course-panel').evaluateAll(elements => elements.every(element => {
+      assert.ok(await page.locator('.course-panel').evaluateAll(elements => elements.every(element => {
         const style = getComputedStyle(element);
         return Number(style.opacity) === 1 && style.transform === 'none';
       })), `${name}: reduced motion leaves mobile content transformed`);
@@ -71,49 +75,6 @@ try {
     assert.deepEqual(clipped, [], `${name}: clipped heading`);
     for (const href of new Set(await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute('href'))))) assert.equal(await page.locator(href).count(), 1, `Missing anchor ${href}`);
     await page.screenshot({ path: `artifacts/${name}-hero.png` });
-    await page.locator('.sticky-scroll__step').first().scrollIntoViewIfNeeded();
-    await page.waitForTimeout(220);
-    if (width > 820) {
-      assert.equal(await page.locator('.sticky-scroll__step[data-active="true"] h2').textContent(), 'Dal 1985, a Roma.');
-      const stickyTop = await page.locator('.sticky-scroll__visual').evaluate(element => element.getBoundingClientRect().top);
-      await page.locator('.sticky-scroll__step').nth(1).scrollIntoViewIfNeeded();
-      await page.waitForTimeout(220);
-      assert.equal(await page.locator('.sticky-scroll__step[data-active="true"] h2').textContent(), 'Dove siamo');
-      assert.ok(Math.abs(await page.locator('.sticky-scroll__visual').evaluate(element => element.getBoundingClientRect().top) - stickyTop) < 2, `${name}: visual is not sticky`);
-      const map = page.locator('.sticky-scroll__visual iframe');
-      assert.ok((await map.getAttribute('src')).startsWith('https://maps.google.com/maps'));
-      assert.equal(await map.getAttribute('loading'), 'lazy');
-      assert.ok((await map.getAttribute('title')).includes('Crazy Gang School'));
-      assert.equal(await map.evaluate(element => getComputedStyle(element).pointerEvents), 'none');
-      const activateMap = page.getByRole('button', { name: 'Attiva la mappa' });
-      await activateMap.focus();
-      await page.keyboard.press('Enter');
-      assert.equal(await map.evaluate(element => getComputedStyle(element).pointerEvents), 'auto');
-      assert.equal(await map.getAttribute('tabindex'), '0');
-      await page.waitForTimeout(1800);
-      await page.screenshot({ path: `artifacts/${name}-school-map.png` });
-      await page.getByRole('button', { name: 'Disattiva interazione' }).click();
-      await page.locator('#insegnanti').scrollIntoViewIfNeeded();
-      await page.waitForTimeout(220);
-      assert.equal(await page.locator('.sticky-scroll__step[data-active="true"] h2').textContent(), 'La direzione artistica');
-      assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'La scuola');
-      assert.equal(await page.locator('.sticky-scroll__visual [data-placeholder="true"]').count(), 1);
-      await page.screenshot({ path: `artifacts/${name}-school-direction.png` });
-    } else {
-      assert.equal(await page.locator('.sticky-scroll__visual-column:visible').count(), 0);
-      assert.equal(await page.locator('.sticky-scroll__mobile-visual:visible').count(), 3);
-      assert.ok(await page.locator('.sticky-scroll__step').evaluateAll(steps => steps.every(step => Number(getComputedStyle(step).opacity) === 1)));
-      await page.locator('.sticky-scroll__step').nth(1).scrollIntoViewIfNeeded();
-      const mobileMap = page.locator('.sticky-scroll__step').nth(1).locator('iframe');
-      assert.equal(await page.locator('.sticky-scroll__step').nth(1).locator('.school-map>a:visible').count(), 0);
-      assert.equal(await page.locator('.sticky-scroll__step').nth(1).locator('.school-copy--place>a:visible').count(), 1);
-      assert.equal(await mobileMap.evaluate(element => getComputedStyle(element).pointerEvents), 'none');
-      await page.locator('.sticky-scroll__step').nth(1).getByRole('button', { name: 'Attiva la mappa' }).click();
-      assert.equal(await mobileMap.evaluate(element => getComputedStyle(element).pointerEvents), 'auto');
-      await page.screenshot({ path: `artifacts/${name}-school-map.png` });
-      await page.locator('.sticky-scroll__step').nth(2).scrollIntoViewIfNeeded();
-      await page.screenshot({ path: `artifacts/${name}-school-direction.png` });
-    }
     await page.locator('#discipline').scrollIntoViewIfNeeded();
     await page.waitForTimeout(180);
     if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Corsi');
@@ -155,11 +116,23 @@ try {
       assert.equal(await page.locator('.faculty-list .godui-accordion__panel:visible img').count(), 1);
     }
     await page.screenshot({ path: `artifacts/${name}-faculty.png` });
+    assert.deepEqual(await page.locator('.direction article strong').allTextContents(), ['Marco Stopponi', 'Stefano Stopponi']);
+    await page.locator('.direction').scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `artifacts/${name}-direction.png` });
+    await page.locator('#recensioni').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(220);
+    assert.equal((await page.locator('.reviews__rating strong').textContent()).trim(), '4,8');
+    assert.equal(await page.locator('#recensioni [data-review-status="awaiting-verification"]').count(), 1);
+    assert.equal(await page.locator('#recensioni blockquote').count(), 0);
+    assert.deepEqual((await page.locator('.reviews__actions>a').allTextContents()).map(text => text.replace('(nuova scheda)', '').trim()), ['Leggi tutte le recensioni', 'Lascia una recensione']);
+    assert.ok(await page.locator('.reviews__actions>a').evaluateAll(links => links.every(link => link.href.startsWith('https://www.google.com/maps/place/Crazy+Gang+School/'))));
+    if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Recensioni');
+    await page.screenshot({ path: `artifacts/${name}-reviews.png` });
     if (width <= 820) {
       await page.evaluate(() => scrollTo(0, 0));
       await page.getByRole('button', { name: 'Menu', exact: true }).click();
       assert.ok(await page.locator('#menu-mobile').isVisible());
-      assert.deepEqual((await page.locator('#menu-mobile>a').allTextContents()).map(text => text.trim()), ['La scuola', 'Corsi', 'Insegnanti', 'Contatti', 'Contattaci']);
+      assert.deepEqual((await page.locator('#menu-mobile>a').allTextContents()).map(text => text.trim()), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Contatti', 'Contattaci']);
       assert.equal(await page.evaluate(() => document.body.style.overflow), 'hidden');
       await page.screenshot({ path: `artifacts/${name}-menu.png` });
       await page.keyboard.press('Escape');
@@ -234,13 +207,7 @@ try {
   mobileMotion.on('console', message => { if (message.type() === 'error') errors.push(`mobile-motion: ${message.text()}`); });
   await mobileMotion.goto(baseURL, { waitUntil: 'domcontentloaded', timeout: 15000 });
   await mobileMotion.waitForTimeout(350);
-  assert.ok(Number(await mobileMotion.locator('.sticky-scroll__copy').first().evaluate(element => getComputedStyle(element).opacity)) < .1, 'Mobile school copy has no entrance state');
   assert.ok(Number(await mobileMotion.locator('.course-panel').last().evaluate(element => getComputedStyle(element).opacity)) < .1, 'Mobile course has no entrance state');
-  await mobileMotion.locator('.sticky-scroll__step').first().scrollIntoViewIfNeeded();
-  await mobileMotion.waitForTimeout(850);
-  assert.ok(Number(await mobileMotion.locator('.sticky-scroll__copy').first().evaluate(element => getComputedStyle(element).opacity)) > .95, 'Mobile school copy did not reveal');
-  assert.ok(Number(await mobileMotion.locator('.sticky-scroll__mobile-visual').first().evaluate(element => getComputedStyle(element).opacity)) > .95, 'Mobile school visual did not reveal');
-  await mobileMotion.screenshot({ path: 'artifacts/mobile-motion-school.png' });
   await mobileMotion.locator('.course-panel').first().scrollIntoViewIfNeeded();
   await mobileMotion.waitForTimeout(850);
   assert.ok(Number(await mobileMotion.locator('.course-panel').first().evaluate(element => getComputedStyle(element).opacity)) > .95, 'Mobile course did not reveal');
