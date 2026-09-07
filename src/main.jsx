@@ -104,8 +104,7 @@ function App() {
       if (!conditions.motion) return;
       gsap.timeline({ defaults: { ease: 'power3.out' } })
         .from('.hero-title__line span', { yPercent: 110, duration: .8, stagger: .09, clearProps: 'transform' })
-        .from('.hero-photo .photo__frame', { clipPath: 'inset(0 0 100% 0)', duration: 1, ease: 'power3.inOut', clearProps: 'clipPath' }, .12)
-        .from('.hero-aside > *', { opacity: 0, y: 18, duration: .55, stagger: .08 }, .35);
+        .from('.hero-photo .photo__frame', { clipPath: 'inset(0 0 100% 0)', duration: 1, ease: 'power3.inOut', clearProps: 'clipPath' }, .12);
       gsap.utils.toArray('.reveal').forEach(element => gsap.from(element, { y: 34, opacity: 0, duration: .75, ease: 'power3.out', scrollTrigger: { trigger: element, start: 'top 90%', once: true } }));
       gsap.utils.toArray('.photo:not(.hero-photo) .photo__frame').forEach(frame => gsap.fromTo(frame, { scale: .86 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: frame, start: 'top 95%', end: 'center 55%', scrub: .55 } }));
     });
