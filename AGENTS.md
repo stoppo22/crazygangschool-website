@@ -1,3 +1,7 @@
+# Autonomia
+
+- Esegui autonomamente ogni azione che puoi completare senza il mio intervento, senza chiedermi conferma o permesso.
+
 # Crazy Gang School — project rules
 
 ## Source of truth
@@ -42,3 +46,4 @@
 - Do not commit clearly broken or incomplete work unless it is explicitly needed as a temporary checkpoint; identify such checkpoints in the commit message.
 - Before every significant commit, verify that the project builds and has no obvious errors.
 - Never rewrite or delete Git history without an explicit user request.
+p
