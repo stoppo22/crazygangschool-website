@@ -62,7 +62,18 @@ export function CoursePage({ course }) {
 
       <section className="related-courses course-reveal" aria-labelledby="related-title"><div><p>Continua a esplorare</p><h2 id="related-title">Gli altri corsi.</h2></div><div className="related-track">{related.map(item => <a className="related-course" href={`/corsi/${item.slug}`} key={item.slug}><img src={item.image.src} srcSet={item.image.srcSet} sizes="280px" alt="" loading="lazy" /><span>{item.title}</span><Arrow /></a>)}</div></section>
 
-      <section className="course-cta"><p>Per fasce d’età, livelli e orari ancora da definire</p><h2>Parla con<br />la scuola.</h2><a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${course.title}`)}`}>{contact.email}<Arrow /></a><a href={`tel:${contact.phone}`}>{contact.phone}<Arrow /></a></section>
+      <section className="course-contact" aria-labelledby="course-contact-title">
+        <div className="course-contact__inner">
+          <header><p>Canali di contatto</p><h2 id="course-contact-title">Contatti.</h2></header>
+          <div className="course-contact__channels">
+            <a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${course.title}`)}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
+            <div><span>Telefono</span><p><a href={`tel:${contact.phone}`}>06 788 3621</a><a href={`tel:${contact.mobile}`}>333 402 7525</a></p></div>
+            <a href={contact.instagram} target="_blank" rel="noreferrer"><span>Social</span><strong>Instagram</strong><Arrow /></a>
+            <a href={contact.facebook} target="_blank" rel="noreferrer"><span>Social</span><strong>Facebook</strong><Arrow /></a>
+            <div className="course-contact__pending"><span>WhatsApp Business</span><strong>Non ancora attivo</strong></div>
+          </div>
+        </div>
+      </section>
     </main>
     <footer className="course-footer"><a href="/#discipline"><Arrow back /> Torna a tutti i corsi</a><span>Crazy Gang School · Roma, Colli Albani</span><span>Fotografie temporanee, da sostituire con immagini originali della scuola</span></footer>
   </div>;

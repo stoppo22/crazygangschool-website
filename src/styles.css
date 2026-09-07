@@ -32,3 +32,5 @@ a:hover>.arrow,a:focus-visible>.arrow{transform:translate(4px,-4px)}
 .hero-photo figcaption{bottom:15px}
 .hero-description{max-width:720px;gap:32px;margin-top:38px;padding-top:28px}
 .hero-description p{font-size:clamp(17px,1.25vw,20px);line-height:1.55;color:#f0eee8}
+/* Balanced opening chapter. */
+.hero{padding-top:124px}.hero-copy{display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding-top:48px;padding-bottom:48px}.hero-main{align-self:center;margin:34px 0}.hero-description{max-width:760px}.hero-description p{font-size:clamp(18px,1.35vw,22px);line-height:1.5}

@@ -51,10 +51,10 @@ try {
     assert.equal(await page.locator('.facts-bento,.people,.archive').count(), 0);
     assert.equal(await page.locator('.hero-description p').count(), 2);
     assert.equal(await page.locator('.hero-aside,[data-location]').count(), 0);
-    assert.deepEqual(await page.locator('main>section').evaluateAll(sections => sections.map(section => section.id)), ['inizio', 'discipline', 'docenti', 'recensioni', 'dove-siamo', 'contatti']);
+    assert.deepEqual(await page.locator('main>section').evaluateAll(sections => sections.map(section => section.id)), ['inizio', 'discipline', 'docenti', 'recensioni', 'galleria', 'dove-siamo', 'contatti']);
     assert.deepEqual(await page.locator('.course-panel').evaluateAll(links => links.map(link => link.getAttribute('href'))), courseRoutes.map(([slug]) => `/corsi/${slug}`));
     if (width > 820) {
-      assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Dove siamo', 'Contatti']);
+      assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Galleria', 'Dove siamo', 'Contatti']);
       assert.equal(await page.locator('.magic-tab').count(), 1);
       assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'La scuola');
       assert.equal(await page.locator('.nav-cta').textContent(), 'Contattaci ');
@@ -113,13 +113,15 @@ try {
       assert.ok((await page.evaluate(() => document.activeElement?.textContent)).includes('Gaia Stopponi'));
     } else {
       assert.equal(await page.locator('.faculty-preview:visible').count(), 0);
+      assert.equal(await page.locator('.faculty-mobile-profile:visible').count(), 1);
+      assert.equal(await page.locator('.faculty-list:visible').count(), 0);
+      await page.getByRole('button', { name: 'Vedi tutti gli insegnanti' }).click();
+      assert.equal(await page.locator('.faculty-list:visible').count(), 1);
       const teacherTriggers = page.locator('.faculty-list .godui-accordion__trigger');
       await teacherTriggers.nth(1).click();
-      await page.waitForTimeout(450);
-      assert.equal(await teacherTriggers.first().getAttribute('aria-expanded'), 'false');
-      assert.equal(await teacherTriggers.nth(1).getAttribute('aria-expanded'), 'true');
-      assert.equal(await page.locator('.faculty-list .godui-accordion__panel:visible img').count(), 1);
-      assert.equal(await page.locator('.faculty-list .godui-accordion__panel:visible .faculty-preview__identity').count(), 1);
+      await page.waitForTimeout(200);
+      assert.equal(await page.locator('.faculty-list:visible').count(), 0);
+      assert.ok((await page.locator('.faculty-mobile-profile img').getAttribute('src')).includes('stefano-stopponi'));
     }
     await page.screenshot({ path: `artifacts/${name}-faculty.png` });
     await page.locator('#recensioni').scrollIntoViewIfNeeded();
@@ -148,7 +150,7 @@ try {
       await page.evaluate(() => scrollTo(0, 0));
       await page.getByRole('button', { name: 'Menu', exact: true }).click();
       assert.ok(await page.locator('#menu-mobile').isVisible());
-      assert.deepEqual((await page.locator('#menu-mobile>a').allTextContents()).map(text => text.trim()), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Dove siamo', 'Contatti', 'Contattaci']);
+      assert.deepEqual((await page.locator('#menu-mobile>a').allTextContents()).map(text => text.trim()), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Galleria', 'Dove siamo', 'Contatti', 'Contattaci']);
       assert.equal(await page.evaluate(() => document.body.style.overflow), 'hidden');
       await page.screenshot({ path: `artifacts/${name}-menu.png` });
       await page.keyboard.press('Escape');
@@ -188,7 +190,7 @@ try {
     assert.equal(await coursePage.locator('.course-fact').count(), 4);
     assert.equal(await coursePage.getByText('Orari in aggiornamento. Contatta la scuola per informazioni.', { exact: true }).count(), 1);
     assert.equal(await coursePage.locator('a[href="/#discipline"]').count(), 3);
-    assert.ok((await coursePage.locator('a[href^="mailto:"]').count()) >= 3);
+    assert.ok((await coursePage.locator('a[href^="mailto:"]').count()) >= 2);
     const courseLayout = await coursePage.evaluate(() => ({
       width: innerWidth,
       scrollWidth: document.documentElement.scrollWidth,

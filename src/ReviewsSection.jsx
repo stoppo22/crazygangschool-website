@@ -47,7 +47,7 @@ export function ReviewsSection() {
       <header className="reviews__heading reveal"><h2 id="reviews-title">Recensioni.</h2><p>Valutazione pubblica su Google Maps</p></header>
       <div className="reviews__summary">
         <div className="reviews__rating" aria-label="Valutazione Google Maps: 4,8 su 5"><strong>4,8</strong><span aria-hidden="true">★★★★★</span></div>
-        <div><p>Rating verificato sulla scheda Google Maps di Crazy Gang School il 6 settembre 2026.</p><p>Il totale di 38 recensioni non è stato esposto da una fonte ufficiale consultabile e non viene pubblicato come dato verificato.</p></div>
+        <div><p>Rating verificato sulla scheda Google Maps di Crazy Gang School il 6 settembre 2026.</p><p>Il numero totale, gli autori e i testi completi non sono stati esposti da una fonte ufficiale consultabile e non vengono pubblicati come dati verificati.</p></div>
       </div>
       <ReviewCarousel reviews={verifiedReviews} />
       <div className="reviews__actions">

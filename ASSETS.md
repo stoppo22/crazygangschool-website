@@ -1,4 +1,4 @@
-﻿# Asset inventory — Crazy Gang homepage
+# Asset inventory — Crazy Gang homepage
 
 ## Original brand
 
@@ -73,10 +73,13 @@ Cabinet Grotesk comes from [Fontshare](https://www.fontshare.com/fonts/cabinet-g
 
 ## External Google Maps links and review data
 
-The homepage no longer embeds a map. The hero location panel and the reviews section link to the public [Crazy Gang School Google Maps listing](https://www.google.com/maps/place/Crazy+Gang+School/@41.8724821,12.5294285,17z/data=!3m1!4b1!4m6!3m5!1s0x132f61f808a89c81:0xe5f28e8c08f3ea59!8m2!3d41.8724821!4d12.5294285!16s%2Fg%2F11cs2v__pm).
+The homepage includes a click-to-activate map in the separate location section. The location and reviews sections link to the public [Crazy Gang School Google Maps listing](https://www.google.com/maps/place/Crazy+Gang+School/@41.8724821,12.5294285,17z/data=!3m1!4b1!4m6!3m5!1s0x132f61f808a89c81:0xe5f28e8c08f3ea59!8m2!3d41.8724821!4d12.5294285!16s%2Fg%2F11cs2v__pm).
 
 The public listing displayed a 4.8 rating on 6 September 2026. In the limited public view available during verification, Google did not expose a reliable review count, author names or complete review texts. The prototype therefore shows the verified rating only and explicitly leaves the review excerpts unpublished. Add excerpts only after direct verification against the listing.
 
-No remote image, font, video, map iframe or tracking embed is loaded by the homepage or course pages. The site remains a local, noindex prototype. Confirm placeholder licenses, archival image rights/credits, logo approval, current operational content and final alt/captions before public launch.
+No remote image, font, video or tracking embed is loaded by the homepage or course pages. The location iframe is the only remote embed and remains non-interactive until explicitly activated. The site remains a local, noindex prototype. Confirm placeholder licenses, archival image rights/credits, logo approval, current operational content and final alt/captions before public launch.
+## Animated gallery archive
 
+The gallery uses 28 photographs from the official Crazy Gang website, prepared as local 640 px, 960 px and 1600 px WebP variants. Exact CDN identifiers are preserved in `scripts/prepare-gallery.py`; provenance, labels, categories, responsive paths and dimensions are centralized in `src/gallery-data.js`.
 
+These are historical source-site materials, not evidence of current classes or staff. Photographer credits, image rights, consent and dates remain **NEEDS VERIFICATION** before launch.
