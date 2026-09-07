@@ -7,7 +7,7 @@ const galleryImage = (id, width, height, title, category, source) => ({
   height,
   title,
   category,
-  alt: `Fotografia dall?archivio Crazy Gang: ${title}.`,
+  alt: `Fotografia dall’archivio Crazy Gang: ${title}.`,
   source,
 });
 

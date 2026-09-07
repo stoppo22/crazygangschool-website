@@ -1,78 +1,89 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { galleryImages } from './gallery-data';
 
-const GalleryScrollContext = createContext(null);
-
-function ContainerScroll({ children, staticMode = false }) {
-  const target = useRef(null);
-  const { scrollYProgress } = useScroll({ target, offset: ['start start', 'end end'] });
-  return <GalleryScrollContext.Provider value={scrollYProgress}><div ref={target} className={`gallery-scroll ${staticMode ? 'is-static' : ''}`}>{children}</div></GalleryScrollContext.Provider>;
-}
-function ContainerSticky({ children }) { return <div className="gallery-sticky">{children}</div>; }
-function GalleryContainer({ children }) { return <div className="gallery-columns">{children}</div>; }
-function GalleryCol({ children, yRange, className = '' }) {
-  const progress = useContext(GalleryScrollContext);
-  const y = useTransform(progress, [0, 1], yRange);
-  return <motion.div className={`gallery-column ${className}`} style={{ y }}>{children}</motion.div>;
-}
 function Icon({ direction }) {
   const path = direction === 'close' ? 'M5 5l14 14M19 5 5 19' : direction === 'prev' ? 'M19 12H5m6-6-6 6 6 6' : 'M5 12h14m-6-6 6 6-6 6';
   return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={path} stroke="currentColor" strokeWidth="1.7" /></svg>;
 }
 
-function Lightbox({ index, onChange, onClose, returnFocus }) {
+function GalleryViewer({ returnFocus, onClose }) {
+  const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
   const dialog = useRef(null);
+  const strip = useRef(null);
   const touchStart = useRef(null);
-  const image = galleryImages[index];
+  const reduceMotion = useReducedMotion();
+  const compact = typeof window !== 'undefined' && window.matchMedia('(max-width: 820px)').matches;
+  const lowMotion = reduceMotion || compact;
+  const current = galleryImages[index];
+  const move = useCallback(step => {
+    setDirection(step);
+    setIndex(value => (value + step + galleryImages.length) % galleryImages.length);
+  }, []);
+
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
+    const pageRoot = document.querySelector('.site-root');
     document.body.style.overflow = 'hidden';
-    dialog.current?.querySelector('.lightbox__close')?.focus();
+    if (pageRoot) pageRoot.inert = true;
+    dialog.current?.querySelector('.gallery-viewer__close')?.focus();
     const onKey = event => {
       if (event.key === 'Escape') onClose();
-      if (event.key === 'ArrowLeft') onChange(-1);
-      if (event.key === 'ArrowRight') onChange(1);
+      if (event.key === 'ArrowLeft') move(-1);
+      if (event.key === 'ArrowRight') move(1);
       if (event.key === 'Tab') {
-        const controls = [...dialog.current.querySelectorAll('button')];
-        const current = controls.indexOf(document.activeElement);
-        if (event.shiftKey && current === 0) { event.preventDefault(); controls.at(-1)?.focus(); }
-        if (!event.shiftKey && current === controls.length - 1) { event.preventDefault(); controls[0]?.focus(); }
+        const controls = [...dialog.current.querySelectorAll('button:not([disabled])')];
+        const active = controls.indexOf(document.activeElement);
+        if (event.shiftKey && active === 0) { event.preventDefault(); controls.at(-1)?.focus(); }
+        if (!event.shiftKey && active === controls.length - 1) { event.preventDefault(); controls[0]?.focus(); }
       }
     };
     document.addEventListener('keydown', onKey);
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener('keydown', onKey);
+      if (pageRoot) pageRoot.inert = false;
       returnFocus.current?.focus();
     };
-  }, [returnFocus]);
-  return createPortal(<div className="lightbox" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }}>
-    <div ref={dialog} className="lightbox__dialog" role="dialog" onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }} aria-modal="true" aria-label={`Immagine ${index + 1} di ${galleryImages.length}`} onTouchStart={event => { touchStart.current = event.touches[0].clientX; }} onTouchEnd={event => { const delta = touchStart.current - event.changedTouches[0].clientX; if (Math.abs(delta) > 45) onChange(delta > 0 ? 1 : -1); }}>
-      <button className="lightbox__close" type="button" onClick={onClose} aria-label="Chiudi galleria"><Icon direction="close" /></button>
-      <button className="lightbox__nav lightbox__nav--prev" type="button" onClick={() => onChange(-1)} aria-label="Immagine precedente"><Icon direction="prev" /></button>
-      <figure><img key={image.id} src={image.largeSrc} width={image.width} height={image.height} alt={image.alt} decoding="async" /><figcaption><span>{image.title}</span><small>{image.category}</small></figcaption></figure>
-      <span className="lightbox__index">{String(index + 1).padStart(2, '0')} / {String(galleryImages.length).padStart(2, '0')}</span>
-      <button className="lightbox__nav lightbox__nav--next" type="button" onClick={() => onChange(1)} aria-label="Immagine successiva"><Icon direction="next" /></button>
+  }, [move, onClose, returnFocus]);
+
+  useEffect(() => {
+    [-1, 1].forEach(step => { const preload = new Image(); preload.src = galleryImages[(index + step + galleryImages.length) % galleryImages.length].largeSrc; });
+    strip.current?.querySelector(`[data-index="${index}"]`)?.scrollIntoView({ behavior: lowMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
+  }, [index, lowMotion]);
+
+  const variants = {
+    enter: step => ({ opacity: compact ? 1 : 0, x: lowMotion ? 0 : step > 0 ? '5%' : '-5%', scale: lowMotion ? 1 : .985 }),
+    center: { opacity: 1, x: 0, scale: 1 },
+    exit: step => ({ opacity: compact ? 1 : 0, x: lowMotion ? 0 : step > 0 ? '-4%' : '4%', scale: lowMotion ? 1 : .99 }),
+  };
+
+  return createPortal(<motion.div className="gallery-viewer" role="presentation" initial={reduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0 : .18 }} onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }}>
+    <div ref={dialog} className="gallery-viewer__dialog" role="dialog" aria-modal="true" aria-labelledby="gallery-viewer-title">
+      <header><strong id="gallery-viewer-title">Galleria</strong><span>{String(index + 1).padStart(2, '0')} / {String(galleryImages.length).padStart(2, '0')}</span><button className="gallery-viewer__close" type="button" onClick={onClose} aria-label="Chiudi galleria"><Icon direction="close" /></button></header>
+      <div className="gallery-viewer__stage" onTouchStart={event => { touchStart.current = event.touches[0].clientX; }} onTouchEnd={event => { const delta = touchStart.current - event.changedTouches[0].clientX; if (Math.abs(delta) > 45) move(delta > 0 ? 1 : -1); touchStart.current = null; }}>
+        <AnimatePresence initial={false} custom={direction} mode="popLayout"><motion.figure key={current.id} custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: lowMotion ? 0 : .24, ease: [0.22, 1, 0.36, 1] }}><img src={current.src} srcSet={current.srcSet} sizes="(max-width: 820px) 100vw, 86vw" width={current.width} height={current.height} alt={current.alt} decoding="async" /><figcaption><span>{current.title}</span><small>{current.category}</small></figcaption></motion.figure></AnimatePresence>
+        <button className="gallery-viewer__arrow gallery-viewer__arrow--prev" type="button" onClick={() => move(-1)} aria-label="Foto precedente"><Icon direction="prev" /></button>
+        <button className="gallery-viewer__arrow gallery-viewer__arrow--next" type="button" onClick={() => move(1)} aria-label="Foto successiva"><Icon direction="next" /></button>
+      </div>
+      <div ref={strip} className="gallery-viewer__strip" aria-label="Seleziona una fotografia">{galleryImages.map((image, imageIndex) => <button type="button" key={image.id} data-index={imageIndex} data-active={imageIndex === index ? 'true' : 'false'} onClick={() => { setDirection(imageIndex > index ? 1 : -1); setIndex(imageIndex); }} aria-label={`Mostra ${image.title}, foto ${imageIndex + 1}`} aria-current={imageIndex === index ? 'true' : undefined}><img src={image.src} width="112" height="76" alt="" loading="lazy" decoding="async" /></button>)}</div>
     </div>
-  </div>, document.body);
+  </motion.div>, document.body);
 }
 
 export function AnimatedGallery() {
-  const [openIndex, setOpenIndex] = useState(null);
-  const returnFocus = useRef(null);
-  const reduced = useReducedMotion();
-  const columns = [[], [], []];
-  galleryImages.forEach((image, index) => columns[index % 3].push({ image, index }));
-  const open = (index, element) => { returnFocus.current = element; setOpenIndex(index); };
-  const change = direction => setOpenIndex(current => (current + direction + galleryImages.length) % galleryImages.length);
-  const content = <GalleryContainer>{columns.map((column, columnIndex) => <GalleryCol key={columnIndex} className={`gallery-column--${columnIndex + 1}`} yRange={reduced ? ['0%', '0%'] : columnIndex === 1 ? ['-5%', '28%'] : ['0%', '-52%']}>
-    {column.map(({ image, index }) => <button className="gallery-image" type="button" key={image.id} onClick={event => open(index, event.currentTarget)} aria-label={`Apri ${image.title}, immagine ${index + 1} di ${galleryImages.length}`} style={{ '--image-ratio': `${image.width}/${image.height}` }}><img src={image.src} srcSet={image.srcSet} sizes="(max-width: 700px) 46vw, 31vw" width={image.width} height={image.height} alt={image.alt} loading="lazy" decoding="async" /><span>{image.title}</span></button>)}
-  </GalleryCol>)}</GalleryContainer>;
-  return <section id="galleria" className={`gallery ${reduced ? 'is-reduced' : ''}`} tabIndex={-1} aria-labelledby="gallery-title">
+  const [open, setOpen] = useState(false);
+  const opener = useRef(null);
+  const close = useCallback(() => setOpen(false), []);
+  const teasers = [galleryImages[0], galleryImages[3], galleryImages[10]];
+  return <section id="galleria" className="gallery section-space" tabIndex={-1} aria-labelledby="gallery-title">
     <header className="gallery-heading"><h2 id="gallery-title">Galleria.</h2><p>Foto dalla scuola, dai saggi e dagli spettacoli Crazy Gang.</p></header>
-    {reduced ? <ContainerScroll staticMode><div className="gallery-static">{content}</div></ContainerScroll> : <ContainerScroll><ContainerSticky>{content}</ContainerSticky></ContainerScroll>}
-    {openIndex !== null && <Lightbox index={openIndex} onChange={change} onClose={() => setOpenIndex(null)} returnFocus={returnFocus} />}
+    <div className="gallery-teaser">
+      <div className="gallery-teaser__images" aria-hidden="true">{teasers.map((image, index) => <figure key={image.id} className={`gallery-teaser__image gallery-teaser__image--${index + 1}`}><img src={image.src} width={image.width} height={image.height} alt="" loading="lazy" decoding="async" /></figure>)}</div>
+      <div className="gallery-teaser__action"><p>28 fotografie dall’archivio del sito Crazy Gang.</p><button ref={opener} type="button" onClick={() => setOpen(true)}>Apri la galleria <Icon direction="next" /></button></div>
+    </div>
+    <AnimatePresence>{open && <GalleryViewer returnFocus={opener} onClose={close} />}</AnimatePresence>
   </section>;
 }

@@ -95,9 +95,11 @@ try {
     assert.deepEqual(await page.locator('.direction article strong').allTextContents(), ['Marco Stopponi', 'Stefano Stopponi']);
     assert.equal(await page.locator('.faculty-list .godui-accordion__trigger').count(), 13);
     assert.equal(await page.locator('.faculty-list .faculty-row__role').count(), 0);
-    assert.equal(await page.locator('.faculty-list .godui-accordion__item[data-open="true"]').count(), 1);
+    assert.equal(await page.locator('.faculty-list .godui-accordion__item[data-open="true"]').count(), 0);
     if (width > 820) {
       assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Insegnanti');
+      assert.equal(await page.locator('.faculty-preview img').count(), 0);
+      assert.equal(await page.locator('.faculty-empty').count(), 1);
       const teacherTriggers = page.locator('.faculty-list .godui-accordion__trigger');
       await teacherTriggers.nth(7).hover();
       await page.waitForTimeout(500);
@@ -113,7 +115,7 @@ try {
       assert.ok((await page.evaluate(() => document.activeElement?.textContent)).includes('Gaia Stopponi'));
     } else {
       assert.equal(await page.locator('.faculty-preview:visible').count(), 0);
-      assert.equal(await page.locator('.faculty-mobile-profile:visible').count(), 1);
+      assert.equal(await page.locator('.faculty-mobile-profile:visible').count(), 0);
       assert.equal(await page.locator('.faculty-list:visible').count(), 0);
       await page.getByRole('button', { name: 'Vedi tutti gli insegnanti' }).click();
       assert.equal(await page.locator('.faculty-list:visible').count(), 1);
@@ -121,6 +123,7 @@ try {
       await teacherTriggers.nth(1).click();
       await page.waitForTimeout(200);
       assert.equal(await page.locator('.faculty-list:visible').count(), 0);
+      assert.equal(await page.locator('.faculty-mobile-profile:visible').count(), 1);
       assert.ok((await page.locator('.faculty-mobile-profile img').getAttribute('src')).includes('stefano-stopponi'));
     }
     await page.screenshot({ path: `artifacts/${name}-faculty.png` });
@@ -134,6 +137,32 @@ try {
     assert.ok(await page.locator('.reviews__actions>a').evaluateAll(links => links.every(link => link.href.startsWith('https://www.google.com/maps/place/Crazy+Gang+School/'))));
     if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Recensioni');
     await page.screenshot({ path: `artifacts/${name}-reviews.png` });
+    await page.locator('#galleria').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(220);
+    assert.equal(await page.locator('.gallery-teaser__image').count(), 3);
+    assert.equal(await page.locator('.gallery-viewer').count(), 0);
+    const galleryOpener = page.getByRole('button', { name: /Apri la galleria/ });
+    await galleryOpener.click();
+    assert.equal(await page.locator('.gallery-viewer').count(), 1);
+    assert.equal(await page.locator('.gallery-viewer__stage figure').count(), 1);
+    assert.equal((await page.locator('.gallery-viewer header span').textContent()).trim(), '01 / 28');
+    await page.keyboard.press('ArrowRight');
+    assert.equal((await page.locator('.gallery-viewer header span').textContent()).trim(), '02 / 28');
+    await page.locator('.gallery-viewer__stage img').waitFor({ state: 'visible' });
+    await page.waitForFunction(() => document.querySelector('.gallery-viewer__stage img')?.naturalWidth > 0);
+    if (width <= 820) {
+      await page.locator('.gallery-viewer__stage').evaluate(stage => {
+        const point = (identifier, clientX) => new Touch({ identifier, target: stage, clientX, clientY: 400, screenX: clientX, screenY: 400, pageX: clientX, pageY: 400 });
+        stage.dispatchEvent(new TouchEvent('touchstart', { bubbles: true, touches: [point(1, 300)] }));
+        stage.dispatchEvent(new TouchEvent('touchend', { bubbles: true, changedTouches: [point(1, 180)] }));
+      });
+      assert.equal((await page.locator('.gallery-viewer header span').textContent()).trim(), '03 / 28');
+    }
+    await page.screenshot({ path: `artifacts/${name}-gallery-open.png` });
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('.gallery-viewer').count(), 0);
+    assert.equal(await galleryOpener.evaluate(button => document.activeElement === button), true);
+    await page.screenshot({ path: `artifacts/${name}-gallery.png` });
     await page.locator('#dove-siamo').scrollIntoViewIfNeeded();
     await page.waitForTimeout(220);
     assert.equal(await page.locator('#dove-siamo address').textContent(), 'Crazy Gang SchoolLargo Orazi e Curiazi, 1200181 Roma');
