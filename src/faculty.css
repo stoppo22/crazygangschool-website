@@ -36,3 +36,20 @@
 .direction strong{font-size:clamp(28px,3vw,42px);line-height:.95;letter-spacing:-.04em}.direction span{font-size:12px;line-height:1.4;color:#5f5c57}
 @media(max-width:820px){.direction__inner{grid-template-columns:1fr;gap:40px}.direction__inner>div{grid-template-columns:1fr;gap:28px}.direction h2{max-width:none}}
 @media(prefers-reduced-motion:reduce){.faculty-row__name,.faculty-row__line,.faculty-preview__frame{transition:none!important;transform:none!important;clip-path:none!important;opacity:1!important}}
+
+/* Compact, centered faculty composition. */
+.faculty-heading,.faculty-selector,.direction{width:min(100%,1000px)}
+.faculty-heading{grid-template-columns:minmax(0,1.45fr) minmax(260px,.55fr);column-gap:50px}
+.faculty-heading h2{grid-column:1}
+.faculty-heading>p:last-child{grid-column:2;margin-top:0;align-self:end}
+.direction{margin:0 auto 52px;padding:30px 0;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);display:grid;grid-template-columns:minmax(250px,.8fr) minmax(0,1.2fr);gap:50px}
+.direction h3{font-size:clamp(28px,2.7vw,40px);line-height:.95;letter-spacing:-.045em}
+.direction>div{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.direction article{display:flex;flex-direction:column;gap:7px}
+.direction strong{font-size:clamp(24px,2.4vw,34px);line-height:1;letter-spacing:-.04em}
+.direction span{font-size:12px;color:#5f5c57}
+.faculty-selector{grid-template-columns:minmax(370px,.86fr) minmax(0,1.14fr)}
+.faculty-preview{height:630px}
+.faculty-profile{height:100%;display:grid;grid-template-rows:minmax(0,1fr) auto}
+.faculty-profile>.faculty-photo{position:relative;inset:auto;min-height:0}
+@media(max-width:820px){.faculty-heading{display:block}.faculty-heading>p:last-child{margin-top:32px}.direction{grid-template-columns:1fr;gap:28px;margin-bottom:42px}.direction>div{gap:18px}.faculty-profile--mobile{height:auto;display:block}.faculty-profile--mobile>.faculty-photo{height:min(100vw,480px)}.faculty-profile--mobile .faculty-preview__identity{display:block;padding:22px}.faculty-profile--mobile .faculty-preview__identity span{display:block;margin-top:10px}.faculty-row__role{display:none}}

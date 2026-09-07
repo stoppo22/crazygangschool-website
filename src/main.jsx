@@ -8,8 +8,9 @@ import { courses, findCourse } from './course-data';
 import { CourseAccordion } from './CourseAccordion';
 import { CoursePage } from './CoursePage';
 import { MagicTab } from './components/godui/MagicTab';
-import { ArtisticDirection, FacultySection } from './FacultySection';
+import { FacultySection } from './FacultySection';
 import { ReviewsSection } from './ReviewsSection';
+import { LocationSection } from './LocationSection';
 import './styles.css';
 import './sections.css';
 import './chapters.css';
@@ -18,6 +19,7 @@ import './courses.css';
 import './magic-tab.css';
 import './faculty.css';
 import './reviews.css';
+import './location.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -46,6 +48,7 @@ function Navigation() {
     { value: 'corsi', label: 'Corsi', href: '#discipline' },
     { value: 'insegnanti', label: 'Insegnanti', href: '#docenti' },
     { value: 'recensioni', label: 'Recensioni', href: '#recensioni' },
+    { value: 'dove-siamo', label: 'Dove siamo', href: '#dove-siamo' },
     { value: 'contatti', label: 'Contatti', href: '#contatti' },
   ];
   useEffect(() => {
@@ -118,11 +121,11 @@ function App() {
     <main id="contenuto" tabIndex={-1}>
       <section id="inizio" className="hero" aria-labelledby="hero-title">
         <div className="hero-copy">
-          <div className="hero-kicker"><span>Scuola di danza</span><span>Roma · Colli Albani</span></div>
-          <div className="hero-main"><h1 id="hero-title" className="hero-title"><span className="hero-title__line"><span>Dal 1985, a Roma:</span></span><span className="hero-title__line hero-title__line--accent"><span>Crazy Gang School</span></span></h1><div className="hero-description"><p>Crazy Gang School è a Roma dal 1985. La scuola propone percorsi per bambini, ragazzi e adulti: danza moderna e classica, Hip Hop, Tip Tap, K-Pop, danze latino-americane e Kung Fu.</p><p>Negli anni la scuola ha portato in scena saggi, rassegne, Crazy Party e spettacoli in cui danza, canto e recitazione fanno parte del lavoro sul palco.</p></div></div>
+          <div className="hero-kicker"><span>Danza e discipline di movimento</span><span>Bambini · ragazzi · adulti</span></div>
+          <div className="hero-main"><h1 id="hero-title" className="hero-title"><span className="hero-title__line"><span>Dal 1985, a Roma.</span></span><span className="hero-title__line hero-title__line--accent"><span>Crazy Gang School</span></span></h1><div className="hero-description"><p>La scuola propone percorsi di danza moderna e classica, Hip Hop, Tip Tap, K-Pop, danze latino-americane e Kung Fu per bambini, ragazzi e adulti.</p><p>Il lavoro prosegue sul palco attraverso saggi, rassegne, Crazy Party e spettacoli che riuniscono danza, canto e recitazione.</p></div></div>
           <div className="hero-actions"><a className="button button--acid" href="#discipline">Scopri le discipline <Arrow /></a><a className="text-action" href="#contatti">Parla con la scuola <Arrow /></a></div>
         </div>
-        <div className="hero-visual"><Photo name="heroMain" className="hero-photo" priority sizes="(max-width: 820px) 100vw, 43vw" /><div className="hero-aside"><span>Dove siamo</span><p>Largo Orazi e Curiazi, 12 · Roma<br />Metro A · Colli Albani</p><a href={contact.maps} target="_blank" rel="noreferrer" aria-label="Apri la sede su Google Maps"><Arrow /></a></div></div>
+        <div className="hero-visual"><Photo name="heroMain" className="hero-photo" priority sizes="(max-width: 820px) 100vw, 43vw" /></div>
       </section>
       <Marquee />
 
@@ -132,8 +135,8 @@ function App() {
       </section>
 
       <FacultySection />
-      <ArtisticDirection />
       <ReviewsSection />
+      <LocationSection />
 
       <section id="contatti" className="contact" tabIndex={-1} aria-labelledby="contact-title">
         <div className="contact__inner">

@@ -46,14 +46,15 @@ try {
     assert.ok(Math.abs(brand.ratio - 2307 / 1157) < .03, `${name}: logo distorted`);
     assert.equal(await page.locator('.course-panel').count(), 7);
     assert.equal(await page.locator('[data-placeholder]').count(), 8);
-    assert.equal(await page.locator('.sticky-scroll,.school-story,.sticky-scroll__step,iframe').count(), 0);
+    assert.equal(await page.locator('.sticky-scroll,.school-story,.sticky-scroll__step').count(), 0);
+    assert.equal(await page.locator('#dove-siamo iframe').count(), 1);
     assert.equal(await page.locator('.facts-bento,.people,.archive').count(), 0);
     assert.equal(await page.locator('.hero-description p').count(), 2);
-    assert.equal(await page.locator('.hero-aside a[href*="google.com/maps"]').count(), 1);
-    assert.deepEqual(await page.locator('main>section').evaluateAll(sections => sections.map(section => section.id)), ['inizio', 'discipline', 'docenti', '', 'recensioni', 'contatti']);
+    assert.equal(await page.locator('.hero-aside,[data-location]').count(), 0);
+    assert.deepEqual(await page.locator('main>section').evaluateAll(sections => sections.map(section => section.id)), ['inizio', 'discipline', 'docenti', 'recensioni', 'dove-siamo', 'contatti']);
     assert.deepEqual(await page.locator('.course-panel').evaluateAll(links => links.map(link => link.getAttribute('href'))), courseRoutes.map(([slug]) => `/corsi/${slug}`));
     if (width > 820) {
-      assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Contatti']);
+      assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Dove siamo', 'Contatti']);
       assert.equal(await page.locator('.magic-tab').count(), 1);
       assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'La scuola');
       assert.equal(await page.locator('.nav-cta').textContent(), 'Contattaci ');
@@ -90,7 +91,10 @@ try {
     }
     await page.locator('#docenti').scrollIntoViewIfNeeded();
     await page.waitForTimeout(450);
+    assert.ok(await page.locator('.direction').evaluate((direction, selector) => direction.compareDocumentPosition(document.querySelector(selector)) & Node.DOCUMENT_POSITION_FOLLOWING, '.faculty-selector'));
+    assert.deepEqual(await page.locator('.direction article strong').allTextContents(), ['Marco Stopponi', 'Stefano Stopponi']);
     assert.equal(await page.locator('.faculty-list .godui-accordion__trigger').count(), 13);
+    assert.equal(await page.locator('.faculty-list .faculty-row__role').count(), 0);
     assert.equal(await page.locator('.faculty-list .godui-accordion__item[data-open="true"]').count(), 1);
     if (width > 820) {
       assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Insegnanti');
@@ -103,6 +107,7 @@ try {
       await page.waitForTimeout(500);
       assert.equal(await teacherTriggers.nth(7).getAttribute('aria-expanded'), 'true');
       assert.ok((await page.locator('.faculty-preview img').getAttribute('src')).includes('emiliano-dangelo'));
+      assert.ok((await page.locator('.faculty-preview > * .faculty-preview__identity strong').textContent()).includes("Emiliano D'Angelo"));
       await teacherTriggers.nth(7).focus();
       await page.keyboard.press('ArrowDown');
       assert.ok((await page.evaluate(() => document.activeElement?.textContent)).includes('Gaia Stopponi'));
@@ -114,25 +119,36 @@ try {
       assert.equal(await teacherTriggers.first().getAttribute('aria-expanded'), 'false');
       assert.equal(await teacherTriggers.nth(1).getAttribute('aria-expanded'), 'true');
       assert.equal(await page.locator('.faculty-list .godui-accordion__panel:visible img').count(), 1);
+      assert.equal(await page.locator('.faculty-list .godui-accordion__panel:visible .faculty-preview__identity').count(), 1);
     }
     await page.screenshot({ path: `artifacts/${name}-faculty.png` });
-    assert.deepEqual(await page.locator('.direction article strong').allTextContents(), ['Marco Stopponi', 'Stefano Stopponi']);
-    await page.locator('.direction').scrollIntoViewIfNeeded();
-    await page.screenshot({ path: `artifacts/${name}-direction.png` });
     await page.locator('#recensioni').scrollIntoViewIfNeeded();
     await page.waitForTimeout(220);
     assert.equal((await page.locator('.reviews__rating strong').textContent()).trim(), '4,8');
     assert.equal(await page.locator('#recensioni [data-review-status="awaiting-verification"]').count(), 1);
     assert.equal(await page.locator('#recensioni blockquote').count(), 0);
+    assert.equal(await page.locator('.review-carousel__controls button:disabled').count(), 2);
     assert.deepEqual((await page.locator('.reviews__actions>a').allTextContents()).map(text => text.replace('(nuova scheda)', '').trim()), ['Leggi tutte le recensioni', 'Lascia una recensione']);
     assert.ok(await page.locator('.reviews__actions>a').evaluateAll(links => links.every(link => link.href.startsWith('https://www.google.com/maps/place/Crazy+Gang+School/'))));
     if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Recensioni');
     await page.screenshot({ path: `artifacts/${name}-reviews.png` });
+    await page.locator('#dove-siamo').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(220);
+    assert.equal(await page.locator('#dove-siamo address').textContent(), 'Crazy Gang SchoolLargo Orazi e Curiazi, 1200181 Roma');
+    assert.equal(await page.locator('#dove-siamo').getByText('Metro A · Colli Albani', { exact: true }).count(), 1);
+    assert.equal(await page.locator('#dove-siamo a[href*="google.com/maps"]').count(), 1);
+    assert.equal(await page.locator('#dove-siamo iframe').evaluate(frame => getComputedStyle(frame).pointerEvents), 'none');
+    await page.getByRole('button', { name: 'Attiva la mappa' }).click();
+    assert.equal(await page.locator('#dove-siamo iframe').evaluate(frame => getComputedStyle(frame).pointerEvents), 'auto');
+    await page.getByRole('button', { name: 'Disattiva interazione' }).click();
+    assert.equal(await page.locator('#dove-siamo iframe').evaluate(frame => getComputedStyle(frame).pointerEvents), 'none');
+    if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Dove siamo');
+    await page.screenshot({ path: `artifacts/${name}-location.png` });
     if (width <= 820) {
       await page.evaluate(() => scrollTo(0, 0));
       await page.getByRole('button', { name: 'Menu', exact: true }).click();
       assert.ok(await page.locator('#menu-mobile').isVisible());
-      assert.deepEqual((await page.locator('#menu-mobile>a').allTextContents()).map(text => text.trim()), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Contatti', 'Contattaci']);
+      assert.deepEqual((await page.locator('#menu-mobile>a').allTextContents()).map(text => text.trim()), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Dove siamo', 'Contatti', 'Contattaci']);
       assert.equal(await page.evaluate(() => document.body.style.overflow), 'hidden');
       await page.screenshot({ path: `artifacts/${name}-menu.png` });
       await page.keyboard.press('Escape');
