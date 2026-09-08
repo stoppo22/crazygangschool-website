@@ -2,14 +2,15 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { galleryImages } from './gallery-data';
+import { TileReveal } from './TileReveal';
 
 function Icon({ direction }) {
   const path = direction === 'close' ? 'M5 5l14 14M19 5 5 19' : direction === 'prev' ? 'M19 12H5m6-6-6 6 6 6' : 'M5 12h14m-6-6 6 6-6 6';
   return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={path} stroke="currentColor" strokeWidth="1.7" /></svg>;
 }
 
-function GalleryViewer({ returnFocus, onClose }) {
-  const [index, setIndex] = useState(0);
+function GalleryViewer({ initialIndex, returnFocus, onClose }) {
+  const [index, setIndex] = useState(initialIndex);
   const [direction, setDirection] = useState(1);
   const dialog = useRef(null);
   const strip = useRef(null);
@@ -75,15 +76,44 @@ function GalleryViewer({ returnFocus, onClose }) {
 
 export function AnimatedGallery() {
   const [open, setOpen] = useState(false);
+  const [initialIndex, setInitialIndex] = useState(0);
+  const [compact, setCompact] = useState(false);
   const opener = useRef(null);
   const close = useCallback(() => setOpen(false), []);
-  const teasers = [galleryImages[0], galleryImages[3], galleryImages[10]];
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 680px)');
+    const update = () => setCompact(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
+  const revealSelection = [
+    galleryImages[0], galleryImages[1], galleryImages[2], galleryImages[4],
+    galleryImages[5], galleryImages[6], galleryImages[9], galleryImages[10],
+    galleryImages[12], galleryImages[14], galleryImages[20], galleryImages[21],
+  ];
+  const revealImages = (compact ? revealSelection.slice(0, 8) : revealSelection).map(image => image.src);
+  const openAt = (index, trigger) => {
+    opener.current = trigger;
+    setInitialIndex(index);
+    setOpen(true);
+  };
+
   return <section id="galleria" className="gallery section-space" tabIndex={-1} aria-labelledby="gallery-title">
     <header className="gallery-heading"><h2 id="gallery-title">Galleria.</h2><p>Foto dalla scuola, dai saggi e dagli spettacoli Crazy Gang.</p></header>
-    <div className="gallery-teaser">
-      <div className="gallery-teaser__images" aria-hidden="true">{teasers.map((image, index) => <figure key={image.id} className={`gallery-teaser__image gallery-teaser__image--${index + 1}`}><img src={image.src} width={image.width} height={image.height} alt="" loading="lazy" decoding="async" /></figure>)}</div>
-      <div className="gallery-teaser__action"><p>28 fotografie dall’archivio del sito Crazy Gang.</p><button ref={opener} type="button" onClick={() => setOpen(true)}>Apri la galleria <Icon direction="next" /></button></div>
+    <TileReveal className="gallery-curtain" images={revealImages} columns={compact ? 2 : 3} gap={compact ? 6 : 10} gridWidth={compact ? 520 : 1120} tileAspect={compact ? 1.46 : 1.5} grayscale={false} startAssembled stagger={compact ? 0.035 : 0.045} overlap={0.72} zoom={compact ? 1.45 : 1.62} spread={compact ? 0.2 : 0.3} scrollLength={compact ? 1.35 : 2.2} scrub={compact ? 0.035 : 0.075} backgroundColor="#101011">
+      <div className="gallery-curtain__message"><h3>Archivio fotografico.</h3><p>Saggi, spettacoli e vita della scuola.</p></div>
+    </TileReveal>
+    <div className="gallery-archive" aria-label="Archivio fotografico Crazy Gang">
+      {galleryImages.map((image, index) => <figure className={`gallery-photo${image.height > image.width ? ' gallery-photo--portrait' : ''}`} key={image.id}>
+        <button type="button" onClick={(event) => openAt(index, event.currentTarget)} aria-label={`Apri ${image.title}, foto ${index + 1} di ${galleryImages.length}`}>
+          <img src={image.src} srcSet={image.srcSet} sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 34vw" width={image.width} height={image.height} alt={image.alt} loading="lazy" decoding="async" />
+        </button>
+        <figcaption><span>{image.title}</span><small>{String(index + 1).padStart(2, '0')}</small></figcaption>
+      </figure>)}
     </div>
-    <AnimatePresence>{open && <GalleryViewer returnFocus={opener} onClose={close} />}</AnimatePresence>
+    <AnimatePresence>{open && <GalleryViewer initialIndex={initialIndex} returnFocus={opener} onClose={close} />}</AnimatePresence>
   </section>;
 }

@@ -139,15 +139,16 @@ try {
     await page.screenshot({ path: `artifacts/${name}-reviews.png` });
     await page.locator('#galleria').scrollIntoViewIfNeeded();
     await page.waitForTimeout(220);
-    assert.equal(await page.locator('.gallery-teaser__image').count(), 3);
+    assert.equal(await page.locator('.gallery-photo').count(), 28);
+    assert.equal(await page.locator('.tile-reveal--static').count(), 1);
     assert.equal(await page.locator('.gallery-viewer').count(), 0);
-    const galleryOpener = page.getByRole('button', { name: /Apri la galleria/ });
+    const galleryOpener = page.locator('.gallery-photo button').nth(7);
     await galleryOpener.click();
     assert.equal(await page.locator('.gallery-viewer').count(), 1);
     assert.equal(await page.locator('.gallery-viewer__stage figure').count(), 1);
-    assert.equal((await page.locator('.gallery-viewer header span').textContent()).trim(), '01 / 28');
+    assert.equal((await page.locator('.gallery-viewer header span').textContent()).trim(), '08 / 28');
     await page.keyboard.press('ArrowRight');
-    assert.equal((await page.locator('.gallery-viewer header span').textContent()).trim(), '02 / 28');
+    assert.equal((await page.locator('.gallery-viewer header span').textContent()).trim(), '09 / 28');
     await page.locator('.gallery-viewer__stage img').waitFor({ state: 'visible' });
     await page.waitForFunction(() => document.querySelector('.gallery-viewer__stage img')?.naturalWidth > 0);
     if (width <= 820) {
@@ -156,7 +157,7 @@ try {
         stage.dispatchEvent(new TouchEvent('touchstart', { bubbles: true, touches: [point(1, 300)] }));
         stage.dispatchEvent(new TouchEvent('touchend', { bubbles: true, changedTouches: [point(1, 180)] }));
       });
-      assert.equal((await page.locator('.gallery-viewer header span').textContent()).trim(), '03 / 28');
+      assert.equal((await page.locator('.gallery-viewer header span').textContent()).trim(), '10 / 28');
     }
     await page.screenshot({ path: `artifacts/${name}-gallery-open.png` });
     await page.keyboard.press('Escape');
