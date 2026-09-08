@@ -102,9 +102,10 @@ export function TileReveal({
   const applyProgress = useCallback((progress) => {
     const grid = gridRef.current;
     if (!grid) return;
-    const timeline = progress * sequence.total;
+    const activeDuration = startAssembled ? sequence.total - sequence.zoomStart : sequence.total;
+    const timeline = (startAssembled ? sequence.zoomStart : 0) + progress * activeDuration;
     const travel = (stageHeight.current + gridActualHeight.current) / 2;
-    const zoomProgress = easeInOutPower(clamp(timeline - sequence.zoomStart, 0, 1), 3);
+    const zoomProgress = easeInOutPower(clamp(timeline - sequence.zoomStart, 0, 1), startAssembled ? 1 : 3);
     const splitProgress = easeInOutPower(clamp((timeline - sequence.splitStart) / 0.5, 0, 1), 1);
     const revealProgress = easeInOutPower(clamp((timeline - sequence.contentStart) / 0.32, 0, 1), 2);
     const safeZoom = Math.max(zoom, 1);
