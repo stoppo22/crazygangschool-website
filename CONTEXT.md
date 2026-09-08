@@ -320,3 +320,17 @@ Gli orari reali non sono ancora disponibili e non devono essere inventati. Usare
 - Il rating visibile durante la verifica era **4,8 su 5**.
 - La vista pubblica consultata non ha esposto in modo affidabile il numero totale, gli autori o i testi completi delle recensioni.
 - Non pubblicare numero o citazioni finche non sono verificati direttamente sulla scheda. Fonti terze con valori discordanti non sono considerate attendibili.
+
+## Aggiornamento confermato dal proprietario - 8 settembre 2026
+
+Gli orari seguenti provengono da immagini ufficiali fornite direttamente dal proprietario e prevalgono, per questi soli gruppi, sulle precedenti indicazioni `NEEDS VERIFICATION` relative a età, livelli e orari. Giorni e fasce non vanno modificati senza una nuova conferma. Non sono stati forniti orari per le altre discipline generali citate nella pagina Danze Latino Americane.
+
+- **Danza Moderna:** Mini, 3–4, Ven 17:00–18:00; Topini, 5–6, Mer 17:00–18:00; Koala, 6–7, Mar e Gio 17:00–18:00; Panda, 7–9, Mar e Gio 17:00–18:00; Junior, 9–11 avanzato, Mar e Gio 18:00–19:00 e Ven 17:00–18:30; Special D Red, 10+ avanzato, Lun 17:00–18:30, Mer 18:00–19:30 e Ven 18:30–19:30; Special D Blue, 10+ avanzato, Lun 18:00–19:30, Mer 17:00–18:30 e Ven 18:30–19:30; Teenagers / Young, 11–15 principianti, Mar e Gio 19:00–20:00; Intermedi, 14+, Lun e Mer 18:00–19:30; Special B, 14+, Lun e Mer 16:30–18:00 e Ven 18:00–19:00; Special A, 14+, Lun e Mer 20:00–21:30 e Ven 19:00–20:30; Over avanz., adulti, Mar 20:00–21:30; Over princ., adulti, Gio 20:00–21:00.
+- **Danza Classica:** Propedeutica, 5+, Mer 17:00–18:00; Avviamento, 8–10, Lun 17:00–18:00 e Mer 18:00–19:00; Perfezionamento, 11–13, Lun 18:00–19:00 e Ven 19:00–20:00; Principianti / Intermedio, 15+ e adulti, Ven 18:00–19:00; Professionale, 15+ e adulti, Lun e Mer 17:00–18:00.
+- **Tip Tap:** Tap principianti, 14+, Gio 18:00–19:00; Tap intermedio / avanzato, 14+, Gio 19:00–20:00.
+- **K-Pop:** K-Pop, 9+, Lun 17:00–18:00.
+- **Hip Hop:** Hip Hop Baby, 5+, Mar e Gio 17:00–18:00; Hip Hop Ragazzi, 10+, Mar e Gio 18:00–19:00; Breakdance, 11+, Mar e Gio 16:00–17:00. Breakdance resta nella pagina Hip Hop e non diventa una voce principale dell'accordion.
+- **Kung Fu:** Kung Fu Baby, 6+, Mar e Gio 18:00–19:00; Kung Fu Ragazzi, 11+, Mar e Gio 19:00–20:30; Kung Fu Adulti, adulti, Mar e Gio 19:00–20:30.
+- **Danze Latino Americane:** Salsa Cubana — 1° livello, adulti, Mer 20:00–21:00; Salsa Cubana — 2° livello, adulti, Mer 21:00–22:00; Bachata Moderna — 1° livello, adulti, Mer 22:00–23:00; Salsa base principiante, adulti, Gio 20:30–21:30; Bachata base principiante, adulti, Gio 21:30–22:30; Lady Style, adulti, Gio 21:30–22:30; Danze Standard, adulti, Mer e Ven 21:00–22:30.
+
+**Nota interna:** nel materiale originale il gruppo di Danza Classica appare come “AVVIAMENTO??”. Sul sito viene mostrato “Avviamento”; il nome deve essere confermato prima della pubblicazione definitiva.

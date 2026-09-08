@@ -7,6 +7,14 @@ import { courses } from './course-data';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+const shortDays = {
+  Lunedì: 'LUN',
+  Martedì: 'MAR',
+  Mercoledì: 'MER',
+  Giovedì: 'GIO',
+  Venerdì: 'VEN',
+};
+
 function Arrow({ back = false }) {
   return <svg className={back ? 'is-back' : ''} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12" stroke="currentColor" strokeWidth="1.7" /></svg>;
 }
@@ -20,6 +28,31 @@ function CourseImage({ course, sizes }) {
 
 function FactCard({ title, items, className = '' }) {
   return <article className={`course-fact ${className}`}><h2>{title}</h2><ul>{items.map(item => <li key={item}>{item}</li>)}</ul></article>;
+}
+
+function CourseSchedule({ course }) {
+  const headingId = `${course.slug}-schedule-title`;
+  return <section className="course-schedule course-reveal" aria-labelledby={headingId}>
+    <header className="course-schedule__header">
+      <p>Giorni e fasce orarie</p>
+      <h2 id={headingId}>Orari.</h2>
+    </header>
+    <div className="course-schedule__list">
+      {course.schedule.map(group => <article className="schedule-group" data-schedule-group key={group.name}>
+        <header className="schedule-group__identity">
+          <h3 data-schedule-name>{group.name}</h3>
+          <p>{group.age}{group.level ? <> · <span>{group.level}</span></> : null}</p>
+        </header>
+        <div className="schedule-group__sessions">
+          {group.sessions.map(item => <div className="schedule-session" key={`${item.day}-${item.start}`}>
+            <span className="schedule-session__day schedule-session__day--short" aria-hidden="true">{shortDays[item.day]}</span>
+            <span className="schedule-session__day schedule-session__day--long">{item.day}</span>
+            <p><time dateTime={item.start}>{item.start}</time><span aria-hidden="true"> — </span><span className="sr-only">–</span><time dateTime={item.end}>{item.end}</time></p>
+          </div>)}
+        </div>
+      </article>)}
+    </div>
+  </section>;
 }
 
 export function CoursePage({ course }) {
@@ -51,13 +84,13 @@ export function CoursePage({ course }) {
       </section>
 
       <section className="course-information">
-        <div className="course-information__intro course-reveal"><p>Informazioni confermate</p><h2>Il corso,<br />in breve.</h2><p>I dettagli non ancora disponibili sono indicati senza aggiungere informazioni generiche.</p></div>
-        <div className="course-facts">
+        <div className="course-information__intro course-reveal"><p>Informazioni confermate</p><h2>Il corso,<br />in breve.</h2><p>Età, gruppi e orari riportano le informazioni disponibili nel materiale ufficiale della scuola.</p></div>
+        <div className="course-facts course-facts--overview">
           <FactCard title="Fasce d’età" items={course.ages} />
           <FactCard title="Livelli" items={course.levels} className="course-fact--blue" />
           <FactCard title="Percorsi e sottocorsi" items={course.programs} className="course-fact--pink" />
-          <article className="course-fact course-fact--schedule"><h2>Orari</h2><p>Orari in aggiornamento. Contatta la scuola per informazioni.</p><a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Orari: ${course.title}`)}`}>Chiedi gli orari <Arrow /></a></article>
         </div>
+        <CourseSchedule course={course} />
       </section>
 
       <section className="related-courses course-reveal" aria-labelledby="related-title"><div><p>Continua a esplorare</p><h2 id="related-title">Gli altri corsi.</h2></div><div className="related-track">{related.map(item => <a className="related-course" href={`/corsi/${item.slug}`} key={item.slug}><img src={item.image.src} srcSet={item.image.srcSet} sizes="280px" alt="" loading="lazy" /><span>{item.title}</span><Arrow /></a>)}</div></section>

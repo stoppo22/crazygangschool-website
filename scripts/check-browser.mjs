@@ -229,8 +229,10 @@ try {
     await coursePage.evaluate(() => { for (const img of document.images) img.loading = 'eager'; });
     await coursePage.waitForTimeout(450);
     assert.equal(await coursePage.locator('h1').textContent(), title);
-    assert.equal(await coursePage.locator('.course-fact').count(), 4);
-    assert.equal(await coursePage.getByText('Orari in aggiornamento. Contatta la scuola per informazioni.', { exact: true }).count(), 1);
+    assert.equal(await coursePage.locator('.course-fact').count(), 3);
+    assert.ok(await coursePage.locator('[data-schedule-group]').count() >= 1, `${slug}: missing schedule groups`);
+    assert.ok(await coursePage.locator('.schedule-session').count() >= 1, `${slug}: missing schedule sessions`);
+    assert.equal(await coursePage.getByText('Orari in aggiornamento. Contatta la scuola per informazioni.', { exact: true }).count(), 0);
     assert.equal(await coursePage.locator('a[href="/#discipline"]').count(), 3);
     assert.ok((await coursePage.locator('a[href^="mailto:"]').count()) >= 2);
     const courseLayout = await coursePage.evaluate(() => ({
