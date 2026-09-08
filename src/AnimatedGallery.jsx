@@ -25,10 +25,6 @@ function GalleryViewer({ initialIndex, returnFocus, onClose }) {
   }, []);
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    const pageRoot = document.querySelector('.site-root');
-    document.body.style.overflow = 'hidden';
-    if (pageRoot) pageRoot.inert = true;
     dialog.current?.querySelector('.gallery-viewer__close')?.focus();
     const onKey = event => {
       if (event.key === 'Escape') onClose();
@@ -43,10 +39,8 @@ function GalleryViewer({ initialIndex, returnFocus, onClose }) {
     };
     document.addEventListener('keydown', onKey);
     return () => {
-      document.body.style.overflow = previousOverflow;
       document.removeEventListener('keydown', onKey);
-      if (pageRoot) pageRoot.inert = false;
-      returnFocus.current?.focus();
+      requestAnimationFrame(() => returnFocus.current?.focus());
     };
   }, [move, onClose, returnFocus]);
 
@@ -61,9 +55,9 @@ function GalleryViewer({ initialIndex, returnFocus, onClose }) {
     exit: step => ({ opacity: compact ? 1 : 0, x: lowMotion ? 0 : step > 0 ? '-4%' : '4%', scale: lowMotion ? 1 : .99 }),
   };
 
-  return createPortal(<motion.div className="gallery-viewer" role="presentation" initial={reduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0 : .18 }} onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }}>
+  return createPortal(<motion.div className="gallery-viewer" role="presentation" initial={reduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0 : .18 }}>
     <div ref={dialog} className="gallery-viewer__dialog" role="dialog" aria-modal="true" aria-labelledby="gallery-viewer-title">
-      <header><strong id="gallery-viewer-title">Galleria</strong><span>{String(index + 1).padStart(2, '0')} / {String(galleryImages.length).padStart(2, '0')}</span><button className="gallery-viewer__close" type="button" onClick={onClose} aria-label="Chiudi galleria"><Icon direction="close" /></button></header>
+      <header><strong id="gallery-viewer-title">Galleria</strong><span>{String(index + 1).padStart(2, '0')} / {String(galleryImages.length).padStart(2, '0')}</span><button className="gallery-viewer__close" type="button" onClick={onClose} aria-label="Chiudi foto"><Icon direction="close" /></button></header>
       <div className="gallery-viewer__stage" onTouchStart={event => { touchStart.current = event.touches[0].clientX; }} onTouchEnd={event => { const delta = touchStart.current - event.changedTouches[0].clientX; if (Math.abs(delta) > 45) move(delta > 0 ? 1 : -1); touchStart.current = null; }}>
         <AnimatePresence initial={false} custom={direction} mode="popLayout"><motion.figure key={current.id} custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: lowMotion ? 0 : .24, ease: [0.22, 1, 0.36, 1] }}><img src={current.src} srcSet={current.srcSet} sizes="(max-width: 820px) 100vw, 86vw" width={current.width} height={current.height} alt={current.alt} decoding="async" /><figcaption><span>{current.title}</span><small>{current.category}</small></figcaption></motion.figure></AnimatePresence>
         <button className="gallery-viewer__arrow gallery-viewer__arrow--prev" type="button" onClick={() => move(-1)} aria-label="Foto precedente"><Icon direction="prev" /></button>
@@ -74,12 +68,68 @@ function GalleryViewer({ initialIndex, returnFocus, onClose }) {
   </motion.div>, document.body);
 }
 
+function GalleryArchive({ returnFocus, onClose }) {
+  const [viewerIndex, setViewerIndex] = useState(null);
+  const dialog = useRef(null);
+  const photoOpener = useRef(null);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    const pageRoot = document.querySelector('.site-root');
+    document.body.style.overflow = 'hidden';
+    if (pageRoot) pageRoot.inert = true;
+    dialog.current?.querySelector('.gallery-archive__close')?.focus();
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      if (pageRoot) pageRoot.inert = false;
+      requestAnimationFrame(() => returnFocus.current?.focus());
+    };
+  }, [returnFocus]);
+
+  useEffect(() => {
+    if (viewerIndex !== null) return undefined;
+    const onKey = event => {
+      if (event.key === 'Escape') onClose();
+      if (event.key === 'Tab') {
+        const controls = [...dialog.current.querySelectorAll('button:not([disabled])')];
+        const active = controls.indexOf(document.activeElement);
+        if (event.shiftKey && active === 0) { event.preventDefault(); controls.at(-1)?.focus(); }
+        if (!event.shiftKey && active === controls.length - 1) { event.preventDefault(); controls[0]?.focus(); }
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose, viewerIndex]);
+
+  const openPhoto = (index, trigger) => {
+    photoOpener.current = trigger;
+    setViewerIndex(index);
+  };
+
+  return createPortal(<>
+    <motion.div className="gallery-archive" role="presentation" initial={reduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0 : .2 }}>
+      <div ref={dialog} className="gallery-archive__dialog" role="dialog" aria-modal="true" aria-labelledby="gallery-archive-title">
+        <header className="gallery-archive__header"><strong id="gallery-archive-title">Archivio fotografico.</strong><button className="gallery-archive__close" type="button" onClick={onClose} aria-label="Chiudi archivio fotografico"><span>Chiudi</span><Icon direction="close" /></button></header>
+        <div className="gallery-archive__grid" aria-label="Fotografie Crazy Gang">
+          {galleryImages.map((image, index) => <figure className={`gallery-photo${image.height > image.width ? ' gallery-photo--portrait' : ''}`} key={image.id}>
+            <button type="button" onClick={(event) => openPhoto(index, event.currentTarget)} aria-label={`Apri ${image.title}, foto ${index + 1} di ${galleryImages.length}`}>
+              <img src={image.src} srcSet={image.srcSet} sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 34vw" width={image.width} height={image.height} alt={image.alt} loading="lazy" decoding="async" />
+            </button>
+            <figcaption><span>{image.title}</span><small>{String(index + 1).padStart(2, '0')}</small></figcaption>
+          </figure>)}
+        </div>
+      </div>
+    </motion.div>
+    <AnimatePresence>{viewerIndex !== null && <GalleryViewer initialIndex={viewerIndex} returnFocus={photoOpener} onClose={() => setViewerIndex(null)} />}</AnimatePresence>
+  </>, document.body);
+}
+
 export function AnimatedGallery() {
-  const [open, setOpen] = useState(false);
-  const [initialIndex, setInitialIndex] = useState(0);
+  const [archiveOpen, setArchiveOpen] = useState(false);
   const [compact, setCompact] = useState(false);
   const opener = useRef(null);
-  const close = useCallback(() => setOpen(false), []);
+  const closeArchive = useCallback(() => setArchiveOpen(false), []);
 
   useEffect(() => {
     const media = window.matchMedia('(max-width: 680px)');
@@ -95,25 +145,15 @@ export function AnimatedGallery() {
     galleryImages[12], galleryImages[14], galleryImages[20], galleryImages[21],
   ];
   const revealImages = (compact ? revealSelection.slice(0, 8) : revealSelection).map(image => image.src);
-  const openAt = (index, trigger) => {
-    opener.current = trigger;
-    setInitialIndex(index);
-    setOpen(true);
-  };
 
   return <section id="galleria" className="gallery section-space" tabIndex={-1} aria-labelledby="gallery-title">
     <header className="gallery-heading"><h2 id="gallery-title">Galleria.</h2><p>Foto dalla scuola, dai saggi e dagli spettacoli Crazy Gang.</p></header>
     <TileReveal className="gallery-curtain" images={revealImages} columns={compact ? 2 : 3} gap={compact ? 6 : 10} gridWidth={compact ? 520 : 1120} tileAspect={compact ? 1.46 : 1.5} grayscale={false} startAssembled stagger={compact ? 0.035 : 0.045} overlap={0.72} zoom={compact ? 1.45 : 1.62} spread={compact ? 0.2 : 0.3} scrollLength={compact ? 1.35 : 2.2} scrub={compact ? 0.035 : 0.075} backgroundColor="#101011">
-      <div className="gallery-curtain__message"><h3>Archivio fotografico.</h3><p>Saggi, spettacoli e vita della scuola.</p></div>
+      <button ref={opener} className="gallery-curtain__action" type="button" onClick={() => setArchiveOpen(true)} aria-label="Apri l’archivio fotografico">
+        <span className="gallery-curtain__copy"><strong>Archivio fotografico.</strong><small>Saggi, spettacoli e vita della scuola.</small></span>
+        <span className="gallery-curtain__link">Apri la galleria <Icon direction="next" /></span>
+      </button>
     </TileReveal>
-    <div className="gallery-archive" aria-label="Archivio fotografico Crazy Gang">
-      {galleryImages.map((image, index) => <figure className={`gallery-photo${image.height > image.width ? ' gallery-photo--portrait' : ''}`} key={image.id}>
-        <button type="button" onClick={(event) => openAt(index, event.currentTarget)} aria-label={`Apri ${image.title}, foto ${index + 1} di ${galleryImages.length}`}>
-          <img src={image.src} srcSet={image.srcSet} sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 34vw" width={image.width} height={image.height} alt={image.alt} loading="lazy" decoding="async" />
-        </button>
-        <figcaption><span>{image.title}</span><small>{String(index + 1).padStart(2, '0')}</small></figcaption>
-      </figure>)}
-    </div>
-    <AnimatePresence>{open && <GalleryViewer initialIndex={initialIndex} returnFocus={opener} onClose={close} />}</AnimatePresence>
+    <AnimatePresence>{archiveOpen && <GalleryArchive returnFocus={opener} onClose={closeArchive} />}</AnimatePresence>
   </section>;
 }
