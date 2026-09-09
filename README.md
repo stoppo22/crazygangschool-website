@@ -83,20 +83,23 @@ Course routes:
   rating, no founding date, no opening hours).
 - The 404 view is `noindex`.
 
-## Deploy (Cloudflare Pages)
+## Deploy (Cloudflare — Workers static assets)
 
-- Build command: `npm run build`. Output directory: `dist`. Node 22. Set these in
-  the Cloudflare Pages project settings (there is no config file).
+- `wrangler.jsonc` is the deploy config: assets-only (no Worker script),
+  `directory: ./dist`, `not_found_handling: "404-page"`. Deploy command:
+  `npx wrangler deploy` (Cloudflare's Git build runs `npm run build` first).
+  `.nvmrc` pins Node 22.
 - `public/_redirects` (copied to `dist/_redirects` by the build) rewrites
   `/corsi/*`, `/privacy` and `/cookie` to `/index.html` with status `200`, so a
   direct load or refresh of those paths works. Any other unknown path is served
-  `public/404.html` (→ `dist/404.html`) with a real `404` status. An unknown
+  `dist/404.html` with a real `404` status (via `not_found_handling`). An unknown
   course slug such as `/corsi/xyz` matches the `/corsi/*` rewrite, so the app
   loads and renders its own `noindex` 404 view (status `200`).
-- No custom `_headers` file: Cloudflare Pages already sets long-lived caching for
-  the hashed files under `/assets`.
-- Set the `SITE_URL` environment variable in the Cloudflare Pages project to the
-  final production origin before the first production deploy.
+- No custom `_headers` file: Cloudflare already sets long-lived caching for the
+  hashed files under `/assets`.
+- Set the `SITE_URL` variable in the Cloudflare project to the final production
+  origin before the first production deploy (otherwise the `seo.config.js`
+  fallback is used for canonical / Open Graph / sitemap URLs).
 
 ## Privacy
 

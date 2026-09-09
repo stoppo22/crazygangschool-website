@@ -66,9 +66,9 @@ Open items before the site goes public. Grouped by who has to act.
 
 ## TECHNICAL (before the first production deploy)
 
-- **Production domain** — set the `SITE_URL` environment variable in the
-  Cloudflare Pages project to the final origin. The fallback in `seo.config.js`
-  is `https://www.crazygangschool.com`. Confirm the exact form — `www` vs apex.
+- **Production domain** — set the `SITE_URL` variable in the Cloudflare project
+  to the final origin. The fallback in `seo.config.js` is
+  `https://www.crazygangschool.com`. Confirm the exact form — `www` vs apex.
   It feeds the `%SITE_URL%` placeholders in `index.html`, the canonical / Open
   Graph URLs, `robots.txt` and `sitemap.xml`.
   - **If two domains are used** (e.g. `crazygangschool.com` and
@@ -76,11 +76,13 @@ Open items before the site goes public. Grouped by who has to act.
     make the other **301-redirect** to it at the Cloudflare level. Do not let the
     same content resolve on both without a redirect — it creates duplicate
     content for search engines.
-- **Deploy config** — no config file. In the Cloudflare Pages project set build
-  command `npm run build`, output directory `dist`, Node 22. `public/_redirects`
+- **Deploy config** — `wrangler.jsonc` (Cloudflare Workers static assets:
+  assets-only, `directory: ./dist`, `not_found_handling: "404-page"`) and
+  `.nvmrc` (Node 22) are committed. In the Cloudflare project: build command
+  `npm run build`, deploy command `npx wrangler deploy`. `public/_redirects`
   (→ `dist/_redirects`) handles the `/corsi/*`, `/privacy`, `/cookie` rewrites;
-  `public/404.html` (→ `dist/404.html`) is served with a real 404 status for any
-  other unknown path. No custom `_headers`.
+  `dist/404.html` is served with a real 404 status for any other unknown path.
+  No custom `_headers`.
 - **Visitor statistics** — turn on **Cloudflare Web Analytics** from the
   Cloudflare dashboard once the domain is connected (Web Analytics → Add a site).
   It is cookieless and Cloudflare injects the beacon automatically for a

@@ -1,0 +1,13 @@
+{
+  // Cloudflare Workers — static assets only (no Worker script).
+  // `npx wrangler deploy` uploads the Vite build in ./dist.
+  // Deploy config lives here; see README "Deploy" and LAUNCH_CHECKLIST.
+  "name": "crazygangschool-website",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./dist",
+    // Any path that is not a static asset and does not match a rule in
+    // dist/_redirects is served /404.html with a real 404 status.
+    "not_found_handling": "404-page"
+  }
+}
