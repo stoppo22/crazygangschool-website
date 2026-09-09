@@ -113,14 +113,14 @@ section, which is **not mounted until the visitor clicks "Attiva la mappa"** —
 request reaches Google before then.
 
 Visitor statistics use **Cloudflare Web Analytics** (cookieless). The beacon is
-injected into `index.html` on a production build only when `CF_ANALYTICS_TOKEN`
-is set (env var in the Cloudflare project) — needed for the `*.workers.dev`
-preview, which does not get Cloudflare's automatic injection. Once a proxied
-custom domain is attached, this can be left unset and the dashboard handles
-injection. The site currently shows **no consent banner**; adding any
-cookie-based tracker, pixel, booking widget or embedded video later would mean
-introducing a consent manager with prior blocking and extending the Cookie
-Policy.
+injected into `index.html` on a production build; the token lives in
+`seo.config.js` (`CF_ANALYTICS_TOKEN` — not a secret, it ships in the page HTML).
+This is needed for the `*.workers.dev` preview, which does not get Cloudflare's
+automatic injection; once a proxied custom domain is attached you can blank the
+token and let the dashboard inject the beacon. The site currently shows **no
+consent banner**; adding any cookie-based tracker, pixel, booking widget or
+embedded video later would mean introducing a consent manager with prior
+blocking and extending the Cookie Policy.
 
 `/privacy` and `/cookie` (`src/LegalPage.jsx`) are complete drafts; the owner
 must fill the bracketed facts (data controller + tax code, retention periods,

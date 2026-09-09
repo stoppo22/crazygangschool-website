@@ -26,12 +26,13 @@ export const DEFAULT_DESCRIPTION =
 
 export const OG_IMAGE = '/brand/crazy-gang-960.webp';
 
-// Cloudflare Web Analytics (cookieless). The beacon is injected into index.html
-// on a production build only when this is set (env var CF_ANALYTICS_TOKEN in the
-// Cloudflare project). Needed because *.workers.dev URLs don't get Cloudflare's
-// automatic beacon injection; once a proxied custom domain is attached, this can
-// be left unset and injection handled by the dashboard instead.
-export const CF_ANALYTICS_TOKEN = process.env.CF_ANALYTICS_TOKEN || '';
+// Cloudflare Web Analytics (cookieless). This token is NOT a secret — the beacon
+// script carries it in the HTML of every page. The Vite plugin injects the
+// beacon into index.html on a production build. Needed because *.workers.dev
+// URLs don't get Cloudflare's automatic injection; once a proxied custom domain
+// is attached you can set this to '' and let the dashboard inject the beacon.
+export const CF_ANALYTICS_TOKEN =
+  process.env.CF_ANALYTICS_TOKEN || '7e8ee9cf1c474044a87714d39aa75484';
 
 // Course slugs and titles for the sitemap. Kept in sync with src/course-data.js.
 export const COURSE_SLUGS = [

@@ -83,12 +83,11 @@ Open items before the site goes public. Grouped by who has to act.
   (→ `dist/_redirects`) handles the `/corsi/*`, `/privacy`, `/cookie` rewrites;
   `dist/404.html` is served with a real 404 status for any other unknown path.
   No custom `_headers`.
-- **Visitor statistics** — **Cloudflare Web Analytics** (cookieless). Create the
-  site in the dashboard (Web Analytics → Add a site), copy the beacon token, and
-  set it as `CF_ANALYTICS_TOKEN` in the Cloudflare project → redeploy. (The
-  `*.workers.dev` preview needs the token; once a proxied custom domain is
-  attached, `CF_ANALYTICS_TOKEN` can be removed and the dashboard injects the
-  beacon.) Do **not** add Google Analytics or any cookie-based tracker without
+- **Visitor statistics** — **Cloudflare Web Analytics** (cookieless) is wired
+  in: the beacon token is in `seo.config.js` (`CF_ANALYTICS_TOKEN`) and the Vite
+  plugin injects the beacon on build. When a proxied custom domain is attached,
+  blank the token in `seo.config.js` and let the dashboard inject the beacon
+  instead. Do **not** add Google Analytics or any cookie-based tracker without
   also adding a consent banner with prior blocking and extending the Cookie
   Policy.
 - **Go live (make it indexable)** — until then the deploy is `noindex, nofollow`
