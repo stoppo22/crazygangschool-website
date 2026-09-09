@@ -1,14 +1,46 @@
 import { useEffect, useRef, useState } from 'react';
 import { contact } from './content';
 
-// Recensioni verificate una per una sulla scheda Google ufficiale
+// Recensioni pubbliche trascritte a mano dalla scheda Google ufficiale
 // (contact.maps → CID 0x132f61f808a89c81:0xe5f28e8c08f3ea59, Largo Orazi e
-// Curiazi 12, Roma). Ogni voce: { id, author, rating, text, date?: { iso, label }, source }.
-// Il testo delle recensioni Google è reso via JavaScript e protetto da consent
-// wall: non è recuperabile automaticamente. Vanno trascritte a mano dalla scheda,
-// senza riscritture. Finché l'array è vuoto il carosello non viene mostrato e
-// resta solo la CTA "Leggi tutte le recensioni". Vedi LAUNCH_CHECKLIST.md.
-const verifiedReviews = [];
+// Curiazi 12, Roma), verificate una per una il 9 settembre 2026. Testo fedele,
+// nessuna riscrittura; "[…]" segnala un taglio in una recensione lunga. Le date
+// non sono pubblicate perché diverse recensioni sono datate. Ogni voce:
+// { id, author, rating, text, date?: { iso, label } }.
+const verifiedReviews = [
+  {
+    id: 'martina',
+    author: 'Martina',
+    rating: 5,
+    text:
+      'Amo la scuola e amo loro. Scuola impeccabile! Sale spaziose e numerose. I ragazzi sono seguiti attentamente e con serietà mettendo a proprio agio gli allievi, indirizzandoli professionalmente da insegnanti di grande spessore. […] Consiglio fortemente. Reputo che sia la scuola migliore di Roma per formare i ragazzi.',
+  },
+  {
+    id: 'enrica-ritorto',
+    author: 'Enrica Ritorto',
+    rating: 5,
+    text: 'Una grande scuola...una grande famiglia, valore che va oltre lo sport!',
+  },
+  {
+    id: 'pasquale-provetta',
+    author: 'Pasquale Provetta',
+    rating: 5,
+    text:
+      'Corso di Hung Gar (Kungfu) con insegnanti preparatissimi che fanno corsi sia ai bambini e sia agli adulti... Il sifu ottimo insegnante per i bambini ed adulti... Stile consigliato a tutti i tipi di età',
+  },
+  {
+    id: 'maria-antonella-bizzarri',
+    author: 'Maria Antonella Bizzarri',
+    rating: 5,
+    text: 'Bravi insegnanti. Spettacoli favolosi',
+  },
+  {
+    id: 'fabiola-cossuto',
+    author: 'Fabiola Cossuto',
+    rating: 5,
+    text: 'Una delle migliori scuole di danza della capitale.',
+  },
+];
 
 function Arrow({ previous = false }) {
   return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={previous ? 'M19 12H5m6-6-6 6 6 6' : 'M5 12h14m-6-6 6 6-6 6'} stroke="currentColor" strokeWidth="1.7" /></svg>;

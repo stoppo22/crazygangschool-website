@@ -130,9 +130,13 @@ try {
     await page.locator('#recensioni').scrollIntoViewIfNeeded();
     await page.waitForTimeout(220);
     assert.equal((await page.locator('.reviews__rating strong').textContent()).trim(), '4,8');
-    assert.equal(await page.locator('#recensioni [data-review-status="awaiting-verification"]').count(), 0);
-    assert.equal(await page.locator('#recensioni blockquote').count(), 0);
-    assert.equal(await page.locator('#recensioni .review-carousel').count(), 0);
+    assert.equal(await page.locator('#recensioni .review-carousel').count(), 1);
+    assert.equal(await page.locator('#recensioni .review-card').count(), 5);
+    assert.equal(await page.locator('#recensioni blockquote').count(), 5);
+    assert.equal(await page.locator('#recensioni .review-card footer strong').first().textContent(), 'Martina');
+    assert.equal(await page.locator('#recensioni .review-card time').count(), 0);
+    assert.equal(await page.locator('.review-carousel__controls button:disabled').count(), 0);
+    assert.equal((await page.locator('.review-carousel__controls span').textContent()).trim(), '1 di 5');
     assert.deepEqual((await page.locator('.reviews__actions>a').allTextContents()).map(text => text.replace('(nuova scheda)', '').trim()), ['Leggi tutte le recensioni']);
     assert.ok(await page.locator('.reviews__actions>a').evaluateAll(links => links.every(link => link.href.startsWith('https://www.google.com/maps/place/Crazy+Gang+School/'))));
     assert.deepEqual(await page.locator('#ospiti h2').textContent(), 'Ospiti della struttura');
