@@ -43,6 +43,44 @@ function Photo({ name, className = '', priority = false, sizes = '50vw' }) {
   return <figure className={`photo ${className}`} data-placeholder={p.placeholder ? 'true' : undefined} style={{ '--position': p.position, '--mobile-position': p.mobilePosition }}><div className="photo__frame"><img src={p.src} srcSet={p.srcSet} sizes={sizes} width={p.width} height={p.height} alt={p.alt} loading={priority ? 'eager' : 'lazy'} /></div>{p.caption ? <figcaption>{p.caption}</figcaption> : null}</figure>;
 }
 
+function ContactForm() {
+  // Static site: the form composes a prefilled email and hands it to the
+  // visitor's mail client. Nothing is sent or stored by the site.
+  const submit = event => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const value = key => (data.get(key) || '').toString().trim();
+    const nome = value('nome');
+    const corso = value('corso');
+    const eta = value('eta');
+    const messaggio = value('messaggio');
+    const subject = corso && corso !== 'Informazione generale' ? `Richiesta informazioni: ${corso}` : 'Richiesta informazioni';
+    const body = [
+      `Nome: ${nome || '—'}`,
+      `Corso di interesse: ${corso || '—'}`,
+      eta ? `Età: ${eta}` : null,
+      '',
+      messaggio,
+    ].filter(line => line !== null).join('\n');
+    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+  return <form className="contact-form" onSubmit={submit}>
+    <p className="contact-form__title">Scrivici</p>
+    <label className="contact-field"><span>Nome</span><input type="text" name="nome" autoComplete="name" required /></label>
+    <label className="contact-field contact-field--select"><span>Corso di interesse</span>
+      <select name="corso" defaultValue="" required>
+        <option value="" disabled>Seleziona un corso</option>
+        {courses.map(course => <option key={course.slug} value={course.title}>{course.title}</option>)}
+        <option value="Informazione generale">Informazione generale</option>
+      </select>
+    </label>
+    <label className="contact-field"><span>Età</span><input type="text" name="eta" inputMode="numeric" placeholder="Es. 8 anni" /></label>
+    <label className="contact-field"><span>Messaggio</span><textarea name="messaggio" rows={4} required /></label>
+    <button type="submit" className="contact-form__submit">Invia richiesta <Arrow /></button>
+    <p className="contact-form__note">Il pulsante apre una bozza email già compilata nel tuo programma di posta. I dati non vengono salvati dal sito.</p>
+  </form>;
+}
+
 function Navigation() {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
@@ -150,12 +188,15 @@ function App() {
       <section id="contatti" className="contact" tabIndex={-1} aria-labelledby="contact-title">
         <div className="contact__inner">
           <div className="contact-intro"><p>Canali di contatto</p><h2 id="contact-title">Contatti</h2></div>
-          <div className="contact-channels">
-            <a className="contact-channel" href={`mailto:${contact.email}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
-            <a className="contact-channel" href={`tel:${contact.phone}`}><span>Telefono</span><strong>06 788 3621</strong><Arrow /></a>
-            <a className="contact-channel" href={contact.instagram} target="_blank" rel="noreferrer"><span>Social</span><strong>Instagram</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
-            <a className="contact-channel" href={contact.facebook} target="_blank" rel="noreferrer"><span>Social</span><strong>Facebook</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
-            <a className="contact-channel" href={contact.whatsapp} target="_blank" rel="noreferrer"><span>Social</span><strong>WhatsApp</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
+          <div className="contact-layout">
+            <div className="contact-channels">
+              <a className="contact-channel" href={`mailto:${contact.email}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
+              <a className="contact-channel" href={`tel:${contact.phone}`}><span>Telefono</span><strong>06 788 3621</strong><Arrow /></a>
+              <a className="contact-channel" href={contact.instagram} target="_blank" rel="noreferrer"><span>Social</span><strong>Instagram</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
+              <a className="contact-channel" href={contact.facebook} target="_blank" rel="noreferrer"><span>Social</span><strong>Facebook</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
+              <a className="contact-channel" href={contact.whatsapp} target="_blank" rel="noreferrer"><span>Social</span><strong>WhatsApp</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
+            </div>
+            <ContactForm />
           </div>
         </div>
       </section>
