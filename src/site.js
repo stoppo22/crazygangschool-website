@@ -2,7 +2,7 @@
 // Values injected by Vite `define` from seo.config.js. The fallbacks keep the
 // module usable in contexts where define did not run (e.g. plain unit tooling).
 export const SITE_URL =
-  typeof __SITE_URL__ !== 'undefined' ? __SITE_URL__ : 'https://www.crazygang.it';
+  typeof __SITE_URL__ !== 'undefined' ? __SITE_URL__ : 'https://www.crazygangschool.com';
 
 export const SITE_DESCRIPTION =
   typeof __SITE_DESCRIPTION__ !== 'undefined'

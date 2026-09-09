@@ -47,13 +47,17 @@ Open items before the site goes public. Grouped by who has to act.
 
 ## TECHNICAL (before the first production deploy)
 
-- **Production domain** — set the `SITE_URL` environment variable in the Vercel
-  project to the final origin. The fallback in `seo.config.js`
-  (`https://www.crazygang.it`) is derived from the `info@crazygang.it` email
-  address and must be confirmed. It feeds the canonical URLs, Open Graph URLs,
-  `robots.txt` and `sitemap.xml`.
-- **Deploy config** — `vercel.json` is committed (build command, output dir,
-  `/corsi/*`, `/privacy`, `/cookie` rewrites, asset cache headers).
+- **Production domain** — set the `SITE_URL` environment variable in the
+  Cloudflare Pages project to the final origin. The fallback in `seo.config.js`
+  is `https://www.crazygangschool.com` (the historical site domain; the school
+  email is on `crazygang.it`). Confirm the exact form — `www` vs apex — and that
+  it matches the domain attached to the Pages project. It feeds the `%SITE_URL%`
+  placeholders in `index.html`, the canonical / Open Graph URLs, `robots.txt` and
+  `sitemap.xml`.
+- **Deploy config** — no config file. In the Cloudflare Pages project set build
+  command `npm run build`, output directory `dist`, Node 22. `public/_redirects`
+  (→ `dist/_redirects`) handles the `/corsi/*`, `/privacy`, `/cookie` rewrites.
+  No custom `_headers`.
 - **Google Search Console** — after go-live, submit `https://<domain>/sitemap.xml`.
 - **Font licence** — confirm Cabinet Grotesk (Fontshare) licensing obligations
   for a public site (`ASSETS.md`).

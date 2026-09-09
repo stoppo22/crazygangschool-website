@@ -2,10 +2,12 @@
 // The browser reads the same base URL through the Vite `define` for `__SITE_URL__`
 // (see vite.config.js and src/site.js).
 //
-// TODO(launch): confermare il dominio di produzione definitivo e impostarlo con
-// la variabile d'ambiente SITE_URL (build) — il fallback qui sotto è provvisorio,
-// derivato dal dominio email info@crazygang.it.
-export const SITE_URL = (process.env.SITE_URL || 'https://www.crazygang.it').replace(/\/$/, '');
+// Dominio di produzione. Deriva dal sito storico crazygangschool.com; l'email
+// della scuola è invece su crazygang.it. TODO(launch): confermare la forma
+// definitiva (www vs apex) e impostarla con la variabile d'ambiente SITE_URL
+// nel progetto Cloudflare Pages. Alimenta canonical, Open Graph, robots.txt,
+// sitemap.xml e i placeholder %SITE_URL% in index.html.
+export const SITE_URL = (process.env.SITE_URL || 'https://www.crazygangschool.com').replace(/\/$/, '');
 
 export const SITE_NAME = 'Crazy Gang School';
 

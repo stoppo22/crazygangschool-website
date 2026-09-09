@@ -65,9 +65,11 @@ Course routes:
 ## SEO
 
 - `seo.config.js` is the single source of truth for the production origin
-  (`SITE_URL`, default `https://www.crazygang.it` — **confirm before launch**,
-  override with the `SITE_URL` env var at build time), site name, default
-  description and the route list.
+  (`SITE_URL`, default `https://www.crazygangschool.com` — **confirm www vs apex
+  before launch**, override with the `SITE_URL` env var at build time), site
+  name, default description and the route list. The Vite plugin substitutes the
+  `%SITE_URL%` placeholders in `index.html` (canonical, Open Graph, JSON-LD) with
+  this value, so the domain lives in exactly one place.
 - The Vite plugin in `vite.config.js` writes `dist/robots.txt` and
   `dist/sitemap.xml` at build time and flips the robots meta tag:
   `index, follow` on `npm run build`, `noindex, nofollow` on the dev server.
@@ -78,16 +80,19 @@ Course routes:
   rating, no founding date, no opening hours).
 - The 404 view is `noindex`.
 
-## Deploy (Vercel)
+## Deploy (Cloudflare Pages)
 
-`vercel.json` sets the build command, output directory, cache headers for
-`/assets` and `/fonts`, and rewrites `/corsi/:slug`, `/privacy` and `/cookie` to
-`/index.html` so a direct refresh of those paths works. Any other unknown path is
-left to Vercel's native 404 (a real `404` status); an unknown course slug such as
-`/corsi/xyz` is rewritten to the app, which then renders its own 404 view.
-
-Set the `SITE_URL` environment variable in the Vercel project to the final
-production origin before the first production deploy.
+- Build command: `npm run build`. Output directory: `dist`. Node 22. Set these in
+  the Cloudflare Pages project settings (there is no config file).
+- `public/_redirects` (copied to `dist/_redirects` by the build) rewrites
+  `/corsi/*`, `/privacy` and `/cookie` to `/index.html` with status `200`, so a
+  direct load or refresh of those paths works. Any other unknown path is left to
+  Cloudflare's native 404 (a real `404` status); an unknown course slug such as
+  `/corsi/xyz` is served the app, which then renders its own `noindex` 404 view.
+- No custom `_headers` file: Cloudflare Pages already sets long-lived caching for
+  the hashed files under `/assets`.
+- Set the `SITE_URL` environment variable in the Cloudflare Pages project to the
+  final production origin before the first production deploy.
 
 ## Privacy
 

@@ -55,7 +55,7 @@ export function PrivacyPage() {
 
       <section>
         <h2>Dati di navigazione e hosting</h2>
-        <p>Il sito è ospitato su Vercel Inc. Il fornitore di hosting può registrare, nei log tecnici di servizio, dati come indirizzo IP, data e ora della richiesta e user agent del browser, per finalità di sicurezza e di funzionamento dell’infrastruttura. Riferimento: <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noreferrer">privacy policy di Vercel</a>.</p>
+        <p>Il sito è ospitato su Cloudflare Pages (Cloudflare, Inc.). Il fornitore di hosting può registrare, nei log tecnici di servizio, dati come indirizzo IP, data e ora della richiesta e user agent del browser, per finalità di sicurezza e di funzionamento dell’infrastruttura. Riferimento: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noreferrer">privacy policy di Cloudflare</a>.</p>
       </section>
 
       <section>

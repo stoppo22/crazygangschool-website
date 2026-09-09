@@ -1,0 +1,6 @@
+# Cloudflare Pages rewrites — deep links to JS-rendered routes serve index.html
+# (status 200 keeps the URL). Any other unknown path is left to the platform's
+# native 404, so invalid routes get a real 404 status.
+/corsi/*   /index.html   200
+/privacy   /index.html   200
+/cookie    /index.html   200

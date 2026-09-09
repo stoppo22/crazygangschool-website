@@ -4,14 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#101011" />
-    <!-- robots is rewritten by vite.config.js: "index, follow" on build, "noindex, nofollow" on the dev server -->
+    <!-- The SITE_URL placeholders below and this robots value are rewritten by
+         vite.config.js from seo.config.js: robots is "index, follow" on build and
+         "noindex, nofollow" on the dev server. -->
     <meta name="robots" content="index, follow" />
     <title>Crazy Gang School — Scuola di danza a Roma</title>
     <meta
       name="description"
       content="Scuola di danza a Roma, zona Colli Albani: danza moderna e classica, hip hop, tip tap, K-pop, danze latino-americane e kung fu per bambini, ragazzi e adulti."
     />
-    <link rel="canonical" href="https://www.crazygang.it/" />
+    <link rel="canonical" href="%SITE_URL%/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Crazy Gang School" />
@@ -20,8 +22,8 @@
       property="og:description"
       content="Scuola di danza a Roma, zona Colli Albani: danza moderna e classica, hip hop, tip tap, K-pop, danze latino-americane e kung fu per bambini, ragazzi e adulti."
     />
-    <meta property="og:url" content="https://www.crazygang.it/" />
-    <meta property="og:image" content="https://www.crazygang.it/brand/crazy-gang-960.webp" />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:image" content="%SITE_URL%/brand/crazy-gang-960.webp" />
     <meta property="og:locale" content="it_IT" />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -34,9 +36,9 @@
         "@context": "https://schema.org",
         "@type": "DanceSchool",
         "name": "Crazy Gang School",
-        "url": "https://www.crazygang.it/",
-        "image": "https://www.crazygang.it/brand/crazy-gang-960.webp",
-        "logo": "https://www.crazygang.it/brand/crazy-gang-original.png",
+        "url": "%SITE_URL%/",
+        "image": "%SITE_URL%/brand/crazy-gang-960.webp",
+        "logo": "%SITE_URL%/brand/crazy-gang-original.png",
         "email": "info@crazygang.it",
         "telephone": "+39 06 7883621",
         "address": {

@@ -19,10 +19,12 @@ function seoPlugin() {
       handler(html, ctx) {
         const isBuild = ctx.server === undefined;
         const robots = isBuild ? 'index, follow' : 'noindex, nofollow';
-        return html.replace(
-          /<meta name="robots" content="[^"]*" \/>/,
-          `<meta name="robots" content="${robots}" />`,
-        );
+        return html
+          .split('%SITE_URL%').join(SITE_URL)
+          .replace(
+            /<meta name="robots" content="[^"]*" \/>/,
+            `<meta name="robots" content="${robots}" />`,
+          );
       },
     },
     generateBundle() {

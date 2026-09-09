@@ -262,7 +262,10 @@ try {
     await coursePage.waitForTimeout(250);
     assert.equal(await coursePage.locator('.not-found-main').count(), 1, `${badPath}: no 404 view`);
     assert.equal(await coursePage.locator('h1').textContent(), 'Pagina non trovata', `${badPath}: wrong 404 heading`);
-    assert.match(await coursePage.locator('meta[name="robots"]').getAttribute('content'), /noindex/, `${badPath}: 404 not noindex`);
+    // Exactly the value NotFoundPage passes explicitly (not the dev-server default),
+    // so this proves the client-side 404 keeps itself out of the index.
+    assert.equal(await coursePage.locator('meta[name="robots"][data-managed-head]').getAttribute('content'), 'noindex, follow', `${badPath}: 404 not noindex`);
+    assert.equal(await coursePage.locator('meta[name="robots"]').count(), 1, `${badPath}: duplicate robots meta`);
     assert.equal(await coursePage.locator('a[href="/"]').count() >= 1, true, `${badPath}: 404 missing home link`);
   }
   await coursePage.screenshot({ path: 'artifacts/not-found.png' });
