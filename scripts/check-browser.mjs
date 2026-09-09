@@ -79,6 +79,11 @@ try {
     assert.equal(await page.locator('.facts-bento,.people,.archive').count(), 0);
     assert.equal(await page.locator('.hero-description p').count(), 2);
     assert.equal(await page.locator('.hero-aside,[data-location]').count(), 0);
+    // Artistic direction sits in the hero, directly under the school name.
+    const heroDirection = page.locator('.hero-main .hero-direction');
+    assert.equal(await heroDirection.count(), 1, `${name}: hero artistic-direction missing`);
+    assert.equal(await heroDirection.evaluate(el => el.previousElementSibling?.id), 'hero-title', `${name}: artistic direction not directly under the school name`);
+    assert.match(await heroDirection.textContent(), /Marco Stopponi.+Stefano Stopponi/, `${name}: wrong artistic-direction names`);
     assert.deepEqual(await page.locator('main>section').evaluateAll(sections => sections.map(section => section.id)), ['inizio', 'discipline', 'docenti', 'ospiti', 'recensioni', 'galleria', 'dove-siamo', 'contatti']);
     assert.deepEqual(await page.locator('.course-panel').evaluateAll(links => links.map(link => link.getAttribute('href'))), courseRoutes.map(([slug]) => `/corsi/${slug}`));
     if (width > 820) {
@@ -119,8 +124,7 @@ try {
     }
     await page.locator('#docenti').scrollIntoViewIfNeeded();
     await page.waitForTimeout(450);
-    assert.ok(await page.locator('.direction').evaluate((direction, selector) => direction.compareDocumentPosition(document.querySelector(selector)) & Node.DOCUMENT_POSITION_FOLLOWING, '.faculty-selector'));
-    assert.deepEqual(await page.locator('.direction article strong').allTextContents(), ['Marco Stopponi', 'Stefano Stopponi']);
+    assert.equal(await page.locator('#docenti .direction').count(), 0, `${name}: artistic direction should have moved to the hero`);
     assert.equal(await page.locator('.faculty-list .godui-accordion__trigger').count(), 13);
     assert.equal(await page.locator('.faculty-list .faculty-row__role').count(), 0);
     assert.equal(await page.locator('.faculty-list .godui-accordion__item[data-open="true"]').count(), 0);
@@ -321,7 +325,8 @@ try {
     await coursePage.evaluate(() => { for (const img of document.images) img.loading = 'eager'; });
     await coursePage.waitForTimeout(450);
     assert.equal(await coursePage.locator('h1').textContent(), title);
-    assert.equal(await coursePage.locator('.course-fact').count(), 3);
+    // The colour-block fact cards were removed; the schedule is now the only overview.
+    assert.equal(await coursePage.locator('.course-fact').count(), 0);
     assert.ok(await coursePage.locator('[data-schedule-group]').count() >= 1, `${slug}: missing schedule groups`);
     assert.ok(await coursePage.locator('.schedule-session').count() >= 1, `${slug}: missing schedule sessions`);
     assert.equal(await coursePage.getByText('Orari in aggiornamento. Contatta la scuola per informazioni.', { exact: true }).count(), 0);
