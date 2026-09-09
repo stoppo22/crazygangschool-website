@@ -1,6 +1,9 @@
-﻿# Crazy Gang School
+# Crazy Gang School
 
-Local homepage with the original Crazy Gang identity and archival photography. Factual source: `CONTEXT.md`. Project rules: `AGENTS.md`. Media provenance: `ASSETS.md`. Visual direction: `DESIGN.md` (the approved editorial revision and plain, descriptive titles).
+Homepage and course pages for the Crazy Gang dance school, with the original brand
+identity and archival photography. Factual source: `CONTEXT.md`. Project rules:
+`AGENTS.md`. Media provenance: `ASSETS.md`. Visual direction: `DESIGN.md`.
+Pre-launch tasks still open: `LAUNCH_CHECKLIST.md`.
 
 ## Run
 
@@ -26,15 +29,28 @@ With the development server running:
 npm run test:browser
 ```
 
-The script uses an installed Chrome or Edge on Windows. On other systems, set `BROWSER_PATH` to an installed Chromium-family browser or provide a Playwright Chromium installation. `BASE_URL` optionally changes the target. Screenshots and the machine-readable report are written under `artifacts/`.
+The script uses an installed Chrome or Edge on Windows. On other systems, set
+`BROWSER_PATH` to an installed Chromium-family browser or provide a Playwright
+Chromium installation. `BASE_URL` optionally changes the target. Screenshots and
+the machine-readable report are written under `artifacts/`. The suite covers the
+home page, the mobile menu, the seven course pages, the 404 view, the
+gallery/lightbox (including `Esc`), the consent-gated Google Map and the absence
+of console errors.
 
 ## Implementation
 
-React + Vite, custom CSS, GSAP ScrollTrigger, `@gsap/react` and Framer Motion. There is no router, CMS, backend or component library. A small pathname renderer handles the seven local `/corsi/*` pages without adding routing infrastructure. The homepage includes anchor navigation, an accessible mobile menu, a responsive photographic course accordion, a three-step school story and a desktop pinned archive section. Reduced-motion preferences disable movement, transitions and pinning.
+React + Vite, custom CSS, GSAP ScrollTrigger, `@gsap/react` and Framer Motion.
+There is no router, CMS, backend or component library. A small pathname renderer
+(`src/main.jsx` → `resolveView`) selects between the homepage, the seven
+`/corsi/*` pages, the `/privacy` and `/cookie` pages and a real 404 view for any
+other path. `src/head.js` sets per-page `<title>`, description, canonical, Open
+Graph and JSON-LD on the JS-rendered pages; the homepage metadata is static in
+`index.html`. Reduced-motion preferences disable movement, transitions and
+pinning.
 
-The desktop navigation uses GodUI’s Magic Tab installed from the official registry source via its documented manual route. The project-specific adapter lives in `src/components/godui/MagicTab.jsx`: it preserves the controlled state and keyboard/hover interaction while using real anchors, the existing custom CSS stack and a restrained non-rainbow indicator. No Tailwind or theme package was added solely for this component.
-
-The school section uses GodUI’s Sticky Scroll installed from its official registry source. The adapter in `src/components/godui/StickyScroll.jsx` retains the observed active step, pinned visual swap, Framer Motion transition and reduced-motion fallback. Its internal nested scroller was intentionally adapted to window scroll so the component does not hijack the page. Mobile renders the three items as a normal vertical sequence.
+The desktop navigation uses GodUI's Magic Tab; the school section uses GodUI's
+Sticky Scroll. Both are installed from their official registry sources and
+adapted in `src/components/godui/`. See the git history for details.
 
 Course routes:
 
@@ -46,16 +62,55 @@ Course routes:
 - `/corsi/hip-hop`
 - `/corsi/danze-latino-americane`
 
-Vite development and preview servers provide the required history fallback. A future static host must rewrite these paths to `index.html`.
+## SEO
+
+- `seo.config.js` is the single source of truth for the production origin
+  (`SITE_URL`, default `https://www.crazygang.it` — **confirm before launch**,
+  override with the `SITE_URL` env var at build time), site name, default
+  description and the route list.
+- The Vite plugin in `vite.config.js` writes `dist/robots.txt` and
+  `dist/sitemap.xml` at build time and flips the robots meta tag:
+  `index, follow` on `npm run build`, `noindex, nofollow` on the dev server.
+- Each course page emits its own `<title>`, meta description, canonical and a
+  `Course` JSON-LD node (`src/course-data.js` holds `metaTitle` /
+  `metaDescription`). The homepage carries a `DanceSchool` JSON-LD block built
+  only from verified data (address, coordinates, contacts, social profiles — no
+  rating, no founding date, no opening hours).
+- The 404 view is `noindex`.
+
+## Deploy (Vercel)
+
+`vercel.json` sets the build command, output directory, cache headers for
+`/assets` and `/fonts`, and rewrites `/corsi/:slug`, `/privacy` and `/cookie` to
+`/index.html` so a direct refresh of those paths works. Any other unknown path is
+left to Vercel's native 404 (a real `404` status); an unknown course slug such as
+`/corsi/xyz` is rewritten to the app, which then renders its own 404 view.
+
+Set the `SITE_URL` environment variable in the Vercel project to the final
+production origin before the first production deploy.
+
+## Privacy
+
+The site sets no cookies of its own and loads no analytics, fonts or embeds from
+third parties (Cabinet Grotesk is self-hosted under `public/fonts/`). The only
+third-party embed is the Google Map in the "Dove siamo" section, which is **not
+mounted until the visitor clicks "Attiva la mappa"** — no request reaches Google
+before then, so no consent banner is required. Short `/privacy` and `/cookie`
+pages are provided with bracketed placeholders for the details the owner must
+supply; the legal text must be reviewed before launch (see
+`LAUNCH_CHECKLIST.md`).
 
 ## Content boundaries
 
-- All operating information is unconfirmed. No open-enrollment claim, class timetable, price, qualification or testimonial is invented.
-- Course pages use only owner-confirmed details recorded in `CONTEXT.md`. Missing ages, levels and schedules are plainly marked as unavailable or to be verified. The faculty list follows the main historical teacher page; it does not reconcile the alternate Home2 roster.
-- The CTA opens email or telephone links. No message is automatically sent and no booking or payment is simulated.
-- External archive and social links go to the documented destinations. The map is a search link, not a claim of verified coordinates.
-- Hero and courses use labelled stock placeholders; the archive section uses documented historical photographs. Image rights and credits remain to be confirmed. This prototype is `noindex` and has not been published.
-- Legal information, current opening status, active courses, current staff and final photography must be confirmed before launch.
-- `DESIGN.md` records the approved contemporary interpretation of the original brand: strong neutrals, deep indigo and selective plum/amber accents.
-
-
+- Course pages use only owner-confirmed details recorded in `CONTEXT.md`
+  (disciplines, age ranges and the verified schedules from 8 September 2026).
+  The "Avviamento" group name in Danza Classica is still to be confirmed.
+- The faculty list follows the historical teacher page; the current composition
+  is still to be confirmed.
+- The CTA opens email or telephone links. No message is sent and no booking or
+  payment is simulated. WhatsApp Business is shown as "non ancora attivo".
+- The reviews section shows only the verified Google rating; no review text is
+  published until each entry is checked against the listing.
+- Hero and course images are labelled stock placeholders (`data-placeholder`,
+  `placeholder: true`); the gallery uses documented historical photographs.
+  Image rights and credits remain to be confirmed.

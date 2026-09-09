@@ -12,6 +12,7 @@ import { FacultySection } from './FacultySection';
 import { ReviewsSection } from './ReviewsSection';
 import { LocationSection } from './LocationSection';
 import { AnimatedGallery } from './AnimatedGallery';
+import { PrivacyPage, CookiePage, NotFoundPage } from './LegalPage';
 import './styles.css';
 import './sections.css';
 import './chapters.css';
@@ -22,6 +23,7 @@ import './faculty.css';
 import './reviews.css';
 import './location.css';
 import './gallery.css';
+import './legal.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -36,7 +38,7 @@ function Brand({ footer = false, onNavigate }) {
 
 function Photo({ name, className = '', priority = false, sizes = '50vw' }) {
   const p = photos[name];
-  return <figure className={`photo ${className}`} data-placeholder={p.placeholder ? 'true' : undefined} style={{ '--position': p.position, '--mobile-position': p.mobilePosition }}><div className="photo__frame"><img src={p.src} srcSet={p.srcSet} sizes={sizes} width={p.width} height={p.height} alt={p.alt} loading={priority ? 'eager' : 'lazy'} /></div><figcaption>{p.caption}</figcaption></figure>;
+  return <figure className={`photo ${className}`} data-placeholder={p.placeholder ? 'true' : undefined} style={{ '--position': p.position, '--mobile-position': p.mobilePosition }}><div className="photo__frame"><img src={p.src} srcSet={p.srcSet} sizes={sizes} width={p.width} height={p.height} alt={p.alt} loading={priority ? 'eager' : 'lazy'} /></div>{p.caption ? <figcaption>{p.caption}</figcaption> : null}</figure>;
 }
 
 function Navigation() {
@@ -155,9 +157,23 @@ function App() {
         </div>
       </section>
     </main>
-    <footer className="footer"><Brand footer /><p>Crazy Gang School<br />Roma, Colli Albani</p><div><a href={contact.instagram} target="_blank" rel="noreferrer">Instagram <Arrow /></a><a href={contact.facebook} target="_blank" rel="noreferrer">Facebook <Arrow /></a></div><a href="#inizio">Torna su <Arrow down /></a><small>Anteprima locale · fotografie segnaposto e materiali d’archivio da verificare</small></footer>
+    {/* TODO(launch): sostituire le foto stock dei corsi e dell'hero con fotografie
+        originali della scuola; verificare diritti e crediti delle immagini
+        d'archivio della galleria. Vedi LAUNCH_CHECKLIST.md. */}
+    <footer className="footer"><Brand footer /><p>Crazy Gang School<br />Roma, Colli Albani</p><div><a href={contact.instagram} target="_blank" rel="noreferrer">Instagram <Arrow /></a><a href={contact.facebook} target="_blank" rel="noreferrer">Facebook <Arrow /></a></div><a href="#inizio">Torna su <Arrow down /></a><small><a href="/privacy">Privacy</a> · <a href="/cookie">Cookie</a></small></footer>
   </div>;
 }
 
-const selectedCourse = findCourse(window.location.pathname);
-createRoot(document.getElementById('root')).render(<React.StrictMode>{selectedCourse ? <CoursePage course={selectedCourse} /> : <App />}</React.StrictMode>);
+// Pathname routing without a router: the homepage, the seven /corsi/* pages, the
+// two legal pages, and a real 404 view for anything else.
+function resolveView() {
+  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  if (path === '/' || path === '/index.html') return <App />;
+  if (path === '/privacy') return <PrivacyPage />;
+  if (path === '/cookie') return <CookiePage />;
+  const course = findCourse(window.location.pathname);
+  if (course) return <CoursePage course={course} />;
+  return <NotFoundPage />;
+}
+
+createRoot(document.getElementById('root')).render(<React.StrictMode>{resolveView()}</React.StrictMode>);

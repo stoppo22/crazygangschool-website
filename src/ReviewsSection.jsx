@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { contact } from './content';
 
-// Insert only records checked against the Google listing. Never use generated copy here.
+// TODO(launch): inserire qui solo recensioni verificate una per una sulla scheda
+// Google (autore, testo, data, valutazione). Mai testo generato. Finché l'array
+// è vuoto il carosello non viene mostrato. Vedi LAUNCH_CHECKLIST.md.
 const verifiedReviews = [];
 
 function Arrow({ previous = false }) {
@@ -28,10 +30,7 @@ function ReviewCarousel({ reviews }) {
     return () => window.clearInterval(timer);
   }, [paused, reduceMotion, reviews.length]);
 
-  if (!reviews.length) return <div className="review-carousel" data-review-status="awaiting-verification">
-    <div className="review-carousel__empty"><strong>Carosello pronto per recensioni verificate</strong><p>Autori, testi e date saranno pubblicati solo dopo verifica diretta. Nessun contenuto dimostrativo viene presentato come recensione reale.</p></div>
-    <div className="review-carousel__controls" aria-label="Controlli recensioni"><button type="button" disabled aria-label="Recensione precedente"><Arrow previous /></button><span>In attesa dei contenuti</span><button type="button" disabled aria-label="Recensione successiva"><Arrow /></button></div>
-  </div>;
+  if (!reviews.length) return null;
 
   return <div className="review-carousel" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocusCapture={() => setPaused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}>
     <div ref={viewport} className="review-carousel__viewport" onTouchStart={event => { touchStart.current = event.touches[0].clientX; }} onTouchEnd={event => { const distance = touchStart.current - event.changedTouches[0].clientX; if (Math.abs(distance) > 45) move(distance > 0 ? 1 : -1); touchStart.current = null; }}>
@@ -47,7 +46,7 @@ export function ReviewsSection() {
       <header className="reviews__heading reveal"><h2 id="reviews-title">Recensioni.</h2><p>Valutazione pubblica su Google Maps</p></header>
       <div className="reviews__summary">
         <div className="reviews__rating" aria-label="Valutazione Google Maps: 4,8 su 5"><strong>4,8</strong><span aria-hidden="true">★★★★★</span></div>
-        <div><p>Rating verificato sulla scheda Google Maps di Crazy Gang School il 6 settembre 2026.</p><p>Il numero totale, gli autori e i testi completi non sono stati esposti da una fonte ufficiale consultabile e non vengono pubblicati come dati verificati.</p></div>
+        <div><p>Valutazione media pubblicata sulla scheda Google Maps di Crazy Gang School.</p></div>
       </div>
       <ReviewCarousel reviews={verifiedReviews} />
       <div className="reviews__actions">

@@ -6,7 +6,10 @@ function Arrow() {
 }
 
 export function LocationSection() {
-  const [interactive, setInteractive] = useState(false);
+  // Privacy: the Google Maps iframe is not mounted until the visitor activates
+  // it, so no request or cookie reaches Google on page load. See CookiePage.
+  const [active, setActive] = useState(false);
+
   return <section id="dove-siamo" className="location section-space" tabIndex={-1} aria-labelledby="location-title">
     <div className="location__inner">
       <div className="location__copy reveal">
@@ -16,10 +19,16 @@ export function LocationSection() {
         <p>A pochi passi dalla fermata Metro A Colli Albani.</p>
         <a href={contact.maps} target="_blank" rel="noreferrer">Apri su Google Maps <Arrow /><span className="sr-only"> (nuova scheda)</span></a>
       </div>
-      <div className={`location-map ${interactive ? 'is-interactive' : ''}`}>
-        <iframe title="Mappa di Crazy Gang School a Roma" src={contact.mapsEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" tabIndex={interactive ? 0 : -1} />
-        {!interactive && <button type="button" onClick={() => setInteractive(true)}>Attiva la mappa</button>}
-        {interactive && <button className="location-map__disable" type="button" onClick={() => setInteractive(false)}>Disattiva interazione</button>}
+      <div className={`location-map ${active ? 'is-interactive' : ''}`}>
+        {active
+          ? <>
+              <iframe title="Mappa di Crazy Gang School a Roma" src={contact.mapsEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+              <button className="location-map__disable" type="button" onClick={() => setActive(false)}>Nascondi mappa</button>
+            </>
+          : <button type="button" onClick={() => setActive(true)}>
+              Attiva la mappa
+              <span className="location-map__hint">Caricando la mappa accetti i cookie di Google Maps</span>
+            </button>}
       </div>
     </div>
   </section>;

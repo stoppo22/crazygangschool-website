@@ -23,7 +23,8 @@ export function FacultySection() {
   const items = useMemo(() => faculty.map(teacher => ({ value: teacher.id, title: <span className="faculty-row"><span className="faculty-row__name">{teacher.name}</span><span className="faculty-row__line" aria-hidden="true" /></span>, content: null })), []);
   const selectTeacher = value => { if (value) { setSelected(value); setListOpen(false); } };
   return <section id="docenti" className="faculty section-space" tabIndex={-1} aria-labelledby="faculty-title">
-    <header className="faculty-heading reveal"><h2 id="faculty-title">Insegnanti.</h2><p>Elenco e discipline pubblicati sul sito ufficiale della scuola. La composizione attuale è da confermare.</p></header>
+    {/* TODO(launch): confermare la composizione attuale del corpo docente prima della pubblicazione definitiva. Vedi LAUNCH_CHECKLIST.md. */}
+    <header className="faculty-heading reveal"><h2 id="faculty-title">Insegnanti.</h2><p>Gli insegnanti della scuola e le rispettive discipline.</p></header>
     <ArtisticDirection />
     <div className="faculty-selector">
       {selectedTeacher && <div className="faculty-mobile-profile" aria-live="polite"><TeacherProfile teacher={selectedTeacher} mobile /></div>}

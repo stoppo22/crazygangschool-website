@@ -4,6 +4,8 @@ import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { contact } from './content';
 import { courses } from './course-data';
+import { applyHead } from './head';
+import { SITE_URL, absoluteUrl } from './site';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -20,9 +22,11 @@ function Arrow({ back = false }) {
 }
 
 function CourseImage({ course, sizes }) {
+  // TODO(launch): foto stock temporanea, sostituire con foto originale del corso.
+  // La didascalia riporta il credito della fonte. Vedi LAUNCH_CHECKLIST.md.
   return <figure className="course-photo" style={{ '--position': course.image.position }}>
     <div><img src={course.image.src} srcSet={course.image.srcSet} sizes={sizes} width={course.image.width} height={course.image.height} alt={course.image.alt} data-placeholder="true" /></div>
-    <figcaption>Fotografia segnaposto · {course.image.credit}</figcaption>
+    <figcaption>Foto: {course.image.credit}</figcaption>
   </figure>;
 }
 
@@ -58,7 +62,28 @@ function CourseSchedule({ course }) {
 export function CoursePage({ course }) {
   const root = useRef(null);
   useEffect(() => {
-    document.title = `${course.title} — Crazy Gang School`;
+    const canonical = absoluteUrl(`/corsi/${course.slug}`);
+    applyHead({
+      title: course.metaTitle || `${course.title} — Crazy Gang School`,
+      description: course.metaDescription,
+      canonical,
+      ogImage: absoluteUrl(course.image.src),
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'Course',
+        name: course.title,
+        description: course.metaDescription,
+        url: canonical,
+        inLanguage: 'it',
+        courseMode: 'onsite',
+        provider: {
+          '@type': 'DanceSchool',
+          name: 'Crazy Gang School',
+          url: `${SITE_URL}/`,
+          sameAs: [contact.instagram, contact.facebook],
+        },
+      },
+    });
     window.scrollTo(0, 0);
   }, [course]);
 
@@ -108,6 +133,6 @@ export function CoursePage({ course }) {
         </div>
       </section>
     </main>
-    <footer className="course-footer"><a href="/#discipline"><Arrow back /> Torna a tutti i corsi</a><span>Crazy Gang School · Roma, Colli Albani</span><span>Fotografie temporanee, da sostituire con immagini originali della scuola</span></footer>
+    <footer className="course-footer"><a href="/#discipline"><Arrow back /> Torna a tutti i corsi</a><span>Crazy Gang School · Roma, Colli Albani</span><span><a href="/privacy">Privacy</a> · <a href="/cookie">Cookie</a></span></footer>
   </div>;
 }

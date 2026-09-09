@@ -13,10 +13,13 @@ const sisterAct = archivePhoto('sister-act', 3300, 2156,
   'Un ensemble in costumi da suora danza sul palco; la scenografia riporta il nome Crazy Gang.',
   'Sister Act · etichetta dell’archivio originale',
   'https://www.crazygangschool.com/');
+// TODO(launch): `placeholder: true` marca le foto stock temporanee (attributo
+// data-placeholder nel markup, non visibile all'utente). Sostituirle con
+// fotografie originali della scuola e rimuovere il flag. Vedi LAUNCH_CHECKLIST.md.
 const placeholder = (name, widths, width, height) => ({
   src: `/images/placeholder-${name}-900.webp`,
   srcSet: widths.map(size => `/images/placeholder-${name}-${size}.webp ${size}w`).join(', '),
-  width, height, alt: '', caption: 'Fotografia segnaposto', placeholder: true,
+  width, height, alt: '', caption: '', placeholder: true,
   position: '50% 50%', mobilePosition: '50% 50%',
 });
 const stagePlaceholder = placeholder('stage', [480, 900, 1300], 1400, 1869);

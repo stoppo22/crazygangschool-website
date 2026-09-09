@@ -11,6 +11,9 @@ export const courses = [
     slug: 'danza-moderna',
     title: 'Danza Moderna',
     preview: 'Gioco danza 3–4 anni · Moderna dai 5 anni',
+    metaTitle: 'Corso di Danza Moderna a Roma — Crazy Gang School',
+    metaDescription:
+      'Gioco danza 3–4 anni e danza moderna dai 5 anni per bambini, ragazzi e adulti, tutti i livelli, alla Crazy Gang School di Roma (Colli Albani).',
     summary: 'Gioco danza per i più piccoli e danza moderna per bambini e ragazzi.',
     ages: ['Gioco danza: 3–4 anni', 'Bambini: dai 5 anni compiuti', 'Ragazzi e adulti: gruppi divisi per età'],
     levels: ['Principianti', 'Intermedio', 'Avanzato'],
@@ -36,6 +39,9 @@ export const courses = [
     slug: 'danza-classica',
     title: 'Danza Classica',
     preview: 'Bambini dai 5 anni · Ragazzi tutti i livelli',
+    metaTitle: 'Corso di Danza Classica a Roma — Crazy Gang School',
+    metaDescription:
+      'Danza classica dai 5 anni compiuti per bambini, ragazzi e adulti: propedeutica, perfezionamento e percorso professionale alla Crazy Gang School di Roma.',
     summary: 'Danza classica per bambini dai 5 anni compiuti, ragazzi e adulti.',
     ages: ['Bambini: dai 5 anni compiuti', 'Ragazzi e adulti'],
     levels: ['Propedeutica', 'Avviamento', 'Perfezionamento', 'Principianti / Intermedio', 'Professionale'],
@@ -53,7 +59,10 @@ export const courses = [
   {
     slug: 'tip-tap',
     title: 'Tip Tap',
-    preview: 'Corso disponibile · Dettagli da verificare',
+    preview: 'Dai 14 anni · Principianti e avanzato',
+    metaTitle: 'Corso di Tip Tap a Roma — Crazy Gang School',
+    metaDescription:
+      'Tip tap dai 14 anni, gruppi principianti e intermedio / avanzato, alla Crazy Gang School di Roma, zona Colli Albani.',
     summary: 'Tip Tap per ragazzi dai 14 anni, con gruppi principianti e intermedio / avanzato.',
     ages: ['Dai 14 anni'],
     levels: ['Principianti', 'Intermedio / Avanzato'],
@@ -67,7 +76,10 @@ export const courses = [
   {
     slug: 'k-pop',
     title: 'K-Pop',
-    preview: 'Corso disponibile · Dettagli da verificare',
+    preview: 'Dai 9 anni',
+    metaTitle: 'Corso di K-Pop a Roma — Crazy Gang School',
+    metaDescription:
+      'Corso di K-pop dai 9 anni alla Crazy Gang School di Roma, zona Colli Albani.',
     summary: 'Corso di K-Pop dai 9 anni.',
     ages: ['Dai 9 anni'],
     levels: ['Livello non specificato'],
@@ -81,6 +93,9 @@ export const courses = [
     slug: 'kung-fu',
     title: 'Kung Fu',
     preview: 'Bambini dai 6 anni compiuti',
+    metaTitle: 'Corso di Kung Fu a Roma — Crazy Gang School',
+    metaDescription:
+      'Kung fu per bambini dai 6 anni, ragazzi dagli 11 anni e adulti alla Crazy Gang School di Roma, zona Colli Albani.',
     summary: 'Kung Fu per bambini, ragazzi e adulti.',
     ages: ['Bambini: dai 6 anni', 'Ragazzi: dagli 11 anni', 'Adulti'],
     levels: ['Livello non specificato'],
@@ -96,6 +111,9 @@ export const courses = [
     slug: 'hip-hop',
     title: 'Hip Hop',
     preview: 'Bambini dai 5 anni compiuti',
+    metaTitle: 'Corso di Hip Hop a Roma — Crazy Gang School',
+    metaDescription:
+      'Hip hop dai 5 anni e breakdance dagli 11 anni per bambini e ragazzi alla Crazy Gang School di Roma, zona Colli Albani.',
     summary: 'Hip Hop per bambini e ragazzi, con Breakdance dagli 11 anni.',
     ages: ['Hip Hop: dai 5 anni', 'Breakdance: dagli 11 anni'],
     levels: ['Livello non specificato'],
@@ -111,6 +129,9 @@ export const courses = [
     slug: 'danze-latino-americane',
     title: 'Danze Latino Americane',
     preview: 'Salsa Cubana · Bachata · Lady Style',
+    metaTitle: 'Danze Latino Americane a Roma — Crazy Gang School',
+    metaDescription:
+      'Salsa cubana, bachata, lady style e danze standard e latino-americane per adulti, livello amatoriale e competizione, alla Crazy Gang School di Roma.',
     summary: 'Salsa Cubana, Bachata, Lady Style e percorsi Standard, Latino Americane e Latin Style per single.',
     ages: ['Tutte le età', 'I gruppi con orario indicato sono per adulti'],
     levels: ['Salsa Cubana: base, 1° e 2° livello', 'Bachata: base e 1° livello', 'Percorsi per single: amatoriale e competizione'],

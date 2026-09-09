@@ -1,20 +1,71 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#101011" />
-    <meta name="robots" content="noindex, nofollow" />
-    <meta name="description" content="Crazy Gang School a Roma. Scopri le discipline riportate dal sito e contatta la scuola per attività, orari e disponibilità." />
+    <!-- robots is rewritten by vite.config.js: "index, follow" on build, "noindex, nofollow" on the dev server -->
+    <meta name="robots" content="index, follow" />
+    <title>Crazy Gang School — Scuola di danza a Roma</title>
+    <meta
+      name="description"
+      content="Scuola di danza a Roma, zona Colli Albani: danza moderna e classica, hip hop, tip tap, K-pop, danze latino-americane e kung fu per bambini, ragazzi e adulti."
+    />
+    <link rel="canonical" href="https://www.crazygang.it/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Crazy Gang School" />
+    <meta property="og:title" content="Crazy Gang School — Scuola di danza a Roma" />
+    <meta
+      property="og:description"
+      content="Scuola di danza a Roma, zona Colli Albani: danza moderna e classica, hip hop, tip tap, K-pop, danze latino-americane e kung fu per bambini, ragazzi e adulti."
+    />
+    <meta property="og:url" content="https://www.crazygang.it/" />
+    <meta property="og:image" content="https://www.crazygang.it/brand/crazy-gang-960.webp" />
+    <meta property="og:locale" content="it_IT" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
     <link rel="preload" href="/fonts/cabinet-700.woff2" as="font" type="font/woff2" crossorigin />
-    <title>Crazy Gang School — Danza, Roma</title>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "DanceSchool",
+        "name": "Crazy Gang School",
+        "url": "https://www.crazygang.it/",
+        "image": "https://www.crazygang.it/brand/crazy-gang-960.webp",
+        "logo": "https://www.crazygang.it/brand/crazy-gang-original.png",
+        "email": "info@crazygang.it",
+        "telephone": "+39 06 7883621",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Largo Orazi e Curiazi, 12",
+          "postalCode": "00181",
+          "addressLocality": "Roma",
+          "addressCountry": "IT"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 41.8724821,
+          "longitude": 12.5294285
+        },
+        "hasMap": "https://www.google.com/maps/place/Crazy+Gang+School/@41.8724821,12.5294285,17z/data=!3m1!4b1!4m6!3m5!1s0x132f61f808a89c81:0xe5f28e8c08f3ea59!8m2!3d41.8724821!4d12.5294285!16s%2Fg%2F11cs2v__pm",
+        "sameAs": [
+          "https://www.instagram.com/crazygangschool/",
+          "https://www.facebook.com/crazygangschool85/?fref=ts"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
-    <noscript>Crazy Gang School — L.go Orazi e Curiazi, 12 - Roma. Informazioni: <a href="mailto:info@crazygang.it">info@crazygang.it</a>, <a href="tel:067883621">067883621</a>. Attività e disponibilità da confermare con la scuola.</noscript>
+    <noscript>
+      Crazy Gang School — L.go Orazi e Curiazi, 12 - Roma. Informazioni:
+      <a href="mailto:info@crazygang.it">info@crazygang.it</a>,
+      <a href="tel:067883621">06 7883621</a>. Per orari e disponibilità contatta la scuola.
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
-
-

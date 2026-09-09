@@ -47,7 +47,7 @@ try {
     assert.equal(await page.locator('.course-panel').count(), 7);
     assert.equal(await page.locator('[data-placeholder]').count(), 8);
     assert.equal(await page.locator('.sticky-scroll,.school-story,.sticky-scroll__step').count(), 0);
-    assert.equal(await page.locator('#dove-siamo iframe').count(), 1);
+    assert.equal(await page.locator('#dove-siamo iframe').count(), 0, `${name}: map iframe present before consent`);
     assert.equal(await page.locator('.facts-bento,.people,.archive').count(), 0);
     assert.equal(await page.locator('.hero-description p').count(), 2);
     assert.equal(await page.locator('.hero-aside,[data-location]').count(), 0);
@@ -130,9 +130,9 @@ try {
     await page.locator('#recensioni').scrollIntoViewIfNeeded();
     await page.waitForTimeout(220);
     assert.equal((await page.locator('.reviews__rating strong').textContent()).trim(), '4,8');
-    assert.equal(await page.locator('#recensioni [data-review-status="awaiting-verification"]').count(), 1);
+    assert.equal(await page.locator('#recensioni [data-review-status="awaiting-verification"]').count(), 0);
     assert.equal(await page.locator('#recensioni blockquote').count(), 0);
-    assert.equal(await page.locator('.review-carousel__controls button:disabled').count(), 2);
+    assert.equal(await page.locator('#recensioni .review-carousel').count(), 0);
     assert.deepEqual((await page.locator('.reviews__actions>a').allTextContents()).map(text => text.replace('(nuova scheda)', '').trim()), ['Leggi tutte le recensioni', 'Lascia una recensione']);
     assert.ok(await page.locator('.reviews__actions>a').evaluateAll(links => links.every(link => link.href.startsWith('https://www.google.com/maps/place/Crazy+Gang+School/'))));
     if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Recensioni');
@@ -181,11 +181,13 @@ try {
     assert.equal(await page.locator('#dove-siamo address').textContent(), 'Crazy Gang SchoolLargo Orazi e Curiazi, 1200181 Roma');
     assert.equal(await page.locator('#dove-siamo').getByText('Metro A · Colli Albani', { exact: true }).count(), 1);
     assert.equal(await page.locator('#dove-siamo a[href*="google.com/maps"]').count(), 1);
-    assert.equal(await page.locator('#dove-siamo iframe').evaluate(frame => getComputedStyle(frame).pointerEvents), 'none');
-    await page.getByRole('button', { name: 'Attiva la mappa' }).click();
+    // Google Maps is consent-gated: the iframe is not in the DOM until activated.
+    assert.equal(await page.locator('#dove-siamo iframe').count(), 0);
+    await page.getByRole('button', { name: /Attiva la mappa/ }).click();
+    assert.equal(await page.locator('#dove-siamo iframe').count(), 1);
     assert.equal(await page.locator('#dove-siamo iframe').evaluate(frame => getComputedStyle(frame).pointerEvents), 'auto');
-    await page.getByRole('button', { name: 'Disattiva interazione' }).click();
-    assert.equal(await page.locator('#dove-siamo iframe').evaluate(frame => getComputedStyle(frame).pointerEvents), 'none');
+    await page.getByRole('button', { name: 'Nascondi mappa' }).click();
+    assert.equal(await page.locator('#dove-siamo iframe').count(), 0);
     if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Dove siamo');
     await page.screenshot({ path: `artifacts/${name}-location.png` });
     if (width <= 820) {
@@ -242,9 +244,28 @@ try {
     }));
     assert.ok(courseLayout.scrollWidth <= courseLayout.width, `${slug}: horizontal overflow`);
     assert.deepEqual(courseLayout.imagesBroken, [], `${slug}: broken images`);
+    // Per-page SEO metadata
+    assert.match(await coursePage.title(), new RegExp(title), `${slug}: page title missing course name`);
+    assert.ok((await coursePage.locator('meta[name="description"]').getAttribute('content'))?.length > 30, `${slug}: missing meta description`);
+    assert.ok((await coursePage.locator('link[rel="canonical"]').getAttribute('href')).endsWith(`/corsi/${slug}`), `${slug}: wrong canonical`);
+    const ld = await coursePage.locator('script[type="application/ld+json"]').last().textContent();
+    assert.ok(ld.includes('"@type":"Course"') && ld.includes(title), `${slug}: missing Course JSON-LD`);
+    assert.equal(await coursePage.locator('meta[name="robots"]').getAttribute('content'), 'noindex, nofollow', `${slug}: dev robots not noindex`);
   }
   await coursePage.goto(`${baseURL}/corsi/danza-moderna`, { waitUntil: 'domcontentloaded' });
   await coursePage.screenshot({ path: 'artifacts/course-danza-moderna-desktop.png', fullPage: true });
+
+  // Real 404 view for invalid routes (course slug and arbitrary path)
+  for (const badPath of ['/corsi/non-esiste', '/pagina-inesistente', '/corsi']) {
+    console.log(`Checking 404: ${badPath}`);
+    await coursePage.goto(`${baseURL}${badPath}`, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    await coursePage.waitForTimeout(250);
+    assert.equal(await coursePage.locator('.not-found-main').count(), 1, `${badPath}: no 404 view`);
+    assert.equal(await coursePage.locator('h1').textContent(), 'Pagina non trovata', `${badPath}: wrong 404 heading`);
+    assert.match(await coursePage.locator('meta[name="robots"]').getAttribute('content'), /noindex/, `${badPath}: 404 not noindex`);
+    assert.equal(await coursePage.locator('a[href="/"]').count() >= 1, true, `${badPath}: 404 missing home link`);
+  }
+  await coursePage.screenshot({ path: 'artifacts/not-found.png' });
   await courseContext.close();
 
   const mobileCourseContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce', isMobile: true, hasTouch: true });

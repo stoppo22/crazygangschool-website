@@ -6,8 +6,6 @@
 .course-panel[data-active=true]>img{filter:grayscale(0) saturate(.92) contrast(1.04);transform:scale(1.055)}
 .course-panel__shade{position:absolute;inset:0;z-index:1;background:rgba(6,6,8,.42);transition:background .45s ease}
 .course-panel[data-active=true] .course-panel__shade{background:rgba(6,6,8,.18)}
-.course-panel__placeholder{position:absolute;z-index:2;top:19px;left:18px;padding:7px 8px;background:var(--paper);color:var(--ink);font-size:9px;font-weight:700;line-height:1;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap;opacity:0;transition:opacity .25s ease}
-.course-panel[data-active=true] .course-panel__placeholder{opacity:1}
 .course-panel__compact{position:absolute;z-index:2;left:50%;bottom:24px;font-size:clamp(17px,1.5vw,27px);font-weight:900;line-height:.9;letter-spacing:-.035em;writing-mode:vertical-rl;transform:translateX(-50%) rotate(180deg);transition:opacity .2s ease}
 .course-panel[data-active=true] .course-panel__compact{opacity:0}
 .course-panel__content{position:absolute;z-index:2;left:clamp(22px,3vw,52px);right:clamp(22px,3vw,52px);bottom:clamp(26px,4vw,60px);display:flex;flex-direction:column;align-items:flex-start;opacity:0;transform:translateY(24px);transition:opacity .32s .18s ease,transform .45s .15s ease;pointer-events:none}
@@ -85,7 +83,6 @@
   .course-panel,.course-panel[data-active=true]{flex:none;min-height:clamp(300px,92vw,520px);border:0}
   .course-panel>img,.course-panel[data-active=true]>img{filter:grayscale(.22) saturate(.88) contrast(1.05);transform:none}
   .course-panel__shade,.course-panel[data-active=true] .course-panel__shade{background:rgba(6,6,8,.28)}
-  .course-panel__placeholder,.course-panel[data-active=true] .course-panel__placeholder{opacity:1}
   .course-panel__compact{display:none}
   .course-panel__content,.course-panel[data-active=true] .course-panel__content{left:23px;right:23px;bottom:25px;opacity:1;transform:none}
   .course-panel__content>strong{font-size:clamp(45px,13vw,82px)}
@@ -128,7 +125,7 @@
 }
 
 @media(prefers-reduced-motion:reduce){
-  .course-panel,.course-panel>img,.course-panel__shade,.course-panel__placeholder,.course-panel__compact,.course-panel__content,.course-page svg,.related-course img{transition:none!important}
+  .course-panel,.course-panel>img,.course-panel__shade,.course-panel__compact,.course-panel__content,.course-page svg,.related-course img{transition:none!important}
   .course-panel{transform:none!important;opacity:1!important}
   .course-panel[data-active=true]>img,.course-hero__title span,.course-hero .course-photo>div,.course-reveal,.related-course img{transform:none!important;clip-path:none!important;opacity:1!important}
 }
