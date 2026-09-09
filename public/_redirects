@@ -1,6 +1,8 @@
-# Cloudflare Pages rewrites — deep links to JS-rendered routes serve index.html
-# (status 200 keeps the URL). Any other unknown path is left to the platform's
-# native 404, so invalid routes get a real 404 status.
-/corsi/*   /index.html   200
-/privacy   /index.html   200
-/cookie    /index.html   200
+# Deep links to JS-rendered routes serve the SPA shell (200 keeps the URL).
+# Destination is "/" not "/index.html": Workers static assets rejects rewrites
+# to *.html / */index as loops, and "/" resolves to index.html anyway.
+# Any other unknown path falls through to 404.html (not_found_handling in
+# wrangler.jsonc) with a real 404 status.
+/corsi/*   /   200
+/privacy   /   200
+/cookie    /   200

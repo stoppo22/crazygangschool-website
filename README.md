@@ -90,11 +90,12 @@ Course routes:
   `npx wrangler deploy` (Cloudflare's Git build runs `npm run build` first).
   `.nvmrc` pins Node 22.
 - `public/_redirects` (copied to `dist/_redirects` by the build) rewrites
-  `/corsi/*`, `/privacy` and `/cookie` to `/index.html` with status `200`, so a
-  direct load or refresh of those paths works. Any other unknown path is served
-  `dist/404.html` with a real `404` status (via `not_found_handling`). An unknown
-  course slug such as `/corsi/xyz` matches the `/corsi/*` rewrite, so the app
-  loads and renders its own `noindex` 404 view (status `200`).
+  `/corsi/*`, `/privacy` and `/cookie` to `/` with status `200` (the SPA shell;
+  destination must be `/`, not `/index.html`, which wrangler rejects as a loop),
+  so a direct load or refresh of those paths works. Any other unknown path is
+  served `dist/404.html` with a real `404` status (via `not_found_handling`). An
+  unknown course slug such as `/corsi/xyz` matches the `/corsi/*` rewrite, so the
+  app loads and renders its own `noindex` 404 view (status `200`).
 - No custom `_headers` file: Cloudflare already sets long-lived caching for the
   hashed files under `/assets`.
 - Set the `SITE_URL` variable in the Cloudflare project to the final production
