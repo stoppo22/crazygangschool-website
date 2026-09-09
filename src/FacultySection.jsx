@@ -9,9 +9,6 @@ function TeacherPhoto({ teacher, mobile = false }) {
 function TeacherProfile({ teacher, mobile = false }) {
   return <div className={`faculty-profile ${mobile ? 'faculty-profile--mobile' : ''}`}><TeacherPhoto teacher={teacher} mobile={mobile} /><div className="faculty-preview__identity"><strong>{teacher.name}</strong><span>{teacher.role}</span></div></div>;
 }
-function ArtisticDirection() {
-  return <div className="direction" aria-labelledby="direction-title"><h3 id="direction-title">La direzione artistica</h3><div>{faculty.slice(0, 2).map(person => <article key={person.id}><strong>{person.name}</strong><span>Direttore artistico</span></article>)}</div></div>;
-}
 export function FacultySection() {
   const [selected, setSelected] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -25,7 +22,6 @@ export function FacultySection() {
   return <section id="docenti" className="faculty section-space" tabIndex={-1} aria-labelledby="faculty-title">
     {/* TODO(launch): confermare la composizione attuale del corpo docente prima della pubblicazione definitiva. Vedi LAUNCH_CHECKLIST.md. */}
     <header className="faculty-heading reveal"><h2 id="faculty-title">Insegnanti</h2><p>Gli insegnanti della scuola e le rispettive discipline.</p></header>
-    <ArtisticDirection />
     <div className="faculty-selector">
       {selectedTeacher && <div className="faculty-mobile-profile" aria-live="polite"><TeacherProfile teacher={selectedTeacher} mobile /></div>}
       <button className="faculty-disclosure" type="button" aria-expanded={listOpen} aria-controls="faculty-list" onClick={() => setListOpen(open => !open)}><span>{listOpen ? 'Chiudi elenco insegnanti' : 'Vedi tutti gli insegnanti'}</span><i aria-hidden="true">{listOpen ? '−' : '+'}</i></button>

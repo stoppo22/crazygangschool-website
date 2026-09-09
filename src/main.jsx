@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { contact, photos } from './content';
+import { contact, faculty, photos } from './content';
 import { courses, findCourse } from './course-data';
 import { CourseAccordion } from './CourseAccordion';
 import { CoursePage } from './CoursePage';
@@ -128,7 +128,7 @@ function App() {
       <section id="inizio" className="hero" aria-labelledby="hero-title">
         <div className="hero-copy">
           <div className="hero-kicker"><span>Danza e discipline di movimento</span><span>Bambini · ragazzi · adulti</span></div>
-          <div className="hero-main"><h1 id="hero-title" className="hero-title"><span className="hero-title__line"><span>Dal 1985, a Roma</span></span><span className="hero-title__line hero-title__line--accent"><span>Crazy Gang School</span></span></h1><div className="hero-description"><p>Dal 1985 la scuola riunisce a Roma attività di danza moderna e classica, Hip Hop, Tip Tap, K-Pop, danze latino-americane e Kung Fu per bambini, ragazzi e adulti.</p><p>La sua storia è documentata anche da saggi, rassegne, Crazy Party e spettacoli in cui danza, canto e recitazione si incontrano sul palco.</p></div></div>
+          <div className="hero-main"><h1 id="hero-title" className="hero-title"><span className="hero-title__line"><span>Dal 1985 a Roma</span></span><span className="hero-title__line hero-title__line--accent"><span>Crazy Gang School</span></span></h1><p className="hero-direction"><span>Direzione artistica</span>{faculty.slice(0, 2).map(person => person.name).join(' · ')}</p><div className="hero-description"><p>Dal 1985 la scuola riunisce a Roma attività di danza moderna e classica, Hip Hop, Tip Tap, K-Pop, danze latino-americane e Kung Fu per bambini, ragazzi e adulti.</p><p>La sua storia è documentata anche da saggi, rassegne, Crazy Party e spettacoli in cui danza, canto e recitazione si incontrano sul palco.</p></div></div>
           <div className="hero-actions"><a className="button button--acid" href="#discipline">Scopri le discipline <Arrow /></a><a className="text-action" href="#contatti">Parla con la scuola <Arrow /></a></div>
         </div>
         <div className="hero-visual"><Photo name="heroMain" className="hero-photo" priority sizes="(max-width: 820px) 100vw, 43vw" /></div>
