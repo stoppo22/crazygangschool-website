@@ -145,7 +145,8 @@ export function TileReveal({
       contentRef.current.style.pointerEvents = revealProgress > 0.5 ? 'auto' : 'none';
     }
     if (scrollHintRef.current) {
-      scrollHintRef.current.style.opacity = Math.max(0, 1 - revealProgress).toFixed(3);
+      // Linger near full opacity through the reveal, then drop away quickly.
+      scrollHintRef.current.style.opacity = Math.max(0, 1 - revealProgress * revealProgress).toFixed(3);
     }
     onProgress?.(progress);
   }, [columnCount, contentGap, gap, onProgress, sequence, spread, startAssembled, tileAspect, zoom]);
