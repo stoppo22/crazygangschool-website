@@ -110,7 +110,7 @@ function GalleryArchive({ returnFocus, onClose }) {
   return createPortal(<>
     <motion.div className="gallery-archive" role="presentation" initial={reduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0 : .2 }}>
       <div ref={dialog} className="gallery-archive__dialog" role="dialog" aria-modal="true" aria-labelledby="gallery-archive-title">
-        <header className="gallery-archive__header"><strong id="gallery-archive-title">Archivio fotografico.</strong><button className="gallery-archive__close" type="button" onClick={onClose} aria-label="Chiudi archivio fotografico"><span>Chiudi</span><Icon direction="close" /></button></header>
+        <header className="gallery-archive__header"><strong id="gallery-archive-title">Archivio fotografico</strong><button className="gallery-archive__close" type="button" onClick={onClose} aria-label="Chiudi archivio fotografico"><span>Chiudi</span><Icon direction="close" /></button></header>
         <div className="gallery-archive__grid" aria-label="Fotografie Crazy Gang">
           {galleryImages.map((image, index) => <figure className={`gallery-photo${image.height > image.width ? ' gallery-photo--portrait' : ''}`} key={image.id}>
             <button type="button" onClick={(event) => openPhoto(index, event.currentTarget)} aria-label={`Apri ${image.title}, foto ${index + 1} di ${galleryImages.length}`}>
@@ -147,10 +147,10 @@ export function AnimatedGallery() {
   const revealImages = (compact ? revealSelection.slice(0, 8) : revealSelection).map(image => image.src);
 
   return <section id="galleria" className="gallery section-space" tabIndex={-1} aria-labelledby="gallery-title">
-    <header className="gallery-heading"><h2 id="gallery-title">Galleria.</h2><p>Foto dalla scuola, dai saggi e dagli spettacoli Crazy Gang.</p></header>
+    <header className="gallery-heading"><h2 id="gallery-title">Galleria</h2><p>Foto dalla scuola, dai saggi e dagli spettacoli Crazy Gang.</p></header>
     <TileReveal className="gallery-curtain" images={revealImages} columns={compact ? 2 : 3} gap={compact ? 6 : 10} gridWidth={compact ? 520 : 1120} tileAspect={compact ? 1.46 : 1.5} grayscale={false} startAssembled stagger={compact ? 0.035 : 0.045} overlap={0.72} zoom={compact ? 1.45 : 1.62} spread={compact ? 0.2 : 0.3} scrollLength={compact ? 0.65 : 0.9} scrub={compact ? 0.0175 : 0.026} backgroundColor="#101011">
       <button ref={opener} className="gallery-curtain__action" type="button" onClick={() => setArchiveOpen(true)} aria-label="Apri l’archivio fotografico">
-        <span className="gallery-curtain__copy"><strong>Archivio fotografico.</strong><small>Saggi, spettacoli e vita della scuola.</small></span>
+        <span className="gallery-curtain__copy"><strong>Archivio fotografico</strong><small>Saggi, spettacoli e vita della scuola.</small></span>
         <span className="gallery-curtain__link">Apri la galleria <Icon direction="next" /></span>
       </button>
     </TileReveal>

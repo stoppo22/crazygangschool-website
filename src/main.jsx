@@ -128,7 +128,7 @@ function App() {
       <section id="inizio" className="hero" aria-labelledby="hero-title">
         <div className="hero-copy">
           <div className="hero-kicker"><span>Danza e discipline di movimento</span><span>Bambini · ragazzi · adulti</span></div>
-          <div className="hero-main"><h1 id="hero-title" className="hero-title"><span className="hero-title__line"><span>Dal 1985, a Roma.</span></span><span className="hero-title__line hero-title__line--accent"><span>Crazy Gang School</span></span></h1><div className="hero-description"><p>Dal 1985 la scuola riunisce a Roma attività di danza moderna e classica, Hip Hop, Tip Tap, K-Pop, danze latino-americane e Kung Fu per bambini, ragazzi e adulti.</p><p>La sua storia è documentata anche da saggi, rassegne, Crazy Party e spettacoli in cui danza, canto e recitazione si incontrano sul palco.</p></div></div>
+          <div className="hero-main"><h1 id="hero-title" className="hero-title"><span className="hero-title__line"><span>Dal 1985, a Roma</span></span><span className="hero-title__line hero-title__line--accent"><span>Crazy Gang School</span></span></h1><div className="hero-description"><p>Dal 1985 la scuola riunisce a Roma attività di danza moderna e classica, Hip Hop, Tip Tap, K-Pop, danze latino-americane e Kung Fu per bambini, ragazzi e adulti.</p><p>La sua storia è documentata anche da saggi, rassegne, Crazy Party e spettacoli in cui danza, canto e recitazione si incontrano sul palco.</p></div></div>
           <div className="hero-actions"><a className="button button--acid" href="#discipline">Scopri le discipline <Arrow /></a><a className="text-action" href="#contatti">Parla con la scuola <Arrow /></a></div>
         </div>
         <div className="hero-visual"><Photo name="heroMain" className="hero-photo" priority sizes="(max-width: 820px) 100vw, 43vw" /></div>
@@ -136,7 +136,7 @@ function App() {
       <Marquee />
 
       <section id="discipline" className="disciplines section-space" tabIndex={-1} aria-labelledby="discipline-title">
-        <div className="section-heading section-heading--wide reveal"><p>I corsi principali</p><h2 id="discipline-title">Scopri i corsi.</h2><p className="section-note">Apri un corso per vedere le informazioni disponibili. Gli orari sono in aggiornamento.</p></div>
+        <div className="section-heading section-heading--wide reveal"><p>I corsi principali</p><h2 id="discipline-title">Scopri i corsi</h2><p className="section-note">Apri un corso per vedere le informazioni disponibili. Gli orari sono in aggiornamento.</p></div>
         <CourseAccordion courses={courses} />
         <div className="courses-gallery-link"><a className="button button--acid" href="#galleria">Vai alla galleria <Arrow /></a></div>
       </section>
@@ -149,7 +149,7 @@ function App() {
 
       <section id="contatti" className="contact" tabIndex={-1} aria-labelledby="contact-title">
         <div className="contact__inner">
-          <div className="contact-intro"><p>Canali di contatto</p><h2 id="contact-title">Contatti.</h2></div>
+          <div className="contact-intro"><p>Canali di contatto</p><h2 id="contact-title">Contatti</h2></div>
           <div className="contact-channels">
             <a className="contact-channel" href={`mailto:${contact.email}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
             <a className="contact-channel" href={`tel:${contact.phone}`}><span>Telefono</span><strong>06 788 3621</strong><Arrow /></a>

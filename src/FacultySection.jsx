@@ -24,7 +24,7 @@ export function FacultySection() {
   const selectTeacher = value => { if (value) { setSelected(value); setListOpen(false); } };
   return <section id="docenti" className="faculty section-space" tabIndex={-1} aria-labelledby="faculty-title">
     {/* TODO(launch): confermare la composizione attuale del corpo docente prima della pubblicazione definitiva. Vedi LAUNCH_CHECKLIST.md. */}
-    <header className="faculty-heading reveal"><h2 id="faculty-title">Insegnanti.</h2><p>Gli insegnanti della scuola e le rispettive discipline.</p></header>
+    <header className="faculty-heading reveal"><h2 id="faculty-title">Insegnanti</h2><p>Gli insegnanti della scuola e le rispettive discipline.</p></header>
     <ArtisticDirection />
     <div className="faculty-selector">
       {selectedTeacher && <div className="faculty-mobile-profile" aria-live="polite"><TeacherProfile teacher={selectedTeacher} mobile /></div>}
