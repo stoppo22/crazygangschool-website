@@ -51,7 +51,7 @@ try {
     assert.equal(await page.locator('.facts-bento,.people,.archive').count(), 0);
     assert.equal(await page.locator('.hero-description p').count(), 2);
     assert.equal(await page.locator('.hero-aside,[data-location]').count(), 0);
-    assert.deepEqual(await page.locator('main>section').evaluateAll(sections => sections.map(section => section.id)), ['inizio', 'discipline', 'docenti', 'recensioni', 'galleria', 'dove-siamo', 'contatti']);
+    assert.deepEqual(await page.locator('main>section').evaluateAll(sections => sections.map(section => section.id)), ['inizio', 'discipline', 'docenti', 'ospiti', 'recensioni', 'galleria', 'dove-siamo', 'contatti']);
     assert.deepEqual(await page.locator('.course-panel').evaluateAll(links => links.map(link => link.getAttribute('href'))), courseRoutes.map(([slug]) => `/corsi/${slug}`));
     if (width > 820) {
       assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Galleria', 'Dove siamo', 'Contatti']);
@@ -133,8 +133,10 @@ try {
     assert.equal(await page.locator('#recensioni [data-review-status="awaiting-verification"]').count(), 0);
     assert.equal(await page.locator('#recensioni blockquote').count(), 0);
     assert.equal(await page.locator('#recensioni .review-carousel').count(), 0);
-    assert.deepEqual((await page.locator('.reviews__actions>a').allTextContents()).map(text => text.replace('(nuova scheda)', '').trim()), ['Leggi tutte le recensioni', 'Lascia una recensione']);
+    assert.deepEqual((await page.locator('.reviews__actions>a').allTextContents()).map(text => text.replace('(nuova scheda)', '').trim()), ['Leggi tutte le recensioni']);
     assert.ok(await page.locator('.reviews__actions>a').evaluateAll(links => links.every(link => link.href.startsWith('https://www.google.com/maps/place/Crazy+Gang+School/'))));
+    assert.deepEqual(await page.locator('#ospiti h2').textContent(), 'Ospiti della struttura');
+    assert.deepEqual(await page.locator('#ospiti .guests__links a').evaluateAll(links => links.map(a => `${a.textContent.replace('(nuova scheda)', '').trim()}|${a.href}|${a.target}|${a.rel}`)), ['AID Musical|http://www.aidmusical.it/|_blank|noreferrer', 'Musical Passion|https://www.musicalpassionschool.com/|_blank|noreferrer']);
     if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Recensioni');
     await page.screenshot({ path: `artifacts/${name}-reviews.png` });
     await page.locator('#galleria').scrollIntoViewIfNeeded();

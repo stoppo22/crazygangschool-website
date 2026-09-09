@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { contact } from './content';
 
-// TODO(launch): inserire qui solo recensioni verificate una per una sulla scheda
-// Google (autore, testo, data, valutazione). Mai testo generato. Finché l'array
-// è vuoto il carosello non viene mostrato. Vedi LAUNCH_CHECKLIST.md.
+// Recensioni verificate una per una sulla scheda Google ufficiale
+// (contact.maps → CID 0x132f61f808a89c81:0xe5f28e8c08f3ea59, Largo Orazi e
+// Curiazi 12, Roma). Ogni voce: { id, author, rating, text, date?: { iso, label }, source }.
+// Il testo delle recensioni Google è reso via JavaScript e protetto da consent
+// wall: non è recuperabile automaticamente. Vanno trascritte a mano dalla scheda,
+// senza riscritture. Finché l'array è vuoto il carosello non viene mostrato e
+// resta solo la CTA "Leggi tutte le recensioni". Vedi LAUNCH_CHECKLIST.md.
 const verifiedReviews = [];
 
 function Arrow({ previous = false }) {
@@ -49,9 +53,10 @@ export function ReviewsSection() {
         <div><p>Valutazione media pubblicata sulla scheda Google Maps di Crazy Gang School.</p></div>
       </div>
       <ReviewCarousel reviews={verifiedReviews} />
+      {/* Una sola CTA alla scheda Google: non è stato possibile ricavare un URL
+          specifico e verificato per scrivere una recensione. */}
       <div className="reviews__actions">
         <a href={contact.maps} target="_blank" rel="noreferrer">Leggi tutte le recensioni <Arrow /><span className="sr-only"> (nuova scheda)</span></a>
-        <a href={contact.maps} target="_blank" rel="noreferrer">Lascia una recensione <Arrow /><span className="sr-only"> (nuova scheda)</span></a>
       </div>
     </div>
   </section>;

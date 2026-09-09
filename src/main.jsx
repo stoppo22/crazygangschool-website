@@ -9,6 +9,7 @@ import { CourseAccordion } from './CourseAccordion';
 import { CoursePage } from './CoursePage';
 import { MagicTab } from './components/godui/MagicTab';
 import { FacultySection } from './FacultySection';
+import { GuestsSection } from './GuestsSection';
 import { ReviewsSection } from './ReviewsSection';
 import { LocationSection } from './LocationSection';
 import { AnimatedGallery } from './AnimatedGallery';
@@ -23,6 +24,7 @@ import './faculty.css';
 import './reviews.css';
 import './location.css';
 import './gallery.css';
+import './guests.css';
 import './legal.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -140,6 +142,7 @@ function App() {
       </section>
 
       <FacultySection />
+      <GuestsSection />
       <ReviewsSection />
       <AnimatedGallery />
       <LocationSection />
