@@ -11,7 +11,10 @@
 - Do not invent statistics, testimonials, qualifications, prices, schedules, course availability, opening status or biographies.
 - Unconfirmed offers must not become promises. Use requests for information, not booking confirmations or enrollment claims.
 - No WhatsApp link without confirmation. Do not infer an official YouTube channel from the old search link.
-- This is a local prototype. Keep `noindex` until content and launch are approved.
+- The site is being prepared for launch. The build already switches `robots` by
+  environment (production `index, follow`, dev server `noindex, nofollow` — see
+  `vite.config.js` / `seo.config.js`); do not hard-code `noindex` back into
+  `index.html`. Open pre-launch items are tracked in `LAUNCH_CHECKLIST.md`.
 
 ## Design and implementation
 

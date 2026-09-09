@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="theme-color" content="#101011" />
+    <title>Pagina non trovata — Crazy Gang School</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <style>
+      :root { --ink: #101011; --paper: #f4f0e8; --acid: #d9ff43; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; }
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Geist, "Cabinet Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      header {
+        padding: 22px clamp(23px, 4.5vw, 82px);
+        background: var(--ink);
+      }
+      header a { display: inline-block; }
+      header img { display: block; width: 116px; height: auto; }
+      main {
+        flex: 1;
+        max-width: 760px;
+        width: 100%;
+        margin: 0 auto;
+        padding: clamp(72px, 12vw, 140px) clamp(23px, 4.5vw, 82px) 96px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+      }
+      .code {
+        margin: 0;
+        font-size: 13px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #7a7a7a;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(40px, 8vw, 76px);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+      }
+      p { margin: 0; font-size: 15px; line-height: 1.6; color: #2b2b2b; }
+      .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; }
+      .actions a {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--ink);
+      }
+      .actions a.button {
+        min-height: 56px;
+        padding: 16px 20px;
+        background: var(--acid);
+      }
+      .actions a.text { border-bottom: 1px solid #777; padding: 14px 0; }
+      .actions a:focus-visible { outline: 3px solid var(--acid); outline-offset: 5px; }
+      .actions a.button:focus-visible { outline-color: var(--ink); }
+      footer {
+        padding: 24px clamp(23px, 4.5vw, 82px);
+        background: var(--ink);
+        color: #cfcfcf;
+        font-size: 12px;
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      footer a { color: inherit; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/" aria-label="Crazy Gang School, home">
+        <img src="/brand/crazy-gang-640.webp" width="2307" height="1157" alt="Crazy Gang School" />
+      </a>
+    </header>
+    <main>
+      <p class="code">Errore 404</p>
+      <h1>Pagina non trovata</h1>
+      <p>La pagina che cerchi non esiste o è stata spostata.</p>
+      <div class="actions">
+        <a class="button" href="/">Vai alla home</a>
+        <a class="text" href="/#discipline">Vedi i corsi</a>
+      </div>
+    </main>
+    <footer>
+      <span>Crazy Gang School · Roma, Colli Albani</span>
+      <span><a href="/privacy">Privacy</a> · <a href="/cookie">Cookie</a></span>
+    </footer>
+  </body>
+</html>

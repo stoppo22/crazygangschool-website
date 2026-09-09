@@ -1,7 +1,15 @@
 import { chromium } from 'playwright';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import assert from 'node:assert/strict';
+
+// Static fallback 404 served by the host (Cloudflare Pages) for any unknown path.
+// The dev/preview servers don't serve it (SPA fallback), so check the source file.
+assert.ok(existsSync('public/404.html'), 'public/404.html missing');
+const staticNotFound = await readFile('public/404.html', 'utf8');
+assert.match(staticNotFound, /Pagina non trovata/, 'public/404.html: missing heading');
+assert.match(staticNotFound, /name="robots" content="noindex/, 'public/404.html: not noindex');
+assert.match(staticNotFound, /href="\/"/, 'public/404.html: missing home link');
 
 const baseURL = process.env.BASE_URL || 'http://127.0.0.1:5173';
 const executablePath = process.env.BROWSER_PATH || ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(existsSync);

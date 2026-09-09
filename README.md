@@ -33,9 +33,12 @@ The script uses an installed Chrome or Edge on Windows. On other systems, set
 `BROWSER_PATH` to an installed Chromium-family browser or provide a Playwright
 Chromium installation. `BASE_URL` optionally changes the target. Screenshots and
 the machine-readable report are written under `artifacts/`. The suite covers the
-home page, the mobile menu, the seven course pages, the 404 view, the
-gallery/lightbox (including `Esc`), the consent-gated Google Map and the absence
-of console errors.
+home page, the mobile menu, the seven course pages, the client 404 view, the
+`/privacy` and `/cookie` pages, the gallery/lightbox (including `Esc`), the
+consent-gated Google Map and the absence of console errors.
+
+`.github/workflows/ci.yml` runs `npm run build` and `npm run test:browser` (with
+Playwright's Chromium) on every push and pull request.
 
 ## Implementation
 
@@ -86,9 +89,10 @@ Course routes:
   the Cloudflare Pages project settings (there is no config file).
 - `public/_redirects` (copied to `dist/_redirects` by the build) rewrites
   `/corsi/*`, `/privacy` and `/cookie` to `/index.html` with status `200`, so a
-  direct load or refresh of those paths works. Any other unknown path is left to
-  Cloudflare's native 404 (a real `404` status); an unknown course slug such as
-  `/corsi/xyz` is served the app, which then renders its own `noindex` 404 view.
+  direct load or refresh of those paths works. Any other unknown path is served
+  `public/404.html` (→ `dist/404.html`) with a real `404` status. An unknown
+  course slug such as `/corsi/xyz` matches the `/corsi/*` rewrite, so the app
+  loads and renders its own `noindex` 404 view (status `200`).
 - No custom `_headers` file: Cloudflare Pages already sets long-lived caching for
   the hashed files under `/assets`.
 - Set the `SITE_URL` environment variable in the Cloudflare Pages project to the
