@@ -21,6 +21,16 @@ for (const dir of ['public', 'dist']) {
   assert.match(html, /href="\/"/, `${file}: missing home link`);
 }
 
+// Safety net: a built site must stay noindex until SITE_LAUNCHED=true, so an
+// unfinished preview can never be indexed by accident.
+if (existsSync('dist/index.html') && process.env.SITE_LAUNCHED !== 'true') {
+  const built = await readFile('dist/index.html', 'utf8');
+  assert.match(built, /<meta name="robots" content="noindex, nofollow" \/>/, 'dist/index.html: should be noindex until SITE_LAUNCHED=true');
+  if (existsSync('dist/robots.txt')) {
+    assert.match(await readFile('dist/robots.txt', 'utf8'), /Disallow: \//, 'dist/robots.txt: should Disallow: / until SITE_LAUNCHED=true');
+  }
+}
+
 const baseURL = process.env.BASE_URL || 'http://127.0.0.1:5173';
 const executablePath = process.env.BROWSER_PATH || ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(existsSync);
 await mkdir('artifacts', { recursive: true });

@@ -11,6 +11,12 @@
 // Cloudflare, per evitare contenuti duplicati.
 export const SITE_URL = (process.env.SITE_URL || 'https://www.crazygangschool.com').replace(/\/$/, '');
 
+// Safety switch: the site is served noindex/nofollow AND robots.txt "Disallow: /"
+// even on a production build, until this is explicitly flipped. Set the env var
+// SITE_LAUNCHED=true in the Cloudflare project ONLY when the content is final and
+// the site is meant to be public.
+export const LAUNCHED = process.env.SITE_LAUNCHED === 'true';
+
 export const SITE_NAME = 'Crazy Gang School';
 
 export const DEFAULT_TITLE = 'Crazy Gang School — Scuola di danza a Roma';

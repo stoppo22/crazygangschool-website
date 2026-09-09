@@ -7,10 +7,12 @@ import {
   OG_IMAGE,
   COURSE_SLUGS,
   STATIC_ROUTES,
+  LAUNCHED,
 } from './seo.config.js';
 
-// Emits robots.txt / sitemap.xml at build time and flips the robots meta tag:
-// production build => "index, follow"; dev server => "noindex, nofollow".
+// Emits robots.txt / sitemap.xml at build time and sets the robots meta tag.
+// The site is noindex everywhere until SITE_LAUNCHED=true: dev server is always
+// noindex; a production build is "index, follow" only when LAUNCHED.
 function seoPlugin() {
   return {
     name: 'crazy-gang-seo',
@@ -18,7 +20,7 @@ function seoPlugin() {
       order: 'pre',
       handler(html, ctx) {
         const isBuild = ctx.server === undefined;
-        const robots = isBuild ? 'index, follow' : 'noindex, nofollow';
+        const robots = isBuild && LAUNCHED ? 'index, follow' : 'noindex, nofollow';
         return html
           .split('%SITE_URL%').join(SITE_URL)
           .replace(
@@ -45,11 +47,14 @@ function seoPlugin() {
           .join('\n') +
         '\n</urlset>\n';
 
-      const robotsTxt =
-        `# ${SITE_NAME}\n` +
-        'User-agent: *\n' +
-        'Allow: /\n\n' +
-        `Sitemap: ${SITE_URL}/sitemap.xml\n`;
+      const robotsTxt = LAUNCHED
+        ? `# ${SITE_NAME}\n` +
+          'User-agent: *\n' +
+          'Allow: /\n\n' +
+          `Sitemap: ${SITE_URL}/sitemap.xml\n`
+        : `# ${SITE_NAME} — not launched yet\n` +
+          'User-agent: *\n' +
+          'Disallow: /\n';
 
       this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: sitemap });
       this.emitFile({ type: 'asset', fileName: 'robots.txt', source: robotsTxt });
@@ -63,5 +68,6 @@ export default defineConfig({
     __SITE_URL__: JSON.stringify(SITE_URL),
     __SITE_DESCRIPTION__: JSON.stringify(DEFAULT_DESCRIPTION),
     __OG_IMAGE__: JSON.stringify(OG_IMAGE),
+    __LAUNCHED__: JSON.stringify(LAUNCHED),
   },
 });

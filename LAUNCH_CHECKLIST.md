@@ -89,6 +89,11 @@ Open items before the site goes public. Grouped by who has to act.
   Pages/proxied site — no code change here. Nothing ships until it is enabled.
   Do **not** add Google Analytics or any cookie-based tracker without also adding
   a consent banner with prior blocking and extending the Cookie Policy.
+- **Go live (make it indexable)** — until then the deploy is `noindex, nofollow`
+  everywhere and `robots.txt` is `Disallow: /`. When the content is final and the
+  real domain + `SITE_URL` are set, add the env var **`SITE_LAUNCHED=true`** in
+  the Cloudflare project and redeploy. This is the last switch; do not flip it
+  early. (Web Analytics, custom domain, etc. all work fine while still noindex.)
 - **Google Search Console** — after go-live, submit `https://<domain>/sitemap.xml`.
 - **Font licence** — confirm Cabinet Grotesk (Fontshare) licensing obligations
   for a public site (`ASSETS.md`).

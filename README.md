@@ -73,9 +73,11 @@ Course routes:
   name, default description and the route list. The Vite plugin substitutes the
   `%SITE_URL%` placeholders in `index.html` (canonical, Open Graph, JSON-LD) with
   this value, so the domain lives in exactly one place.
-- The Vite plugin in `vite.config.js` writes `dist/robots.txt` and
-  `dist/sitemap.xml` at build time and flips the robots meta tag:
-  `index, follow` on `npm run build`, `noindex, nofollow` on the dev server.
+- **The whole site is `noindex, nofollow` and `robots.txt` is `Disallow: /`
+  until launch.** The Vite plugin makes a production build indexable (and writes a
+  real `robots.txt` + `dist/sitemap.xml`) only when `SITE_LAUNCHED=true` is set
+  (env var in the Cloudflare project). The dev server is always `noindex`. Flip
+  `SITE_LAUNCHED` only when the content is final.
 - Each course page emits its own `<title>`, meta description, canonical and a
   `Course` JSON-LD node (`src/course-data.js` holds `metaTitle` /
   `metaDescription`). The homepage carries a `DanceSchool` JSON-LD block built
