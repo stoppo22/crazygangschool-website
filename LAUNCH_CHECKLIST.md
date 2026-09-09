@@ -39,11 +39,31 @@ Open items before the site goes public. Grouped by who has to act.
   owner-confirmed ones from 8 September 2026 (`CONTEXT.md`); do not change days
   or time slots without a new confirmation.
 
-- **Testi legali** — `/privacy` and `/cookie` (`src/LegalPage.jsx`) are short
-  drafts with `[bracketed]` placeholders. A professional must review them and
-  the owner must supply: legal entity name, VAT / tax number, registered
-  address, data-retention periods, and the "last updated" dates. See the
-  `TODO(launch)` comment in `src/LegalPage.jsx`.
+- **Privacy & Cookie policy** — `/privacy` and `/cookie` (`src/LegalPage.jsx`)
+  are complete professional drafts. Before publishing, the owner must:
+  - Name the **data controller** (Titolare del trattamento): the exact legal
+    subject that appears on the enrolment contracts — the association / company,
+    or, if there is no entity, the natural person — with its **tax code / VAT
+    number** and registered address. Fill the `[bracketed]` block in
+    `src/LegalPage.jsx` (`PrivacyPage`, "Titolare del trattamento").
+  - Set the **data-retention periods** (navigation/analytics logs; email
+    correspondence) and the **"Ultimo aggiornamento" dates** on both pages.
+  - Have the text reviewed by a privacy professional (`PRIVACY-NOTES.md` gives
+    the processing inventory so the review is fast).
+  - Put the processor relationships in writing: Cloudflare DPA (accepted with
+    the Cloudflare ToS), the email provider, and the site's technical maintainer
+    (nomina a responsabile ex art. 28 GDPR).
+  - After deploy, open browser devtools → Application → Cookies on the live
+    domain and record which cookies, if any, the Cloudflare infrastructure sets;
+    then list them (name, purpose, duration) in the Cookie Policy.
+
+- **Image consent for gallery / recital photos** — the gallery
+  (`public/images/gallery/*`) shows identifiable people, including minors, from
+  recitals and shows. Collect written image-consent (liberatoria) from
+  participants / parents before keeping the photos online, and be ready to
+  remove any on request. This is the highest-priority real privacy item and is
+  separate from cookies. (Also confirm rights and credits, or replace with
+  originals — see "Foto originali".)
 
 ## TECHNICAL (before the first production deploy)
 
@@ -58,6 +78,12 @@ Open items before the site goes public. Grouped by who has to act.
   command `npm run build`, output directory `dist`, Node 22. `public/_redirects`
   (→ `dist/_redirects`) handles the `/corsi/*`, `/privacy`, `/cookie` rewrites.
   No custom `_headers`.
+- **Visitor statistics** — turn on **Cloudflare Web Analytics** from the
+  Cloudflare dashboard once the domain is connected (Web Analytics → Add a site).
+  It is cookieless and Cloudflare injects the beacon automatically for a
+  Pages/proxied site — no code change here. Nothing ships until it is enabled.
+  Do **not** add Google Analytics or any cookie-based tracker without also adding
+  a consent banner with prior blocking and extending the Cookie Policy.
 - **Google Search Console** — after go-live, submit `https://<domain>/sitemap.xml`.
 - **Font licence** — confirm Cabinet Grotesk (Fontshare) licensing obligations
   for a public site (`ASSETS.md`).
@@ -73,7 +99,9 @@ Open items before the site goes public. Grouped by who has to act.
 
 - Address: Largo Orazi e Curiazi, 12, 00181 Roma; Metro A, Colli Albani.
 - Map coordinates and Google Maps listing link.
-- Google rating 4,8 (shown as a number only, no review text).
+- Google rating 4,8 and five review texts transcribed verbatim from the public
+  Google listing (`src/ReviewsSection.jsx`); removable on request per the Privacy
+  Policy.
 - Contact channels: `info@crazygang.it`, 06 7883621, 333 402 7525, Instagram,
   Facebook.
 - Course disciplines, age ranges and schedules confirmed by the owner

@@ -96,14 +96,24 @@ Course routes:
 
 ## Privacy
 
-The site sets no cookies of its own and loads no analytics, fonts or embeds from
-third parties (Cabinet Grotesk is self-hosted under `public/fonts/`). The only
-third-party embed is the Google Map in the "Dove siamo" section, which is **not
-mounted until the visitor clicks "Attiva la mappa"** — no request reaches Google
-before then, so no consent banner is required. Short `/privacy` and `/cookie`
-pages are provided with bracketed placeholders for the details the owner must
-supply; the legal text must be reviewed before launch (see
-`LAUNCH_CHECKLIST.md`).
+The site's own code sets no cookies and stores nothing in the browser (verified:
+no `localStorage` / `sessionStorage` / `document.cookie` usage). Fonts and images
+are self-hosted. The only third-party embed is the Google Map in the "Dove siamo"
+section, which is **not mounted until the visitor clicks "Attiva la mappa"** — no
+request reaches Google before then.
+
+Visitor statistics come from **Cloudflare Web Analytics**, which is cookieless
+and enabled from the Cloudflare dashboard (no code here); nothing is collected
+until it is turned on. Because no profiling/analytics cookies are set and no
+non-technical cookie is set without an explicit user action, the site currently
+shows **no consent banner**. Adding any cookie-based tracker, pixel, booking
+widget or embedded video later would require a consent manager with prior
+blocking and an extended Cookie Policy.
+
+`/privacy` and `/cookie` (`src/LegalPage.jsx`) are complete drafts; the owner
+must fill the bracketed facts (data controller + tax code, retention periods,
+dates) and have the text reviewed before launch. `PRIVACY-NOTES.md` records the
+processing inventory and the reasoning. See `LAUNCH_CHECKLIST.md`.
 
 ## Content boundaries
 

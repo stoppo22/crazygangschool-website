@@ -25,10 +25,10 @@ export function LocationSection() {
               <iframe title="Mappa di Crazy Gang School a Roma" src={contact.mapsEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
               <button className="location-map__disable" type="button" onClick={() => setActive(false)}>Nascondi mappa</button>
             </>
-          : <button type="button" onClick={() => setActive(true)}>
-              Attiva la mappa
-              <span className="location-map__hint">Caricando la mappa accetti i cookie di Google Maps</span>
-            </button>}
+          : <>
+              <button type="button" onClick={() => setActive(true)}>Attiva la mappa</button>
+              <p className="location-map__note">Attivando la mappa vengono caricati contenuti di Google Maps, che può impostare cookie. Vedi la <a href="/cookie">Cookie Policy</a>.</p>
+            </>}
       </div>
     </div>
   </section>;

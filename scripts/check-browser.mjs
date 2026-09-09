@@ -202,10 +202,13 @@ try {
     assert.equal(await page.locator('#dove-siamo address').textContent(), 'Crazy Gang SchoolLargo Orazi e Curiazi, 1200181 Roma');
     assert.equal(await page.locator('#dove-siamo').getByText('Metro A · Colli Albani', { exact: true }).count(), 1);
     assert.equal(await page.locator('#dove-siamo a[href*="google.com/maps"]').count(), 1);
-    // Google Maps is consent-gated: the iframe is not in the DOM until activated.
+    // Google Maps is consent-gated: the iframe is not in the DOM until activated,
+    // and the pre-activation note links to the Cookie Policy.
     assert.equal(await page.locator('#dove-siamo iframe').count(), 0);
+    assert.equal(await page.locator('#dove-siamo .location-map__note a[href="/cookie"]').count(), 1);
     await page.getByRole('button', { name: /Attiva la mappa/ }).click();
     assert.equal(await page.locator('#dove-siamo iframe').count(), 1);
+    assert.equal(await page.locator('#dove-siamo .location-map__note').count(), 0);
     assert.equal(await page.locator('#dove-siamo iframe').evaluate(frame => getComputedStyle(frame).pointerEvents), 'auto');
     await page.getByRole('button', { name: 'Nascondi mappa' }).click();
     assert.equal(await page.locator('#dove-siamo iframe').count(), 0);
@@ -290,6 +293,23 @@ try {
     assert.equal(await coursePage.locator('a[href="/"]').count() >= 1, true, `${badPath}: 404 missing home link`);
   }
   await coursePage.screenshot({ path: 'artifacts/not-found.png' });
+
+  // Legal pages render and stay out of the index on the dev server
+  for (const [path, heading] of [['/privacy', 'Privacy Policy'], ['/cookie', 'Cookie Policy']]) {
+    console.log(`Checking legal page: ${path}`);
+    await coursePage.goto(`${baseURL}${path}`, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    await coursePage.waitForTimeout(200);
+    assert.equal(await coursePage.locator('.legal-main h1').textContent(), heading, `${path}: wrong heading`);
+    assert.ok(await coursePage.locator('.legal-main section').count() >= 4, `${path}: too few sections`);
+    assert.ok((await coursePage.locator('link[rel="canonical"]').getAttribute('href')).endsWith(path), `${path}: wrong canonical`);
+    assert.match(await coursePage.locator('meta[name="robots"]').getAttribute('content'), /noindex/, `${path}: dev robots not noindex`);
+    assert.equal(await coursePage.locator('.course-footer a[href="/cookie"]').count(), 1, `${path}: missing footer cookie link`);
+    const legalLayout = await coursePage.evaluate(() => ({ w: innerWidth, sw: document.documentElement.scrollWidth }));
+    assert.ok(legalLayout.sw <= legalLayout.w + 1, `${path}: horizontal overflow`);
+  }
+  await coursePage.screenshot({ path: 'artifacts/cookie.png', fullPage: true });
+  await coursePage.goto(`${baseURL}/privacy`, { waitUntil: 'domcontentloaded' });
+  await coursePage.screenshot({ path: 'artifacts/privacy.png', fullPage: true });
   await courseContext.close();
 
   const mobileCourseContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce', isMobile: true, hasTouch: true });
