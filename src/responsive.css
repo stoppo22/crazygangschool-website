@@ -11,7 +11,7 @@
 @media(max-width:760px){
   .hero-copy{min-height:760px}
   .hero-main{margin:45px 0}
-  .hero-description{grid-template-columns:1fr;gap:18px;margin-top:32px;padding-top:20px}
+  .hero-description{gap:15px;margin-top:32px;padding-top:20px}
   .hero-description p{font-size:17px;line-height:1.55}
   .contact{padding-top:78px;padding-bottom:78px}
   .contact-intro{margin-bottom:44px}
