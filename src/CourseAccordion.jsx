@@ -8,9 +8,9 @@ function PanelArrow() {
 export function CourseAccordion({ courses }) {
   const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
-  const [mobile, setMobile] = useState(() => window.matchMedia('(max-width: 820px)').matches);
+  const [mobile, setMobile] = useState(() => window.matchMedia('(max-width: 820px), (hover: none)').matches);
   useEffect(() => {
-    const query = window.matchMedia('(max-width: 820px)');
+    const query = window.matchMedia('(max-width: 820px), (hover: none)');
     const update = event => setMobile(event.matches);
     query.addEventListener('change', update);
     return () => query.removeEventListener('change', update);

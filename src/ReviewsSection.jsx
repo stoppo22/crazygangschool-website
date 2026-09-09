@@ -49,7 +49,7 @@ function Arrow({ previous = false }) {
 function ReviewCarousel({ reviews }) {
   const [page, setPage] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [perView, setPerView] = useState(() => (window.matchMedia('(max-width: 820px)').matches ? 1 : 3));
+  const [perView, setPerView] = useState(() => (window.matchMedia('(max-width: 820px), (hover: none)').matches ? 1 : 3));
   const touchStart = useRef(null);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -61,7 +61,7 @@ function ReviewCarousel({ reviews }) {
   const move = direction => setPage(current => (Math.min(current, pageCount - 1) + direction + pageCount) % pageCount);
 
   useEffect(() => {
-    const query = window.matchMedia('(max-width: 820px)');
+    const query = window.matchMedia('(max-width: 820px), (hover: none)');
     const update = () => setPerView(query.matches ? 1 : 3);
     update();
     query.addEventListener('change', update);

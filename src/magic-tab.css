@@ -16,7 +16,7 @@
   .nav-cta{min-height:50px;padding:14px 16px;font-size:13.5px}
 }
 
-@media(max-width:820px){
+@media(max-width:820px),(hover:none){
   .magic-tab.desktop-nav{display:none}
   .site-header.is-scrolled .nav-shell{background:var(--ink)}
 }
@@ -27,4 +27,4 @@
 /* Larger, more legible primary navigation. */
 .nav-shell{height:124px}.brand{width:170px;height:82px}.magic-tab.desktop-nav{gap:clamp(18px,1.75vw,30px);margin-right:clamp(22px,2vw,36px);font-size:16px}.magic-tab>a{min-height:60px;padding:0 5px}.nav-cta{min-height:58px;padding:17px 21px;font-size:16px}
 @media(max-width:1250px) and (min-width:821px){.nav-shell{height:110px;padding-left:26px;padding-right:26px}.brand{width:138px;height:68px}.magic-tab.desktop-nav{gap:14px;margin-right:18px;font-size:13px}.magic-tab>a{padding:0 2px}.nav-cta{min-height:50px;padding:14px 15px;font-size:13px}}
-@media(max-width:820px){.nav-shell{height:86px}.brand{width:126px;height:63px}}
+@media(max-width:820px),(hover:none){.nav-shell{height:86px}.brand{width:126px;height:63px}}

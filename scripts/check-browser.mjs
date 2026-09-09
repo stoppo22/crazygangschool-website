@@ -270,6 +270,36 @@ try {
     console.log(`Passed ${name}`);
   }
 
+  // Wide touch device (landscape tablet): even though the viewport is > 820px,
+  // hover-driven UI (course accordion, faculty preview, Magic Tab) must fall back
+  // to the tap-friendly mobile layout because `(hover: none)` matches.
+  {
+    console.log('Checking wide-touch-tablet');
+    const tabletCtx = await browser.newContext({ viewport: { width: 1024, height: 768 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
+    const p = await tabletCtx.newPage();
+    p.on('pageerror', error => errors.push(`wide-touch: ${error.message}`));
+    p.on('console', message => { if (message.type() === 'error') errors.push(`wide-touch: ${message.text()}`); });
+    await p.goto(baseURL, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    await p.evaluate(() => document.fonts.ready);
+    await p.waitForTimeout(500);
+    assert.equal(await p.evaluate(() => matchMedia('(hover: none)').matches), true, 'wide-touch: (hover: none) not detected');
+    // Magic Tab hover nav hidden, hamburger menu shown
+    assert.equal(await p.locator('.magic-tab.desktop-nav:visible').count(), 0, 'wide-touch: hover nav still visible');
+    assert.equal(await p.locator('.menu-toggle:visible').count(), 1, 'wide-touch: menu button hidden');
+    // Course accordion: every panel fully open and tall (no hover needed)
+    await p.locator('#discipline').scrollIntoViewIfNeeded();
+    await p.waitForTimeout(300);
+    const panels = await p.locator('.course-panel').evaluateAll(els => els.map(el => ({
+      h: Math.round(el.getBoundingClientRect().height),
+      contentOpacity: Number(getComputedStyle(el.querySelector('.course-panel__content')).opacity),
+    })));
+    assert.equal(panels.length, 7, 'wide-touch: wrong panel count');
+    assert.ok(panels.every(x => x.h >= 280 && x.contentOpacity > 0.95), 'wide-touch: accordion not in tap-friendly layout');
+    await p.screenshot({ path: 'artifacts/wide-touch-tablet.png', fullPage: true });
+    await tabletCtx.close();
+    console.log('Passed wide-touch-tablet');
+  }
+
   const courseContext = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
   const coursePage = await courseContext.newPage();
   coursePage.on('pageerror', error => errors.push(`courses: ${error.message}`));

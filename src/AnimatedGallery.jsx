@@ -16,7 +16,7 @@ function GalleryViewer({ initialIndex, returnFocus, onClose }) {
   const strip = useRef(null);
   const touchStart = useRef(null);
   const reduceMotion = useReducedMotion();
-  const compact = typeof window !== 'undefined' && window.matchMedia('(max-width: 820px)').matches;
+  const compact = typeof window !== 'undefined' && window.matchMedia('(max-width: 820px), (hover: none)').matches;
   const lowMotion = reduceMotion || compact;
   const current = galleryImages[index];
   const move = useCallback(step => {
