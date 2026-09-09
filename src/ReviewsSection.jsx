@@ -47,32 +47,53 @@ function Arrow({ previous = false }) {
 }
 
 function ReviewCarousel({ reviews }) {
-  const [index, setIndex] = useState(0);
+  const [page, setPage] = useState(0);
   const [paused, setPaused] = useState(false);
-  const viewport = useRef(null);
+  const [perView, setPerView] = useState(() => (window.matchMedia('(max-width: 820px)').matches ? 1 : 3));
   const touchStart = useRef(null);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const move = direction => setIndex(current => (current + direction + reviews.length) % reviews.length);
+
+  const pageCount = Math.max(1, Math.ceil(reviews.length / perView));
+  const currentPage = Math.min(page, pageCount - 1);
+  // Index of the first card to show. On the last page it is clamped so the strip
+  // ends flush with the final review instead of leaving an empty slot.
+  const first = Math.max(0, Math.min(currentPage * perView, reviews.length - perView));
+  const move = direction => setPage(current => (Math.min(current, pageCount - 1) + direction + pageCount) % pageCount);
 
   useEffect(() => {
-    if (!reviews.length) return;
-    const card = viewport.current?.children[index];
-    if (card) viewport.current.scrollTo({ left: card.offsetLeft, behavior: reduceMotion ? 'auto' : 'smooth' });
-  }, [index, reduceMotion, reviews.length]);
+    const query = window.matchMedia('(max-width: 820px)');
+    const update = () => setPerView(query.matches ? 1 : 3);
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
 
   useEffect(() => {
-    if (reduceMotion || paused || reviews.length < 2) return undefined;
+    if (page > pageCount - 1) setPage(pageCount - 1);
+  }, [page, pageCount]);
+
+  useEffect(() => {
+    if (reduceMotion || paused || pageCount < 2) return undefined;
     const timer = window.setInterval(() => move(1), 6000);
     return () => window.clearInterval(timer);
-  }, [paused, reduceMotion, reviews.length]);
+  }, [paused, reduceMotion, pageCount]);
 
   if (!reviews.length) return null;
 
+  const swipeEnd = event => {
+    if (pageCount < 2 || touchStart.current == null) return;
+    const distance = touchStart.current - event.changedTouches[0].clientX;
+    if (Math.abs(distance) > 45) move(distance > 0 ? 1 : -1);
+    touchStart.current = null;
+  };
+
   return <div className="review-carousel" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocusCapture={() => setPaused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}>
-    <div ref={viewport} className="review-carousel__viewport" onTouchStart={event => { touchStart.current = event.touches[0].clientX; }} onTouchEnd={event => { const distance = touchStart.current - event.changedTouches[0].clientX; if (Math.abs(distance) > 45) move(distance > 0 ? 1 : -1); touchStart.current = null; }}>
-      {reviews.map(review => <article className="review-card" key={review.id}><div className="review-card__stars" aria-label={`${review.rating} stelle su 5`}>{'★'.repeat(review.rating)}</div><blockquote>{review.text}</blockquote><footer><strong>{review.author}</strong>{review.date && <time dateTime={review.date.iso}>{review.date.label}</time>}<small className="review-card__source">Recensione Google</small></footer></article>)}
+    <div className="review-carousel__window" onTouchStart={event => { touchStart.current = event.touches[0].clientX; }} onTouchEnd={swipeEnd}>
+      <div className="review-carousel__track" style={{ '--first': first }} data-motion={reduceMotion ? 'off' : undefined}>
+        {reviews.map(review => <article className="review-card" key={review.id}><div className="review-card__stars" aria-label={`${review.rating} stelle su 5`}>{'★'.repeat(review.rating)}</div><blockquote>{review.text}</blockquote><footer><strong>{review.author}</strong>{review.date && <time dateTime={review.date.iso}>{review.date.label}</time>}<small className="review-card__source">Recensione Google</small></footer></article>)}
+      </div>
     </div>
-    <div className="review-carousel__controls" aria-label="Controlli recensioni"><button type="button" onClick={() => move(-1)} aria-label="Recensione precedente"><Arrow previous /></button><span aria-live="polite">{index + 1} di {reviews.length}</span><button type="button" onClick={() => move(1)} aria-label="Recensione successiva"><Arrow /></button></div>
+    {pageCount > 1 && <div className="review-carousel__controls" aria-label="Controlli recensioni"><button type="button" onClick={() => move(-1)} aria-label="Recensioni precedenti"><Arrow previous /></button><span aria-live="polite">{currentPage + 1} di {pageCount}</span><button type="button" onClick={() => move(1)} aria-label="Recensioni successive"><Arrow /></button></div>}
   </div>;
 }
 

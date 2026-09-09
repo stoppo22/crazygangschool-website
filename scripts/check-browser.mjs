@@ -136,7 +136,22 @@ try {
     assert.equal(await page.locator('#recensioni .review-card footer strong').first().textContent(), 'Martina');
     assert.equal(await page.locator('#recensioni .review-card time').count(), 0);
     assert.equal(await page.locator('.review-carousel__controls button:disabled').count(), 0);
-    assert.equal((await page.locator('.review-carousel__controls span').textContent()).trim(), '1 di 5');
+    // Carousel pages by how many cards are visible: 2 pages on desktop (3-up), 5 on mobile (1-up).
+    const expectedPages = width > 820 ? 2 : 5;
+    const pageLabel = () => page.locator('.review-carousel__controls span').textContent().then(t => t.trim());
+    assert.equal(await pageLabel(), `1 di ${expectedPages}`);
+    for (let step = 1; step < expectedPages; step++) {
+      await page.locator('.review-carousel__controls button').last().click();
+      await page.waitForTimeout(220);
+    }
+    assert.equal(await pageLabel(), `${expectedPages} di ${expectedPages}`);
+    assert.ok(await page.locator('#recensioni .review-card').last().evaluate(el => {
+      const r = el.getBoundingClientRect();
+      return r.left >= -1 && r.right <= innerWidth + 1;
+    }), `${name}: last review not reachable`);
+    await page.locator('.review-carousel__controls button').last().click(); // wraps to first page
+    await page.waitForTimeout(220);
+    assert.equal(await pageLabel(), `1 di ${expectedPages}`);
     assert.deepEqual((await page.locator('.reviews__actions>a').allTextContents()).map(text => text.replace('(nuova scheda)', '').trim()), ['Leggi tutte le recensioni']);
     assert.ok(await page.locator('.reviews__actions>a').evaluateAll(links => links.every(link => link.href.startsWith('https://www.google.com/maps/place/Crazy+Gang+School/'))));
     assert.deepEqual(await page.locator('#ospiti h2').textContent(), 'Ospiti della struttura');
