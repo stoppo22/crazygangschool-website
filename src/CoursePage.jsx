@@ -21,15 +21,6 @@ function Arrow({ back = false }) {
   return <svg className={back ? 'is-back' : ''} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12" stroke="currentColor" strokeWidth="1.7" /></svg>;
 }
 
-function CourseImage({ course, sizes }) {
-  // TODO(launch): foto stock temporanea, sostituire con foto originale del corso.
-  // La didascalia riporta il credito della fonte. Vedi LAUNCH_CHECKLIST.md.
-  return <figure className="course-photo" style={{ '--position': course.image.position }}>
-    <div><img src={course.image.src} srcSet={course.image.srcSet} sizes={sizes} width={course.image.width} height={course.image.height} alt={course.image.alt} data-placeholder="true" /></div>
-    <figcaption>Foto: {course.image.credit}</figcaption>
-  </figure>;
-}
-
 function CourseSchedule({ course }) {
   const headingId = `${course.slug}-schedule-title`;
   return <section className="course-schedule course-reveal" aria-labelledby={headingId}>
@@ -88,8 +79,7 @@ export function CoursePage({ course }) {
     const media = gsap.matchMedia();
     media.add('(prefers-reduced-motion: no-preference)', () => {
       gsap.timeline({ defaults: { ease: 'power3.out' } })
-        .from('.course-hero__title span', { yPercent: 110, duration: .8, clearProps: 'transform' })
-        .from('.course-hero .course-photo>div', { clipPath: 'inset(100% 0 0)', duration: 1, ease: 'power3.inOut', clearProps: 'clipPath' }, .08);
+        .from('.course-hero__title span', { yPercent: 110, duration: .8, clearProps: 'transform' });
       gsap.utils.toArray('.course-reveal').forEach(element => gsap.from(element, { opacity: 0, y: 28, duration: .7, scrollTrigger: { trigger: element, start: 'top 90%', once: true } }));
       gsap.fromTo('.related-course img', { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.related-courses', start: 'top bottom', end: 'bottom top', scrub: .5 } });
     });
@@ -102,7 +92,6 @@ export function CoursePage({ course }) {
     <main>
       <section className="course-hero">
         <div className="course-hero__copy"><a href="/#discipline" className="course-back"><Arrow back /> Torna ai corsi</a><h1 className="course-hero__title"><span>{course.title}</span></h1><p>{course.summary}</p></div>
-        <CourseImage course={course} sizes="(max-width: 820px) 100vw, 55vw" />
       </section>
 
       <section className="course-information">

@@ -63,7 +63,6 @@ export const faculty = [
   teacher('flavia-fraietta', 'Flavia Fraietta', 'Insegnante Danza Classica e Propedeutica', 507, 478),
   teacher('emiliano-dangelo', "Emiliano D'Angelo", 'Insegnante Hip Hop', 719, 601),
   teacher('gaia-stopponi', 'Gaia Stopponi', 'Insegnante Danza Moderna', 1000, 1117),
-  teacher('sabrina-sottile', 'Sabrina Sottile', 'Insegnante Salsa Cubana', 342, 310),
   teacher('angelo-riolo', 'Angelo Riolo', 'Insegnante Kung Fu e Kuai', 185, 183),
   teacher('massimo-e-tiziana', 'Massimo e Tiziana', 'Insegnanti Danze Standard e Latino Americane', 1000, 667),
   teacher('gloria-di-domizio', 'Gloria di Domizio', 'Insegnante Danza Moderna', 531, 569),
