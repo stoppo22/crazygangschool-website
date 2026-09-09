@@ -70,7 +70,7 @@ export const faculty = [
 ];
 
 export const contact = {
-  email: 'info@crazygang.it', phone: '067883621', mobile: '3334027525',
+  email: 'info@crazygang.it', phone: '067883621',
   // Verified WhatsApp Business number of the school (06 7883621 → +39 06 7883621).
   // Prefilled message: "Ciao, avrei bisogno di alcune informazioni."
   whatsapp: 'https://wa.me/39067883621?text=Ciao%2C%20avrei%20bisogno%20di%20alcune%20informazioni.',

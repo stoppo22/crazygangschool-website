@@ -125,7 +125,7 @@ export function CoursePage({ course }) {
           <header><p>Canali di contatto</p><h2 id="course-contact-title">Contatti.</h2></header>
           <div className="course-contact__channels">
             <a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${course.title}`)}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
-            <div><span>Telefono</span><p><a href={`tel:${contact.phone}`}>06 788 3621</a><a href={`tel:${contact.mobile}`}>333 402 7525</a></p></div>
+            <a href={`tel:${contact.phone}`}><span>Telefono</span><strong>06 788 3621</strong><Arrow /></a>
             <a href={contact.instagram} target="_blank" rel="noreferrer"><span>Social</span><strong>Instagram</strong><Arrow /></a>
             <a href={contact.facebook} target="_blank" rel="noreferrer"><span>Social</span><strong>Facebook</strong><Arrow /></a>
             <a href={contact.whatsapp} target="_blank" rel="noreferrer"><span>Social</span><strong>WhatsApp</strong><Arrow /></a>

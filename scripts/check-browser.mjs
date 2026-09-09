@@ -248,7 +248,7 @@ try {
     await page.waitForTimeout(220);
     assert.equal(await page.locator('#contatti address,#contatti iframe').count(), 0);
     assert.equal(await page.locator('#contatti a[href^="mailto:"]').count(), 1);
-    assert.equal(await page.locator('#contatti a[href^="tel:"]').count(), 2);
+    assert.equal(await page.locator('#contatti a[href^="tel:"]').count(), 1);
     assert.equal(await page.locator('#contatti a[href*="instagram"],#contatti a[href*="facebook"]').count(), 2);
     // WhatsApp CTA (verified number, prefilled message, opens in a new tab)
     const wa = page.locator('#contatti a[href^="https://wa.me/"]');

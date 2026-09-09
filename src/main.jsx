@@ -152,7 +152,7 @@ function App() {
           <div className="contact-intro"><p>Canali di contatto</p><h2 id="contact-title">Contatti.</h2></div>
           <div className="contact-channels">
             <a className="contact-channel" href={`mailto:${contact.email}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
-            <div className="contact-channel contact-channel--phones"><span>Telefono</span><div><a href={`tel:${contact.phone}`}>06 788 3621</a><a href={`tel:${contact.mobile}`}>333 402 7525</a></div><Arrow /></div>
+            <a className="contact-channel" href={`tel:${contact.phone}`}><span>Telefono</span><strong>06 788 3621</strong><Arrow /></a>
             <a className="contact-channel" href={contact.instagram} target="_blank" rel="noreferrer"><span>Social</span><strong>Instagram</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
             <a className="contact-channel" href={contact.facebook} target="_blank" rel="noreferrer"><span>Social</span><strong>Facebook</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
             <a className="contact-channel" href={contact.whatsapp} target="_blank" rel="noreferrer"><span>Social</span><strong>WhatsApp</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
