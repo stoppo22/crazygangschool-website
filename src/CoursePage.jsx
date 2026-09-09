@@ -27,7 +27,6 @@ function CourseSchedule({ course }) {
     <header className="course-schedule__header">
       <p>Giorni e fasce orarie</p>
       <h2 id={headingId}>Orari</h2>
-      <p className="course-schedule__note">Gli orari riportano le informazioni disponibili nel materiale ufficiale della scuola.</p>
     </header>
     <div className="course-schedule__list">
       {course.schedule.map(group => <article className="schedule-group" data-schedule-group key={group.name}>

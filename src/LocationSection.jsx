@@ -16,7 +16,7 @@ export function LocationSection() {
         <h2 id="location-title">Dove siamo</h2>
         <address><strong>Crazy Gang School</strong><span>{contact.address}</span><span>{contact.city}</span></address>
         <p className="location__metro">{contact.metro}</p>
-        <p>A pochi passi dalla fermata Metro A Colli Albani.</p>
+        <p>A pochi passi dalla stazione.</p>
         <a href={contact.maps} target="_blank" rel="noreferrer">Apri su Google Maps <Arrow /><span className="sr-only"> (nuova scheda)</span></a>
       </div>
       <div className={`location-map ${active ? 'is-interactive' : ''}`}>
