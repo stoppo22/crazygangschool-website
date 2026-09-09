@@ -24,6 +24,7 @@ export function TileReveal({
   images,
   headline,
   children,
+  scrollHint,
   columns = 3,
   gap = 28,
   gridWidth = 720,
@@ -37,6 +38,7 @@ export function TileReveal({
   zoom = 2.05,
   spread = 0.4,
   scrollLength = 3,
+  holdAfterReveal = 0,
   scrub = 0.08,
   contentGap = 28,
   backgroundColor = 'transparent',
@@ -50,6 +52,7 @@ export function TileReveal({
   const tileRefs = useRef([]);
   const headlineRef = useRef(null);
   const contentRef = useRef(null);
+  const scrollHintRef = useRef(null);
   const currentProgress = useRef(0);
   const frame = useRef(0);
   const previousTime = useRef(0);
@@ -70,7 +73,8 @@ export function TileReveal({
     const rows = Math.max(0, ...rowCounts);
     const zoomStart = Math.max(0, (rows > 0 ? 1 + (rows - 1) * stagger : 0) - overlap);
     const contentStart = zoomStart + 1 - 0.32;
-    const total = Math.max(zoomStart + 1, contentStart + 0.32, 0.001);
+    const revealEnd = Math.max(zoomStart + 1, contentStart + 0.32, 0.001);
+    const total = revealEnd + Math.max(holdAfterReveal, 0);
 
     return {
       tiles: images.map((_, index) => {
@@ -95,9 +99,10 @@ export function TileReveal({
       zoomStart,
       splitStart: zoomStart + 0.5,
       contentStart,
+      revealEnd,
       total,
     };
-  }, [columnCount, direction, images, overlap, stagger]);
+  }, [columnCount, direction, images, overlap, stagger, holdAfterReveal]);
 
   const applyProgress = useCallback((progress) => {
     const grid = gridRef.current;
@@ -138,6 +143,9 @@ export function TileReveal({
       contentRef.current.style.opacity = revealProgress.toFixed(3);
       contentRef.current.style.transform = `translate3d(0, ${((1 - revealProgress) * 12).toFixed(2)}px, 0)`;
       contentRef.current.style.pointerEvents = revealProgress > 0.5 ? 'auto' : 'none';
+    }
+    if (scrollHintRef.current) {
+      scrollHintRef.current.style.opacity = Math.max(0, 1 - revealProgress).toFixed(3);
     }
     onProgress?.(progress);
   }, [columnCount, contentGap, gap, onProgress, sequence, spread, startAssembled, tileAspect, zoom]);
@@ -210,8 +218,14 @@ export function TileReveal({
     };
   }, [applyProgress, readProgress, reducedMotion, scrub]);
 
+  // Extend the pinned scroll so the revealed content lingers after the reveal
+  // finishes, instead of the sticky stage releasing the moment it appears.
+  const revealSpan = startAssembled ? sequence.revealEnd - sequence.zoomStart : sequence.revealEnd;
+  const activeSpan = startAssembled ? sequence.total - sequence.zoomStart : sequence.total;
+  const scrollStretch = revealSpan > 0 ? activeSpan / revealSpan : 1;
+
   const sectionStyle = {
-    height: reducedMotion ? undefined : `${((1 + Math.max(scrollLength, 0)) * 100).toFixed(2)}svh`,
+    height: reducedMotion ? undefined : `${((1 + Math.max(scrollLength, 0) * scrollStretch) * 100).toFixed(2)}svh`,
     background: backgroundColor,
   };
 
@@ -238,6 +252,7 @@ export function TileReveal({
           {images.map((image, index) => <div key={`${image}-${index}`} ref={(element) => { tileRefs.current[index] = element; }} className="tile-reveal__tile" style={{ aspectRatio: tileAspect, borderRadius: tileRadius, visibility: 'hidden' }}><img className={grayscale ? 'is-grayscale' : ''} src={image} alt="" loading="lazy" decoding="async" draggable="false" /></div>)}
         </div>
       </div>
+      {scrollHint && <div ref={scrollHintRef} className="tile-reveal__hint" aria-hidden="true">{scrollHint}</div>}
     </div>
   </section>;
 }

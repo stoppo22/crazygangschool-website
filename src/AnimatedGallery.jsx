@@ -148,7 +148,7 @@ export function AnimatedGallery() {
 
   return <section id="galleria" className="gallery section-space" tabIndex={-1} aria-labelledby="gallery-title">
     <header className="gallery-heading"><h2 id="gallery-title">Galleria</h2><p>Foto dalla scuola, dai saggi e dagli spettacoli Crazy Gang.</p></header>
-    <TileReveal className="gallery-curtain" images={revealImages} columns={compact ? 2 : 3} gap={compact ? 6 : 10} gridWidth={compact ? 520 : 1120} tileAspect={compact ? 1.46 : 1.5} grayscale={false} startAssembled stagger={compact ? 0.035 : 0.045} overlap={0.72} zoom={compact ? 1.45 : 1.62} spread={compact ? 0.2 : 0.3} scrollLength={compact ? 0.65 : 0.9} scrub={compact ? 0.0175 : 0.026} backgroundColor="#101011">
+    <TileReveal className="gallery-curtain" images={revealImages} columns={compact ? 2 : 3} gap={compact ? 6 : 10} gridWidth={compact ? 520 : 1120} tileAspect={compact ? 1.46 : 1.5} grayscale={false} startAssembled stagger={compact ? 0.035 : 0.045} overlap={0.72} zoom={compact ? 1.45 : 1.62} spread={compact ? 0.2 : 0.3} scrollLength={compact ? 0.65 : 0.9} holdAfterReveal={compact ? 0.45 : 0.6} scrub={compact ? 0.0175 : 0.026} backgroundColor="#101011" scrollHint={<><span>Scorri per aprire l’archivio</span><i /></>}>
       <button ref={opener} className="gallery-curtain__action" type="button" onClick={() => setArchiveOpen(true)} aria-label="Apri l’archivio fotografico">
         <span className="gallery-curtain__copy"><strong>Archivio fotografico</strong><small>Saggi, spettacoli e vita della scuola.</small></span>
         <span className="gallery-curtain__link">Apri la galleria <Icon direction="next" /></span>
