@@ -71,6 +71,9 @@ export const faculty = [
 
 export const contact = {
   email: 'info@crazygang.it', phone: '067883621', mobile: '3334027525',
+  // Verified WhatsApp Business number of the school (06 7883621 → +39 06 7883621).
+  // Prefilled message: "Ciao, avrei bisogno di alcune informazioni."
+  whatsapp: 'https://wa.me/39067883621?text=Ciao%2C%20avrei%20bisogno%20di%20alcune%20informazioni.',
   address: 'Largo Orazi e Curiazi, 12', city: '00181 Roma', metro: 'Metro A · Colli Albani',
   maps: 'https://www.google.com/maps/place/Crazy+Gang+School/@41.8724821,12.5294285,17z/data=!3m1!4b1!4m6!3m5!1s0x132f61f808a89c81:0xe5f28e8c08f3ea59!8m2!3d41.8724821!4d12.5294285!16s%2Fg%2F11cs2v__pm',
   mapsEmbed: 'https://www.google.com/maps?q=Crazy%20Gang%20School%2C%20Largo%20Orazi%20e%20Curiazi%2012%2C%20Roma&output=embed',

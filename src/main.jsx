@@ -155,7 +155,7 @@ function App() {
             <div className="contact-channel contact-channel--phones"><span>Telefono</span><div><a href={`tel:${contact.phone}`}>06 788 3621</a><a href={`tel:${contact.mobile}`}>333 402 7525</a></div><Arrow /></div>
             <a className="contact-channel" href={contact.instagram} target="_blank" rel="noreferrer"><span>Social</span><strong>Instagram</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
             <a className="contact-channel" href={contact.facebook} target="_blank" rel="noreferrer"><span>Social</span><strong>Facebook</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
-            <div className="contact-channel contact-channel--pending" data-future-channel="whatsapp"><span>WhatsApp Business</span><strong>Non ancora attivo</strong></div>
+            <a className="contact-channel" href={contact.whatsapp} target="_blank" rel="noreferrer"><span>Social</span><strong>WhatsApp</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
           </div>
         </div>
       </section>

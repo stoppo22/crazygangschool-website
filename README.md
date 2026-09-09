@@ -125,10 +125,11 @@ processing inventory and the reasoning. See `LAUNCH_CHECKLIST.md`.
   The "Avviamento" group name in Danza Classica is still to be confirmed.
 - The faculty list follows the historical teacher page; the current composition
   is still to be confirmed.
-- The CTA opens email or telephone links. No message is sent and no booking or
-  payment is simulated. WhatsApp Business is shown as "non ancora attivo".
-- The reviews section shows only the verified Google rating; no review text is
-  published until each entry is checked against the listing.
+- Contact CTAs open email, telephone or WhatsApp (verified number, prefilled
+  message). No message is sent automatically and no booking or payment is
+  simulated.
+- The reviews section shows the verified Google rating plus five review texts
+  transcribed verbatim from the public listing; removable on request.
 - Hero and course images are labelled stock placeholders (`data-placeholder`,
   `placeholder: true`); the gallery uses documented historical photographs.
   Image rights and credits remain to be confirmed.

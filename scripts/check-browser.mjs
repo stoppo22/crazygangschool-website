@@ -250,7 +250,15 @@ try {
     assert.equal(await page.locator('#contatti a[href^="mailto:"]').count(), 1);
     assert.equal(await page.locator('#contatti a[href^="tel:"]').count(), 2);
     assert.equal(await page.locator('#contatti a[href*="instagram"],#contatti a[href*="facebook"]').count(), 2);
-    assert.equal(await page.locator('#contatti [data-future-channel="whatsapp"] a').count(), 0);
+    // WhatsApp CTA (verified number, prefilled message, opens in a new tab)
+    const wa = page.locator('#contatti a[href^="https://wa.me/"]');
+    assert.equal(await wa.count(), 1, `${name}: WhatsApp CTA missing`);
+    const waHref = await wa.getAttribute('href');
+    assert.equal(waHref, 'https://wa.me/39067883621?text=Ciao%2C%20avrei%20bisogno%20di%20alcune%20informazioni.', `${name}: wrong WhatsApp href`);
+    assert.equal(new URL(waHref).searchParams.get('text'), 'Ciao, avrei bisogno di alcune informazioni.', `${name}: wrong WhatsApp prefilled message`);
+    assert.equal(await wa.getAttribute('target'), '_blank', `${name}: WhatsApp not target=_blank`);
+    assert.equal(await wa.getAttribute('rel'), 'noreferrer', `${name}: WhatsApp rel not noreferrer`);
+    assert.equal((await wa.locator('strong').textContent()).trim(), 'WhatsApp', `${name}: wrong WhatsApp CTA text`);
     if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Contatti');
     await page.screenshot({ path: `artifacts/${name}-contacts.png` });
     await page.locator('.footer').scrollIntoViewIfNeeded();
@@ -279,6 +287,12 @@ try {
     assert.equal(await coursePage.getByText('Orari in aggiornamento. Contatta la scuola per informazioni.', { exact: true }).count(), 0);
     assert.equal(await coursePage.locator('a[href="/#discipline"]').count(), 3);
     assert.ok((await coursePage.locator('a[href^="mailto:"]').count()) >= 2);
+    const courseWa = coursePage.locator('.course-contact a[href^="https://wa.me/"]');
+    assert.equal(await courseWa.count(), 1, `${slug}: WhatsApp CTA missing`);
+    assert.equal(await courseWa.getAttribute('href'), 'https://wa.me/39067883621?text=Ciao%2C%20avrei%20bisogno%20di%20alcune%20informazioni.', `${slug}: wrong WhatsApp href`);
+    assert.equal(await courseWa.getAttribute('target'), '_blank', `${slug}: WhatsApp not target=_blank`);
+    assert.equal(await courseWa.getAttribute('rel'), 'noreferrer', `${slug}: WhatsApp rel not noreferrer`);
+    assert.equal((await courseWa.locator('strong').textContent()).trim(), 'WhatsApp', `${slug}: wrong WhatsApp CTA text`);
     const courseLayout = await coursePage.evaluate(() => ({
       width: innerWidth,
       scrollWidth: document.documentElement.scrollWidth,

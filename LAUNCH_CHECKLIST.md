@@ -17,11 +17,10 @@ Open items before the site goes public. Grouped by who has to act.
   - Gallery photos (`public/images/gallery/*`) are archival images from the old
     site — confirm rights, credits and consent, or replace.
 
-- **WhatsApp Business** — confirmed business number and whether it should be
-  activated. Currently shown as "non ancora attivo" in both contact sections
-  (`src/main.jsx`, `data-future-channel="whatsapp"`; `src/CoursePage.jsx`,
-  `.course-contact__pending`). When ready, turn it into a
-  `https://wa.me/<number>` link.
+- ~~**WhatsApp Business**~~ — done. Verified number 06 7883621 wired as
+  `https://wa.me/39067883621?text=…` in `src/content.js` (`contact.whatsapp`);
+  "WhatsApp" CTA active in the contact sections of the homepage and the course
+  pages.
 
 ## TO VERIFY (confirm, then update copy if needed)
 
@@ -107,7 +106,7 @@ Open items before the site goes public. Grouped by who has to act.
 - Google rating 4,8 and five review texts transcribed verbatim from the public
   Google listing (`src/ReviewsSection.jsx`); removable on request per the Privacy
   Policy.
-- Contact channels: `info@crazygang.it`, 06 7883621, 333 402 7525, Instagram,
-  Facebook.
+- Contact channels: `info@crazygang.it`, 06 7883621, 333 402 7525, WhatsApp
+  (`wa.me/39067883621`), Instagram, Facebook.
 - Course disciplines, age ranges and schedules confirmed by the owner
   (6 and 8 September 2026, `CONTEXT.md`).

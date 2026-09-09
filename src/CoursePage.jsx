@@ -128,7 +128,7 @@ export function CoursePage({ course }) {
             <div><span>Telefono</span><p><a href={`tel:${contact.phone}`}>06 788 3621</a><a href={`tel:${contact.mobile}`}>333 402 7525</a></p></div>
             <a href={contact.instagram} target="_blank" rel="noreferrer"><span>Social</span><strong>Instagram</strong><Arrow /></a>
             <a href={contact.facebook} target="_blank" rel="noreferrer"><span>Social</span><strong>Facebook</strong><Arrow /></a>
-            <div className="course-contact__pending"><span>WhatsApp Business</span><strong>Non ancora attivo</strong></div>
+            <a href={contact.whatsapp} target="_blank" rel="noreferrer"><span>Social</span><strong>WhatsApp</strong><Arrow /></a>
           </div>
         </div>
       </section>
