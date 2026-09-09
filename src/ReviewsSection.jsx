@@ -100,11 +100,10 @@ function ReviewCarousel({ reviews }) {
 export function ReviewsSection() {
   return <section id="recensioni" className="reviews section-space" tabIndex={-1} aria-labelledby="reviews-title">
     <div className="reviews__inner">
-      <header className="reviews__heading reveal"><h2 id="reviews-title">Recensioni</h2><p>Valutazione pubblica su Google Maps</p></header>
-      <div className="reviews__summary">
-        <div className="reviews__rating" aria-label="Valutazione Google Maps: 4,8 su 5"><strong>4,8</strong><span aria-hidden="true">★★★★★</span></div>
-        <div><p>Valutazione media pubblicata sulla scheda Google Maps di Crazy Gang School.</p></div>
-      </div>
+      <header className="reviews__heading reveal">
+        <h2 id="reviews-title">Recensioni</h2>
+        <div className="reviews__rating" aria-label="Valutazione media 4,8 su 5"><strong>4,8</strong><span aria-hidden="true">★★★★★</span></div>
+      </header>
       <ReviewCarousel reviews={verifiedReviews} />
       {/* Una sola CTA alla scheda Google: non è stato possibile ricavare un URL
           specifico e verificato per scrivere una recensione. */}
