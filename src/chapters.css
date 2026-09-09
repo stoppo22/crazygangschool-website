@@ -10,7 +10,7 @@
 .contact-channel strong,.contact-channel--phones>div{font-size:clamp(24px,3vw,46px)}
 .contact-channel .arrow{width:clamp(24px,2.5vw,36px)}
 .contact-channel--pending strong{font-size:clamp(21px,2.5vw,36px)}
-.footer{background:var(--ink);color:white;padding:60px var(--pad) 35px;display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:40px;align-items:start}.brand--footer{width:190px}.footer>p{font-size:13px;line-height:1.5}.footer>div{display:flex;flex-direction:column;gap:10px}.footer a{font-size:13px;display:flex;align-items:center;gap:8px}.footer>a:last-of-type .arrow{transform:rotate(180deg)}.footer small{grid-column:1/-1;border-top:1px solid #555;padding-top:20px;color:#aaa;font-size:11px}
+.footer{background:var(--ink);color:white;padding:60px var(--pad) 35px;display:grid;grid-template-columns:2fr 1fr auto;gap:40px;align-items:start}.brand--footer{width:190px}.footer>p{font-size:13px;line-height:1.5}.footer a{font-size:13px;display:flex;align-items:center;gap:8px}.footer>a:last-of-type .arrow{transform:rotate(180deg)}.footer small{grid-column:1/-1;border-top:1px solid #555;padding-top:20px;color:#aaa;font-size:11px}
 
 /* Closing contact chapter: compact and aligned with faculty/location. */
 .contact{padding:clamp(70px,7vw,105px) var(--pad)}
