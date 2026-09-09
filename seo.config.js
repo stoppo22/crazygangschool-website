@@ -26,6 +26,13 @@ export const DEFAULT_DESCRIPTION =
 
 export const OG_IMAGE = '/brand/crazy-gang-960.webp';
 
+// Cloudflare Web Analytics (cookieless). The beacon is injected into index.html
+// on a production build only when this is set (env var CF_ANALYTICS_TOKEN in the
+// Cloudflare project). Needed because *.workers.dev URLs don't get Cloudflare's
+// automatic beacon injection; once a proxied custom domain is attached, this can
+// be left unset and injection handled by the dashboard instead.
+export const CF_ANALYTICS_TOKEN = process.env.CF_ANALYTICS_TOKEN || '';
+
 // Course slugs and titles for the sitemap. Kept in sync with src/course-data.js.
 export const COURSE_SLUGS = [
   'danza-moderna',

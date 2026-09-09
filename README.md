@@ -112,12 +112,15 @@ are self-hosted. The only third-party embed is the Google Map in the "Dove siamo
 section, which is **not mounted until the visitor clicks "Attiva la mappa"** — no
 request reaches Google before then.
 
-Visitor statistics are planned to use **Cloudflare Web Analytics** (cookieless),
-to be enabled from the Cloudflare dashboard — no code here — and not active yet;
-nothing is collected until it is turned on. The site currently shows **no consent
-banner**; adding any cookie-based tracker, pixel, booking widget or embedded
-video later would mean introducing a consent manager with prior blocking and
-extending the Cookie Policy.
+Visitor statistics use **Cloudflare Web Analytics** (cookieless). The beacon is
+injected into `index.html` on a production build only when `CF_ANALYTICS_TOKEN`
+is set (env var in the Cloudflare project) — needed for the `*.workers.dev`
+preview, which does not get Cloudflare's automatic injection. Once a proxied
+custom domain is attached, this can be left unset and the dashboard handles
+injection. The site currently shows **no consent banner**; adding any
+cookie-based tracker, pixel, booking widget or embedded video later would mean
+introducing a consent manager with prior blocking and extending the Cookie
+Policy.
 
 `/privacy` and `/cookie` (`src/LegalPage.jsx`) are complete drafts; the owner
 must fill the bracketed facts (data controller + tax code, retention periods,

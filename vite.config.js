@@ -8,9 +8,11 @@ import {
   COURSE_SLUGS,
   STATIC_ROUTES,
   LAUNCHED,
+  CF_ANALYTICS_TOKEN,
 } from './seo.config.js';
 
-// Emits robots.txt / sitemap.xml at build time and sets the robots meta tag.
+// Emits robots.txt / sitemap.xml at build time, sets the robots meta tag, and
+// injects the Cloudflare Web Analytics beacon when CF_ANALYTICS_TOKEN is set.
 // The site is noindex everywhere until SITE_LAUNCHED=true: dev server is always
 // noindex; a production build is "index, follow" only when LAUNCHED.
 function seoPlugin() {
@@ -21,12 +23,20 @@ function seoPlugin() {
       handler(html, ctx) {
         const isBuild = ctx.server === undefined;
         const robots = isBuild && LAUNCHED ? 'index, follow' : 'noindex, nofollow';
-        return html
+        let out = html
           .split('%SITE_URL%').join(SITE_URL)
           .replace(
             /<meta name="robots" content="[^"]*" \/>/,
             `<meta name="robots" content="${robots}" />`,
           );
+        if (isBuild && CF_ANALYTICS_TOKEN) {
+          const token = String(CF_ANALYTICS_TOKEN).replace(/[^\w-]/g, '');
+          out = out.replace(
+            '</body>',
+            `  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${token}"}'></script>\n  </body>`,
+          );
+        }
+        return out;
       },
     },
     generateBundle() {
