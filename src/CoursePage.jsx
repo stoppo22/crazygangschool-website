@@ -30,16 +30,13 @@ function CourseImage({ course, sizes }) {
   </figure>;
 }
 
-function FactCard({ title, items, className = '' }) {
-  return <article className={`course-fact ${className}`}><h2>{title}</h2><ul>{items.map(item => <li key={item}>{item}</li>)}</ul></article>;
-}
-
 function CourseSchedule({ course }) {
   const headingId = `${course.slug}-schedule-title`;
   return <section className="course-schedule course-reveal" aria-labelledby={headingId}>
     <header className="course-schedule__header">
       <p>Giorni e fasce orarie</p>
       <h2 id={headingId}>Orari.</h2>
+      <p className="course-schedule__note">Gli orari riportano le informazioni disponibili nel materiale ufficiale della scuola.</p>
     </header>
     <div className="course-schedule__list">
       {course.schedule.map(group => <article className="schedule-group" data-schedule-group key={group.name}>
@@ -109,12 +106,6 @@ export function CoursePage({ course }) {
       </section>
 
       <section className="course-information">
-        <div className="course-information__intro course-reveal"><p>Informazioni confermate</p><h2>Il corso,<br />in breve.</h2><p>Età, gruppi e orari riportano le informazioni disponibili nel materiale ufficiale della scuola.</p></div>
-        <div className="course-facts course-facts--overview">
-          <FactCard title="Fasce d’età" items={course.ages} />
-          <FactCard title="Livelli" items={course.levels} className="course-fact--blue" />
-          <FactCard title="Percorsi e sottocorsi" items={course.programs} className="course-fact--pink" />
-        </div>
         <CourseSchedule course={course} />
       </section>
 
