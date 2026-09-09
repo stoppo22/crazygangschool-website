@@ -21,16 +21,14 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Build
-        run: npm run build
-
-      - name: Start dev server
+      - name: Build and run browser checks
         run: |
+          npm run build
           npm run dev &
+          DEV_PID=$!
           npx --yes wait-on tcp:127.0.0.1:5173 --timeout 60000
-
-      - name: Browser checks
-        run: npm run test:browser
+          npm run test:browser
+          kill $DEV_PID 2>/dev/null || true
 
       - name: Upload debug screenshots
         if: failure()

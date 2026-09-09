@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { contact } from './content';
 import { applyHead } from './head';
-import { SITE_URL, SITE_DESCRIPTION, OG_IMAGE, absoluteUrl } from './site';
+import { SITE_DESCRIPTION, OG_IMAGE, absoluteUrl } from './site';
 
 function Arrow({ back = false }) {
   return <svg className={back ? 'is-back' : ''} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12" stroke="currentColor" strokeWidth="1.7" /></svg>;
@@ -52,7 +52,7 @@ export function PrivacyPage() {
       <section>
         <h2>Dati trattati e finalità</h2>
         <ul>
-          <li><strong>Dati di navigazione</strong> (indirizzo IP, user agent, data e ora, pagina richiesta e altri dati tecnici della richiesta), raccolti automaticamente dall’infrastruttura che eroga il sito. Servono a rendere disponibile il sito, garantirne sicurezza e stabilità e a misurare in forma aggregata gli accessi (vedi <a href="/cookie">Cookie Policy</a>). Base giuridica: legittimo interesse del titolare (art. 6, par. 1, lett. f).</li>
+          <li><strong>Dati di navigazione</strong> (indirizzo IP, user agent, data e ora, pagina richiesta e altri dati tecnici della richiesta), raccolti automaticamente dall’infrastruttura che eroga il sito. Servono a rendere disponibile il sito e a garantirne sicurezza e stabilità; è inoltre previsto l’uso di uno strumento di statistica aggregata e senza cookie per misurare gli accessi (vedi <a href="/cookie">Cookie Policy</a>). Base giuridica: legittimo interesse del titolare (art. 6, par. 1, lett. f).</li>
           <li><strong>Dati che l’utente fornisce volontariamente</strong> scrivendo un’email o telefonando alla scuola (nome, recapito e contenuto del messaggio). Servono a rispondere alla richiesta e a eventuali passi precontrattuali. Base giuridica: riscontro alla richiesta dell’interessato ed esecuzione di misure precontrattuali (art. 6, par. 1, lett. b) o legittimo interesse (lett. f). Il sito non contiene moduli: la comunicazione avviene tramite l’applicazione di posta o di telefono del dispositivo dell’utente.</li>
           <li><strong>Mappa di Google Maps</strong>, presente nella sezione «Dove siamo». Il contenuto della mappa viene caricato <strong>solo dopo un click esplicito</strong> sul pulsante «Attiva la mappa»; fino a quel momento non viene inviato alcun dato a Google. Il click vale come consenso (art. 6, par. 1, lett. a). Dopo l’attivazione, Google può trattare dati (tra cui l’indirizzo IP) e utilizzare cookie secondo le proprie <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">policy</a>, in qualità di titolare autonomo.</li>
         </ul>
@@ -80,7 +80,7 @@ export function PrivacyPage() {
 
       <section>
         <h2>Diritti dell’interessato</h2>
-        <p>In qualsiasi momento è possibile esercitare i diritti previsti dagli articoli 15–22 del GDPR (accesso, rettifica, cancellazione, limitazione, opposizione, portabilità) e <strong>revocare il consenso</strong> alla mappa (non attivandola oppure cancellando i cookie di Google dal browser), scrivendo a <a href={`mailto:${contact.email}`}>{contact.email}</a>. È inoltre possibile proporre reclamo all’Autorità di controllo, il <a href="https://www.garanteprivacy.it" target="_blank" rel="noreferrer">Garante per la protezione dei dati personali</a>.</p>
+        <p>In qualsiasi momento è possibile esercitare i diritti previsti dagli articoli 15–22 del GDPR (accesso, rettifica, cancellazione, limitazione, opposizione, portabilità) scrivendo a <a href={`mailto:${contact.email}`}>{contact.email}</a>. Il consenso alla mappa di Google è prestato con l’attivazione e vale solo per la pagina in corso: per interromperne il caricamento è sufficiente premere «Nascondi mappa» o ricaricare la pagina; i cookie eventualmente impostati da Google si gestiscono dalle impostazioni del browser. È inoltre possibile proporre reclamo all’Autorità di controllo, il <a href="https://www.garanteprivacy.it" target="_blank" rel="noreferrer">Garante per la protezione dei dati personali</a>.</p>
       </section>
 
       <section>
@@ -93,7 +93,7 @@ export function PrivacyPage() {
         <p>Il sito ha finalità informative e non raccoglie consapevolmente dati di minori tramite moduli online. Le iscrizioni dei minori sono gestite dalla scuola al di fuori del sito, con il consenso di chi esercita la responsabilità genitoriale.</p>
       </section>
 
-      <p className="legal-updated">Ultimo aggiornamento: [data]. L’informativa può essere modificata; le versioni aggiornate sono pubblicate su questa pagina. Testo predisposto per il sito: si consiglia una verifica con un consulente prima della pubblicazione definitiva.</p>
+      <p className="legal-updated">Ultimo aggiornamento: [data]. L’informativa può essere modificata; le versioni aggiornate sono pubblicate su questa pagina.</p>
     </main>
   </PageChrome>;
 }
@@ -103,7 +103,7 @@ export function CookiePage() {
     window.scrollTo(0, 0);
     applyHead({
       title: 'Cookie Policy — Crazy Gang School',
-      description: 'Il sito non usa cookie di profilazione né banner. Statistiche aggregate senza cookie.',
+      description: 'Il sito non usa cookie di profilazione. Le statistiche di visita previste sono aggregate e senza cookie.',
       canonical: absoluteUrl('/cookie'),
       ogImage: absoluteUrl(OG_IMAGE),
     });
@@ -125,8 +125,8 @@ export function CookiePage() {
       </section>
 
       <section>
-        <h2>Statistiche di visita (senza cookie)</h2>
-        <p>Per misurare in forma aggregata quante persone visitano il sito viene utilizzato <strong>Cloudflare Web Analytics</strong>, uno strumento che rileva dati come pagine viste, provenienza, Paese e tipo di browser o sistema operativo <strong>senza cookie e senza identificatori persistenti</strong> e senza incrociare i dati con altri siti. Trattandosi di una misurazione aggregata e senza cookie, per questo strumento non viene mostrato un banner di consenso. Riferimento: <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noreferrer">Cloudflare Web Analytics</a>.</p>
+        <h2>Statistiche di visita</h2>
+        <p>Per misurare in forma aggregata quante persone visitano il sito è previsto l’uso di <strong>Cloudflare Web Analytics</strong>, uno strumento che, secondo la documentazione del fornitore, rileva dati come pagine viste, provenienza, Paese e tipo di browser o sistema operativo <strong>senza cookie e senza identificatori persistenti</strong> e senza incrociare i dati con altri siti. Allo stato attuale lo strumento non è ancora attivo; quando lo sarà, eventuali tecnologie di memorizzazione da esso utilizzate verranno indicate in questa pagina. Riferimento: <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noreferrer">Cloudflare Web Analytics</a>.</p>
       </section>
 
       <section>
@@ -136,12 +136,12 @@ export function CookiePage() {
 
       <section>
         <h2>Google Maps</h2>
-        <p>La mappa nella sezione «Dove siamo» viene caricata <strong>solo dopo aver premuto manualmente</strong> il pulsante «Attiva la mappa». Se la mappa non viene attivata, nessun contenuto di Google viene caricato. Dopo l’attivazione, Google può trattare dati e utilizzare cookie secondo le proprie <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noreferrer">policy sui cookie</a>. Per revocare: non attivare la mappa oppure cancellare i cookie di Google dalle impostazioni del browser.</p>
+        <p>La mappa nella sezione «Dove siamo» viene caricata <strong>solo dopo aver premuto</strong> il pulsante «Attiva la mappa», e limitatamente alla pagina in corso. Dopo l’attivazione, Google può trattare dati e utilizzare cookie secondo le proprie <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noreferrer">policy sui cookie</a>. Premendo «Nascondi mappa» o ricaricando la pagina, la mappa viene rimossa e non vengono caricati ulteriori contenuti di Google; i cookie eventualmente già impostati da Google possono essere gestiti dalle impostazioni del browser.</p>
       </section>
 
       <section>
         <h2>Consenso e banner</h2>
-        <p>Allo stato attuale il sito non utilizza cookie di profilazione o statistici e non installa cookie non tecnici senza un’azione esplicita dell’utente; per questo non viene mostrato un banner di gestione dei consensi. Se in futuro venissero aggiunti strumenti di analisi con cookie, pixel pubblicitari, widget di prenotazione o contenuti incorporati di terzi, verrà introdotto un sistema di gestione dei consensi e questa pagina verrà aggiornata.</p>
+        <p>Allo stato attuale il sito non utilizza cookie di profilazione o statistici e non installa cookie non tecnici senza un’azione esplicita dell’utente; al momento non è presente un banner di gestione dei consensi. L’eventuale aggiunta di strumenti di analisi con cookie, pixel pubblicitari, widget di prenotazione o contenuti incorporati di terzi comporterà l’introduzione di un sistema di gestione dei consensi e l’aggiornamento di questa pagina.</p>
       </section>
 
       <section>
@@ -163,10 +163,10 @@ export function CookiePage() {
 
 export function NotFoundPage() {
   useEffect(() => {
+    // No canonical: an error page must not canonicalize to the homepage.
     applyHead({
       title: 'Pagina non trovata — Crazy Gang School',
       description: SITE_DESCRIPTION,
-      canonical: SITE_URL + '/',
       robots: 'noindex, follow',
       ogImage: absoluteUrl(OG_IMAGE),
     });

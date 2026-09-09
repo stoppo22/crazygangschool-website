@@ -42,19 +42,21 @@ and **what still has to be confirmed** by the owner or a privacy professional.
 No special-category data is processed *through the website*. No profiling, no
 automated decision-making.
 
-## 3. Why there is no cookie banner (current state)
+## 3. Cookie banner — current position (to confirm with a professional)
 
-The Garante's 2021 cookie guidelines require a consent banner when non-technical
-cookies or trackers would be set **without** a prior user action. On this site:
+No consent banner is shown at the moment. The working rationale — **not a legal
+determination**, and to be validated by a privacy professional against the
+Garante's 2021 guidelines — is that on this site:
 
 - the site's own code sets **no cookies**;
-- planned analytics (Cloudflare Web Analytics) is **cookieless**;
+- the planned analytics (Cloudflare Web Analytics) is described by the vendor as
+  **cookieless**, and is not enabled yet;
 - the only third-party that can set cookies (Google, via the map) loads **only
   after an explicit click**.
 
-So there is nothing to ask consent for up front, and the proportionate solution
-is: the Cookie Policy page + the in-context note on the map button. This holds
-**only** while the three conditions above hold.
+Given this, the current approach is the Cookie Policy page + the in-context note
+on the map button, with no up-front banner. This is contingent on the three
+points above continuing to hold and on the professional review confirming it.
 
 **This breaks — and a consent manager with prior blocking becomes mandatory — if
 anyone later adds:** Google Analytics or any cookie/ID-based analytics, a Meta/

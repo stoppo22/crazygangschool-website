@@ -3,13 +3,23 @@ import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import assert from 'node:assert/strict';
 
-// Static fallback 404 served by the host (Cloudflare Pages) for any unknown path.
-// The dev/preview servers don't serve it (SPA fallback), so check the source file.
-assert.ok(existsSync('public/404.html'), 'public/404.html missing');
-const staticNotFound = await readFile('public/404.html', 'utf8');
-assert.match(staticNotFound, /Pagina non trovata/, 'public/404.html: missing heading');
-assert.match(staticNotFound, /name="robots" content="noindex/, 'public/404.html: not noindex');
-assert.match(staticNotFound, /href="\/"/, 'public/404.html: missing home link');
+// In production, arbitrary unknown paths (e.g. /qualcosa, bare /corsi) are served
+// by Cloudflare Pages from the static 404.html with a real 404 status — NOT by
+// the app. The Vite dev/preview servers fall back to index.html for those, so
+// that path is checked here against the built file, not the running server.
+// (The browser 404 checks further down only cover invalid /corsi/* slugs, which
+// _redirects sends to the app.)
+for (const dir of ['public', 'dist']) {
+  const file = `${dir}/404.html`;
+  if (dir === 'public') assert.ok(existsSync(file), `${file} missing`);
+  if (!existsSync(file)) continue;
+  const html = await readFile(file, 'utf8');
+  assert.match(html, /lang="it"/, `${file}: missing lang="it"`);
+  assert.match(html, /Pagina non trovata/, `${file}: missing heading`);
+  assert.match(html, /name="robots" content="noindex/, `${file}: not noindex`);
+  assert.doesNotMatch(html, /rel="canonical"/, `${file}: error page must not canonicalize`);
+  assert.match(html, /href="\/"/, `${file}: missing home link`);
+}
 
 const baseURL = process.env.BASE_URL || 'http://127.0.0.1:5173';
 const executablePath = process.env.BROWSER_PATH || ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(existsSync);
@@ -287,9 +297,14 @@ try {
   await coursePage.goto(`${baseURL}/corsi/danza-moderna`, { waitUntil: 'domcontentloaded' });
   await coursePage.screenshot({ path: 'artifacts/course-danza-moderna-desktop.png', fullPage: true });
 
-  // Real 404 view for invalid routes (course slug and arbitrary path)
-  for (const badPath of ['/corsi/non-esiste', '/pagina-inesistente', '/corsi']) {
-    console.log(`Checking 404: ${badPath}`);
+  // React noindex 404 view — only for invalid /corsi/* slugs. In production these
+  // match the `/corsi/* -> /index.html 200` rewrite in public/_redirects, so the
+  // app loads and renders this view (HTTP 200). Arbitrary unknown paths do NOT
+  // reach the app in production (they get the static 404.html, checked at the top
+  // of this file); testing them against the dev server would assert non-prod
+  // behaviour.
+  for (const badPath of ['/corsi/non-esiste', '/corsi/pippo']) {
+    console.log(`Checking React 404: ${badPath}`);
     await coursePage.goto(`${baseURL}${badPath}`, { waitUntil: 'domcontentloaded', timeout: 15000 });
     await coursePage.waitForTimeout(250);
     assert.equal(await coursePage.locator('.not-found-main').count(), 1, `${badPath}: no 404 view`);
@@ -298,6 +313,8 @@ try {
     // so this proves the client-side 404 keeps itself out of the index.
     assert.equal(await coursePage.locator('meta[name="robots"][data-managed-head]').getAttribute('content'), 'noindex, follow', `${badPath}: 404 not noindex`);
     assert.equal(await coursePage.locator('meta[name="robots"]').count(), 1, `${badPath}: duplicate robots meta`);
+    // The error view must not canonicalize (to the homepage or anywhere).
+    assert.equal(await coursePage.locator('link[rel="canonical"]').count(), 0, `${badPath}: 404 must not have a canonical`);
     assert.equal(await coursePage.locator('a[href="/"]').count() >= 1, true, `${badPath}: 404 missing home link`);
   }
   await coursePage.screenshot({ path: 'artifacts/not-found.png' });
