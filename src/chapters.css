@@ -26,7 +26,7 @@
 .contact-layout .contact-channels{margin:0}
 .contact-layout .contact-channel>span:first-child,.contact-intro>p{font-size:14px;letter-spacing:.06em}
 .contact-form{display:flex;flex-direction:column;gap:clamp(22px,2.4vw,30px);border-top:2px solid var(--ink);padding-top:clamp(24px,2.8vw,36px)}
-.contact-form__title{font-size:15px;text-transform:uppercase;letter-spacing:.07em;font-weight:700}
+.contact-form__title{font-size:clamp(26px,3vw,40px);letter-spacing:-.01em;font-weight:700}
 .contact-field{display:flex;flex-direction:column;gap:11px}
 .contact-field>span{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .contact-field input,.contact-field select,.contact-field textarea{width:100%;padding:13px 0;background:transparent;border:0;border-bottom:1px solid rgba(16,16,17,.45);border-radius:0;color:var(--ink);font:inherit;font-size:clamp(19px,1.7vw,25px);letter-spacing:-.01em}
