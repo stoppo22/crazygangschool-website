@@ -12,7 +12,7 @@ La skill gpt-taste resta subordinata alle preferenze approvate: niente randomizz
 
 ## Titoli e contenuti
 
-H1: **Crazy Gang School**. Titoli di sezione: **La scuola, Discipline, Spettacoli, Insegnanti, Animazione, Contatti**. Nelle discipline usare esclusivamente i nomi documentati: Danza Classica, Danza Moderna, Hip Hop, Tap, Break Dance, Salsa Cubana, Danze Standard, Danze Latino Americane, Kung Fu e Propedeutica. Kuai rimane nelle altre attività con richiesta di informazioni.
+H1: **Crazy Gang School**. Titoli di sezione: **La scuola, Discipline, Spettacoli, Insegnanti, Animazione, Contatti**. Nelle discipline usare esclusivamente i nomi documentati: Danza Classica, Danza Moderna, Hip Hop, Tap, Salsa Cubana, Danze Standard, Danze Latino Americane, Kung Fu e Propedeutica. Kuai rimane nelle altre attività con richiesta di informazioni.
 
 Eliminare raggruppamenti inventati come Danza / Ritmo / Incontro e frasi come “Un corpo, tanti linguaggi”, “Insieme, in scena”, “Il gesto si impara” e “Facciamo il primo passo”. Testi brevi e descrittivi; nessuna nuova promessa su offerta o operatività.
 

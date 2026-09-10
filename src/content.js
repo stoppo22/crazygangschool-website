@@ -37,7 +37,6 @@ export const disciplines = [
   { id: 'moderna', name: 'Danza Moderna' },
   { id: 'hip-hop', name: 'Hip Hop' },
   { id: 'tap', name: 'Tap' },
-  { id: 'break-dance', name: 'Break Dance' },
   { id: 'salsa', name: 'Salsa Cubana' },
   { id: 'standard', name: 'Danze Standard' },
   { id: 'latino', name: 'Danze Latino Americane' },
