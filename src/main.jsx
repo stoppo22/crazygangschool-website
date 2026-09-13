@@ -34,8 +34,8 @@ function Arrow({ down = false }) {
   return <svg className="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={path} stroke="currentColor" strokeWidth="1.7" /></svg>;
 }
 
-function Brand({ footer = false, onNavigate }) {
-  return <a className={`brand ${footer ? 'brand--footer' : ''}`} href="#inizio" onClick={onNavigate} aria-label="Crazy Gang School, torna all'inizio"><img src="/brand/crazy-gang-640.webp" width="2307" height="1157" alt="Crazy Gang School" /></a>;
+function Brand({ onNavigate }) {
+  return <a className="brand" href="#inizio" onClick={onNavigate} aria-label="Crazy Gang School, torna all'inizio"><img src="/brand/crazy-gang-640.webp" width="2307" height="1157" alt="Crazy Gang School" /></a>;
 }
 
 function Photo({ name, className = '', priority = false, sizes = '50vw' }) {
@@ -204,7 +204,7 @@ function App() {
     {/* TODO(launch): sostituire le foto stock dei corsi e dell'hero con fotografie
         originali della scuola; verificare diritti e crediti delle immagini
         d'archivio della galleria. Vedi LAUNCH_CHECKLIST.md. */}
-    <footer className="footer"><Brand footer /><p>Crazy Gang School<br />Roma, Colli Albani</p><a href="#inizio">Torna su <Arrow down /></a><small><a href="/privacy">Privacy</a> · <a href="/cookie">Cookie</a></small></footer>
+    <footer className="footer"><p><strong>Crazy Gang School</strong><span>Roma, Colli Albani</span></p><a href="#inizio">Torna su <Arrow down /></a><small><a href="/privacy">Privacy</a> · <a href="/cookie">Cookie</a></small></footer>
   </div>;
 }
 
