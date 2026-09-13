@@ -1,7 +1,7 @@
 .site-root{overflow-x:clip}
 .gallery{background:var(--ink);color:#fff;overflow:clip}
 .gallery-heading{width:min(100%,1180px);margin:0 auto clamp(70px,9vw,130px);display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.55fr);gap:50px;align-items:end}
-.gallery-heading h2{font-size:clamp(72px,10vw,150px);line-height:.78;letter-spacing:-.075em}
+.gallery-heading h2{font-size:clamp(72px,10vw,150px);font-weight:800;font-stretch:condensed;font-family:Frutiger,Cabinet,Arial,sans-serif;line-height:.78;letter-spacing:-.02em}
 .gallery-heading p{max-width:360px;font-size:clamp(17px,1.55vw,23px);line-height:1.4}
 .gallery-curtain{width:min(100%,1380px);margin:0 auto;border-top:1px solid #4c4c50;border-bottom:1px solid #4c4c50}
 .tile-reveal{position:relative;width:100%}
@@ -15,16 +15,16 @@
 .tile-reveal__tile img,.tile-reveal__static-grid img{width:100%;height:100%;object-fit:cover;object-position:center;user-select:none}
 .tile-reveal__tile img.is-grayscale{filter:grayscale(1)}
 .tile-reveal__hint{position:absolute;z-index:4;left:50%;bottom:clamp(26px,6vh,58px);transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;pointer-events:none;will-change:opacity}
-.tile-reveal__hint span{padding:14px 24px;background:var(--acid);color:var(--ink);font-size:clamp(15px,1.7vw,21px);font-weight:800;text-transform:uppercase;letter-spacing:.11em;white-space:nowrap}
+.tile-reveal__hint span{padding:14px 24px;background:var(--acid);color:var(--ink);font-size:clamp(15px,1.7vw,21px);font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;text-transform:uppercase;letter-spacing:.11em;white-space:nowrap}
 .tile-reveal__hint i{width:2px;height:44px;margin-top:14px;background:var(--acid);transform-origin:top center;animation:tile-reveal-hint 1.6s cubic-bezier(.4,0,.2,1) infinite}
 @keyframes tile-reveal-hint{0%,100%{transform:scaleY(.25);opacity:.25}50%{transform:scaleY(1);opacity:1}}
 .gallery-curtain__action{width:min(900px,calc(100vw - var(--pad)*2));padding:clamp(26px,4vw,54px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,4vw,58px);align-items:end;background:var(--acid);color:var(--ink);text-align:left;transition:background .25s ease,color .25s ease,transform .25s ease}
 .gallery-curtain__action:hover{background:var(--acid);color:var(--ink);transform:translateY(-3px)}
 .gallery-curtain__action:focus-visible{outline:4px solid #fff;outline-offset:7px}
 .gallery-curtain__copy{display:block}
-.gallery-curtain__copy strong{display:block;font-size:clamp(44px,6.5vw,96px);line-height:.84;letter-spacing:-.065em}
+.gallery-curtain__copy strong{display:block;font-size:clamp(44px,6.5vw,96px);font-weight:800;font-stretch:condensed;font-family:Frutiger,Cabinet,Arial,sans-serif;line-height:.84;letter-spacing:-.02em}
 .gallery-curtain__copy small{display:block;margin-top:24px;font-size:clamp(15px,1.35vw,20px);line-height:1.4}
-.gallery-curtain__link{min-width:190px;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid currentColor;font-size:15px;font-weight:800}
+.gallery-curtain__link{min-width:190px;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid currentColor;font-size:15px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif}
 .gallery-curtain__link svg{width:25px;height:25px}
 .tile-reveal--static{min-height:0;padding:clamp(24px,4vw,54px) 0 clamp(58px,8vw,100px)}
 .tile-reveal__static-grid{display:grid;width:min(100%,1120px);margin:0 auto}
@@ -33,7 +33,7 @@
 .gallery-archive{position:fixed;z-index:1000;inset:0;background:#08080a;color:#fff}
 .gallery-archive__dialog{height:100%;display:grid;grid-template-rows:clamp(72px,8vw,108px) minmax(0,1fr)}
 .gallery-archive__header{padding:0 clamp(18px,4.5vw,72px);display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;border-bottom:1px solid #38383b;background:#08080a}
-.gallery-archive__header strong{font-size:clamp(27px,3.4vw,54px);line-height:.9;letter-spacing:-.05em}
+.gallery-archive__header strong{font-size:clamp(27px,3.4vw,54px);font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;line-height:.9;letter-spacing:-.02em}
 .gallery-archive__close{min-height:48px;padding:10px 0 10px 20px;display:flex;align-items:center;gap:18px;border-left:1px solid #4c4c50;font-size:14px}
 .gallery-archive__close svg{width:25px;height:25px}
 .gallery-archive__close:hover{color:var(--acid)}
