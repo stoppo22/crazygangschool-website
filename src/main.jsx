@@ -88,9 +88,9 @@ function Navigation() {
   const panel = useRef(null);
   const toggle = useRef(null);
   const links = [
-    { value: 'scuola', label: 'La scuola', href: '#inizio' },
-    { value: 'corsi', label: 'Corsi', href: '#discipline' },
-    { value: 'insegnanti', label: 'Insegnanti', href: '#docenti' },
+    { value: 'scuola', label: 'La Scuola', href: '#inizio' },
+    { value: 'corsi', label: 'I Corsi', href: '#discipline' },
+    { value: 'insegnanti', label: 'Gli Insegnanti', href: '#docenti' },
     { value: 'recensioni', label: 'Recensioni', href: '#recensioni' },
     { value: 'galleria', label: 'Galleria', href: '#galleria' },
     { value: 'dove-siamo', label: 'Dove siamo', href: '#dove-siamo' },

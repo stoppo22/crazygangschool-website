@@ -6,8 +6,11 @@ import { Accordion } from './components/godui/Accordion';
 function TeacherPhoto({ teacher, mobile = false }) {
   return <figure className={`faculty-photo ${mobile ? 'faculty-photo--mobile' : ''}`}><img src={teacher.image.src} width={teacher.image.width} height={teacher.image.height} alt={teacher.image.alt} loading="lazy" style={{ '--teacher-position': teacher.image.position }} /><figcaption>Fotografia dal sito ufficiale Crazy Gang School</figcaption></figure>;
 }
+function TeacherName({ teacher }) {
+  return <span className="teacher-name"><span className="teacher-name__given">{teacher.given}</span><span className="teacher-name__surname">{teacher.surname}</span></span>;
+}
 function TeacherProfile({ teacher, mobile = false }) {
-  return <div className={`faculty-profile ${mobile ? 'faculty-profile--mobile' : ''}`}><TeacherPhoto teacher={teacher} mobile={mobile} /><div className="faculty-preview__identity"><strong>{teacher.name}</strong><span>{teacher.role}</span></div></div>;
+  return <div className={`faculty-profile ${mobile ? 'faculty-profile--mobile' : ''}`}><TeacherPhoto teacher={teacher} mobile={mobile} /><div className="faculty-preview__identity"><strong><TeacherName teacher={teacher} /></strong><span>{teacher.role}</span></div></div>;
 }
 export function FacultySection() {
   const [selected, setSelected] = useState(null);
@@ -17,7 +20,7 @@ export function FacultySection() {
   const selectedTeacher = selected ? faculty.find(teacher => teacher.id === selected) : null;
   const activeId = preview ?? selected;
   const activeTeacher = activeId ? faculty.find(teacher => teacher.id === activeId) : null;
-  const items = useMemo(() => faculty.map(teacher => ({ value: teacher.id, title: <span className="faculty-row"><span className="faculty-row__name">{teacher.name}</span><span className="faculty-row__line" aria-hidden="true" /></span>, content: null })), []);
+  const items = useMemo(() => faculty.map(teacher => ({ value: teacher.id, title: <span className="faculty-row"><span className="faculty-row__name"><TeacherName teacher={teacher} /></span><span className="faculty-row__line" aria-hidden="true" /></span>, content: null })), []);
   const selectTeacher = value => { if (value) { setSelected(value); setListOpen(false); } };
   return <section id="docenti" className="faculty section-space" tabIndex={-1} aria-labelledby="faculty-title">
     {/* TODO(launch): confermare la composizione attuale del corpo docente prima della pubblicazione definitiva. Vedi LAUNCH_CHECKLIST.md. */}
