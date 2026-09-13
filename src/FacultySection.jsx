@@ -7,7 +7,7 @@ function TeacherPhoto({ teacher, mobile = false }) {
   return <figure className={`faculty-photo ${mobile ? 'faculty-photo--mobile' : ''}`}><img src={teacher.image.src} width={teacher.image.width} height={teacher.image.height} alt={teacher.image.alt} loading="lazy" style={{ '--teacher-position': teacher.image.position }} /><figcaption>Fotografia dal sito ufficiale Crazy Gang School</figcaption></figure>;
 }
 function TeacherName({ teacher }) {
-  return <span className="teacher-name"><span className="teacher-name__given">{teacher.given}</span><span className="teacher-name__surname">{teacher.surname}</span></span>;
+  return <span className="teacher-name"><span className="teacher-name__given">{teacher.given}</span>{' '}<span className="teacher-name__surname">{teacher.surname}</span></span>;
 }
 function TeacherProfile({ teacher, mobile = false }) {
   return <div className={`faculty-profile ${mobile ? 'faculty-profile--mobile' : ''}`}><TeacherPhoto teacher={teacher} mobile={mobile} /><div className="faculty-preview__identity"><strong><TeacherName teacher={teacher} /></strong><span>{teacher.role}</span></div></div>;

@@ -87,17 +87,17 @@ try {
     assert.deepEqual(await page.locator('main>section').evaluateAll(sections => sections.map(section => section.id)), ['inizio', 'discipline', 'docenti', 'ospiti', 'recensioni', 'galleria', 'dove-siamo', 'contatti']);
     assert.deepEqual(await page.locator('.course-panel').evaluateAll(links => links.map(link => link.getAttribute('href'))), courseRoutes.map(([slug]) => `/corsi/${slug}`));
     if (width > 820) {
-      assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Galleria', 'Dove siamo', 'Contatti']);
+      assert.deepEqual(await page.locator('.magic-tab>a').allTextContents(), ['La Scuola', 'I Corsi', 'Gli Insegnanti', 'Recensioni', 'Galleria', 'Dove siamo', 'Contatti']);
       assert.equal(await page.locator('.magic-tab').count(), 1);
-      assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'La scuola');
+      assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'La Scuola');
       assert.equal(await page.locator('.nav-cta').textContent(), 'Contattaci ');
       const initialIndicator = await page.locator('.magic-tab__indicator').boundingBox();
-      await page.getByRole('link', { name: 'Insegnanti', exact: true }).hover();
+      await page.getByRole('link', { name: 'Gli Insegnanti', exact: true }).hover();
       const previewIndicator = await page.locator('.magic-tab__indicator').boundingBox();
       assert.ok(previewIndicator.x > initialIndicator.x, `${name}: Magic Tab did not move on hover`);
-      await page.getByRole('link', { name: 'La scuola', exact: true }).focus();
+      await page.getByRole('link', { name: 'La Scuola', exact: true }).focus();
       await page.keyboard.press('ArrowRight');
-      assert.equal(await page.evaluate(() => document.activeElement?.textContent), 'Corsi');
+      assert.equal(await page.evaluate(() => document.activeElement?.textContent), 'I Corsi');
     } else {
       assert.equal(await page.locator('.magic-tab:visible').count(), 0);
       assert.ok(await page.locator('.course-panel').evaluateAll(elements => elements.every(element => {
@@ -111,7 +111,7 @@ try {
     await page.screenshot({ path: `artifacts/${name}-hero.png` });
     await page.locator('#discipline').scrollIntoViewIfNeeded();
     await page.waitForTimeout(180);
-    if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Corsi');
+    if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'I Corsi');
     await page.screenshot({ path: `artifacts/${name}-courses.png` });
     if (width > 820) {
       await page.mouse.move(0, 0);
@@ -129,7 +129,7 @@ try {
     assert.equal(await page.locator('.faculty-list .faculty-row__role').count(), 0);
     assert.equal(await page.locator('.faculty-list .godui-accordion__item[data-open="true"]').count(), 0);
     if (width > 820) {
-      assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Insegnanti');
+      assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Gli Insegnanti');
       assert.equal(await page.locator('.faculty-preview img').count(), 0);
       assert.equal(await page.locator('.faculty-empty').count(), 1);
       const teacherTriggers = page.locator('.faculty-list .godui-accordion__trigger');
@@ -250,7 +250,7 @@ try {
       await page.evaluate(() => scrollTo(0, 0));
       await page.getByRole('button', { name: 'Menu', exact: true }).click();
       assert.ok(await page.locator('#menu-mobile').isVisible());
-      assert.deepEqual((await page.locator('#menu-mobile>a').allTextContents()).map(text => text.trim()), ['La scuola', 'Corsi', 'Insegnanti', 'Recensioni', 'Galleria', 'Dove siamo', 'Contatti', 'Contattaci']);
+      assert.deepEqual((await page.locator('#menu-mobile>a').allTextContents()).map(text => text.trim()), ['La Scuola', 'I Corsi', 'Gli Insegnanti', 'Recensioni', 'Galleria', 'Dove siamo', 'Contatti', 'Contattaci']);
       assert.equal(await page.evaluate(() => document.body.style.overflow), 'hidden');
       await page.screenshot({ path: `artifacts/${name}-menu.png` });
       await page.keyboard.press('Escape');
