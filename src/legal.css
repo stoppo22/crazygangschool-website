@@ -3,7 +3,7 @@
 .legal-main h1{font-size:clamp(38px,7vw,72px);font-weight:800;font-stretch:condensed;font-family:Frutiger,Cabinet,Arial,sans-serif;line-height:.95;letter-spacing:-.01em;margin:0 0 8px}
 .legal-lead{font-size:15px;line-height:1.6;color:#4a4a4a;margin:0 0 40px;max-width:60ch}
 .legal-main section{margin:0 0 34px}
-.legal-main h2{font-size:19px;letter-spacing:-.01em;margin:0 0 10px}
+.legal-main h2{font-size:19px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;letter-spacing:.04em;margin:0 0 10px}
 .legal-main p,.legal-main li{font-size:14px;line-height:1.65;color:#2b2b2b}
 .legal-main ul{margin:8px 0 0;padding-left:20px}
 .legal-main li{margin:0 0 8px}

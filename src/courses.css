@@ -11,7 +11,7 @@
 .course-panel__content{position:absolute;z-index:2;left:clamp(22px,3vw,52px);right:clamp(22px,3vw,52px);bottom:clamp(26px,4vw,60px);display:flex;flex-direction:column;align-items:flex-start;opacity:0;transform:translateY(24px);transition:opacity .32s .18s ease,transform .45s .15s ease;pointer-events:none}
 .course-panel[data-active=true] .course-panel__content{opacity:1;transform:none}
 .course-panel__content>strong{max-width:750px;font-size:clamp(45px,6vw,105px);font-weight:800;font-stretch:condensed;font-family:Frutiger,Cabinet,Arial,sans-serif;line-height:.83;letter-spacing:-.02em}
-.course-panel__content>small{margin-top:21px;font-size:clamp(13px,1.2vw,18px);font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif}
+.course-panel__content>small{margin-top:21px;font-size:clamp(13px,1.2vw,18px);font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;letter-spacing:.06em}
 .course-panel__content>span:last-child{display:flex;align-items:center;gap:14px;margin-top:30px;padding:13px 0;border-bottom:1px solid currentColor;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
 .course-panel__content svg{width:20px}
 .course-panel:focus-visible{z-index:5;outline:4px solid var(--acid);outline-offset:-4px}
@@ -22,7 +22,7 @@
 .course-page svg.is-back{transform:rotate(-90deg)}
 .course-page a:hover svg.is-back,.course-page a:focus-visible svg.is-back{transform:translate(-4px,4px) rotate(-90deg)}
 .course-nav{height:92px;padding:0 var(--pad);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:var(--ink);color:#fff;border-bottom:1px solid #4d4d50;position:relative;z-index:10}
-.course-nav>a{display:flex;align-items:center;gap:13px;font-size:13px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif}
+.course-nav>a{display:flex;align-items:center;gap:13px;font-size:13px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;letter-spacing:.06em}
 .course-nav>a:last-child{justify-self:end;padding:13px 16px;background:var(--acid);color:var(--ink)}
 .course-brand{width:120px;height:62px}
 .course-brand img{width:100%;height:100%;object-fit:contain}
@@ -51,7 +51,7 @@
 .course-cta h2{margin:50px 0 80px;font-size:clamp(78px,13vw,225px);font-weight:800;font-stretch:condensed;font-family:Frutiger,Cabinet,Arial,sans-serif;line-height:.75;letter-spacing:-.02em}
 .course-cta>a{display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-top:1px solid var(--ink);font-size:clamp(23px,3vw,54px);font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;letter-spacing:-.02em}
 .course-footer{min-height:210px;padding:45px var(--pad);display:grid;grid-template-columns:1fr 1fr 1fr;align-items:end;gap:40px;background:var(--ink);color:#fff;font-size:12px;line-height:1.5}
-.course-footer>a{display:flex;align-items:center;gap:12px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif}
+.course-footer>a{display:flex;align-items:center;gap:12px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;letter-spacing:.06em}
 .course-footer>span:last-child{color:#aaa}
 
 @media(max-width:1100px) and (min-width:821px){
@@ -117,7 +117,7 @@
 .schedule-group:nth-child(3n){background:var(--pink);color:var(--ink)}
 .schedule-group__identity h3{font-size:clamp(34px,4vw,64px);font-weight:800;font-stretch:condensed;font-family:Frutiger,Cabinet,Arial,sans-serif;line-height:.92;letter-spacing:-.01em;text-transform:uppercase}
 .schedule-group__identity p{margin-top:16px;font-size:clamp(21px,2vw,32px);line-height:1.35}
-.schedule-group__identity p span{font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif}
+.schedule-group__identity p span{font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;letter-spacing:.06em}
 .schedule-group__sessions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
 .schedule-session{display:flex;flex-direction:column;align-items:center;gap:8px;padding:17px 28px;border:1px solid currentColor;border-radius:3px}
 .schedule-session__day{font-size:14px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;letter-spacing:.1em}

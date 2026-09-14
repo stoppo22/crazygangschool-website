@@ -24,7 +24,7 @@
 .gallery-curtain__copy{display:block}
 .gallery-curtain__copy strong{display:block;font-size:clamp(44px,6.5vw,96px);font-weight:800;font-stretch:condensed;font-family:Frutiger,Cabinet,Arial,sans-serif;line-height:.84;letter-spacing:-.02em}
 .gallery-curtain__copy small{display:block;margin-top:24px;font-size:clamp(15px,1.35vw,20px);line-height:1.4}
-.gallery-curtain__link{min-width:190px;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid currentColor;font-size:15px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif}
+.gallery-curtain__link{min-width:190px;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid currentColor;font-size:15px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;letter-spacing:.06em}
 .gallery-curtain__link svg{width:25px;height:25px}
 .tile-reveal--static{min-height:0;padding:clamp(24px,4vw,54px) 0 clamp(58px,8vw,100px)}
 .tile-reveal__static-grid{display:grid;width:min(100%,1120px);margin:0 auto}
@@ -50,7 +50,7 @@
 .gallery-viewer{position:fixed;z-index:1100;inset:0;background:#08080a;color:#fff}
 .gallery-viewer__dialog{height:100%;display:grid;grid-template-rows:72px minmax(0,1fr) 94px}
 .gallery-viewer header{padding:0 clamp(16px,2.5vw,38px);display:grid;grid-template-columns:1fr auto auto;gap:30px;align-items:center;border-bottom:1px solid #38383b}
-.gallery-viewer header strong{font-size:21px;letter-spacing:-.025em}
+.gallery-viewer header strong{font-size:21px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;letter-spacing:-.01em}
 .gallery-viewer header span{font-size:12px;letter-spacing:.09em;color:#b7b7b9}
 .gallery-viewer button{color:inherit}
 .gallery-viewer button:focus-visible{outline:3px solid var(--acid);outline-offset:-3px}

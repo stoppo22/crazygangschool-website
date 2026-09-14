@@ -2,7 +2,7 @@
 .guests__inner{width:min(100%,1120px);margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:clamp(28px,4vw,60px)}
 .guests__title{font-size:clamp(34px,5vw,64px);font-weight:800;font-stretch:condensed;font-family:Frutiger,Cabinet,Arial,sans-serif;line-height:.95;letter-spacing:-.01em}
 .guests__links{display:flex;flex-wrap:wrap;gap:14px}
-.guests__links a{min-height:66px;padding:20px 26px;display:inline-flex;align-items:center;gap:26px;border:1px solid rgba(255,255,255,.55);font-size:17px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;color:#fff;transition:background .2s ease,color .2s ease}
+.guests__links a{min-height:66px;padding:20px 26px;display:inline-flex;align-items:center;gap:26px;border:1px solid rgba(255,255,255,.55);font-size:17px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;letter-spacing:.06em;color:#fff;transition:background .2s ease,color .2s ease}
 .guests__links a:hover,.guests__links a:focus-visible{background:#fff;color:var(--ink)}
 .guests__links a:focus-visible{outline:3px solid var(--acid);outline-offset:4px}
 .guests__links svg{width:21px;height:21px}
