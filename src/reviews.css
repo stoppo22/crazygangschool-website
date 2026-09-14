@@ -4,7 +4,7 @@
 .reviews__heading h2{font-size:clamp(53px,6vw,92px);font-weight:900;line-height:.78;letter-spacing:-.02em}
 .reviews__rating{display:flex;align-items:baseline;gap:16px}
 .reviews__rating strong{font-size:clamp(46px,5.6vw,92px);line-height:.8;letter-spacing:-.06em}
-.reviews__rating span{color:var(--acid);font-size:clamp(14px,1.4vw,20px);letter-spacing:.14em}
+.reviews__rating span{color:var(--acid);font-size:clamp(20px,2.2vw,30px);letter-spacing:.14em}
 .reviews__unavailable{display:grid;grid-template-columns:1fr 1fr;gap:clamp(35px,7vw,100px);padding:38px 0;border-bottom:1px solid rgba(255,255,255,.7)}
 .reviews__unavailable h3{font-size:clamp(28px,3.5vw,48px);line-height:.95;letter-spacing:-.02em}
 .reviews__unavailable p{max-width:470px;font-size:14px;line-height:1.5}
@@ -22,7 +22,7 @@
 .review-carousel__track{--step:calc((100% - 44px)/3 + 22px);display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 44px)/3);gap:22px;padding:8px 0 22px;transform:translateX(calc(-1 * var(--first,0) * var(--step)));transition:transform .45s cubic-bezier(.4,0,.2,1)}
 .review-carousel__track[data-motion="off"]{transition:none}
 .review-card{min-height:288px;padding:30px 28px 24px;display:flex;flex-direction:column;gap:18px;background:var(--paper);color:var(--ink);border:1px solid rgba(16,16,17,.12);border-top:5px solid var(--acid);box-shadow:0 16px 34px -22px rgba(4,4,25,.55)}
-.review-card__stars{color:var(--acid);font-size:21px;letter-spacing:.12em}
+.review-card__stars{color:#f5a623;font-size:15px;letter-spacing:.16em}
 .review-card blockquote{margin:0;font-size:clamp(15px,1.1vw,17px);line-height:1.55;letter-spacing:-.005em}
 .review-card footer{margin-top:auto;display:flex;flex-direction:column;gap:3px}
 .review-card footer strong{font-size:14px;letter-spacing:-.01em}
