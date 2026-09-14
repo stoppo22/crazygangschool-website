@@ -6,7 +6,7 @@
 .reviews__rating strong{font-size:clamp(46px,5.6vw,92px);line-height:.8;letter-spacing:-.06em}
 .reviews__rating span{color:var(--acid);font-size:clamp(20px,2.2vw,30px);letter-spacing:.14em}
 .reviews__unavailable{display:grid;grid-template-columns:1fr 1fr;gap:clamp(35px,7vw,100px);padding:38px 0;border-bottom:1px solid rgba(255,255,255,.7)}
-.reviews__unavailable h3{font-size:clamp(28px,3.5vw,48px);line-height:.95;letter-spacing:-.02em}
+.reviews__unavailable h3{font-size:clamp(28px,3.5vw,48px);line-height:.95}
 .reviews__unavailable p{max-width:470px;font-size:14px;line-height:1.5}
 .reviews__actions{display:flex;gap:12px;margin-top:42px}
 .reviews__actions a{min-height:56px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:35px;background:#fff;color:var(--ink);font-size:14px;font-weight:700}

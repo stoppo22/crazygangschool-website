@@ -22,7 +22,7 @@
 .gallery-curtain__action:hover{background:var(--acid);color:var(--ink);transform:translateY(-3px)}
 .gallery-curtain__action:focus-visible{outline:4px solid #fff;outline-offset:7px}
 .gallery-curtain__copy{display:block}
-.gallery-curtain__copy strong{display:block;font-size:clamp(44px,6.5vw,96px);line-height:.84;letter-spacing:-.02em}
+.gallery-curtain__copy strong{display:block;font-size:clamp(44px,6.5vw,96px);line-height:.84}
 .gallery-curtain__copy small{display:block;margin-top:24px;font-size:clamp(15px,1.35vw,20px);line-height:1.4}
 .gallery-curtain__link{min-width:190px;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid currentColor;font-size:15px;font-weight:800}
 .gallery-curtain__link svg{width:25px;height:25px}
@@ -33,7 +33,7 @@
 .gallery-archive{position:fixed;z-index:1000;inset:0;background:#08080a;color:#fff}
 .gallery-archive__dialog{height:100%;display:grid;grid-template-rows:clamp(72px,8vw,108px) minmax(0,1fr)}
 .gallery-archive__header{padding:0 clamp(18px,4.5vw,72px);display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;border-bottom:1px solid #38383b;background:#08080a}
-.gallery-archive__header strong{font-size:clamp(27px,3.4vw,54px);line-height:.9;letter-spacing:-.02em}
+.gallery-archive__header strong{font-size:clamp(27px,3.4vw,54px);line-height:.9}
 .gallery-archive__close{min-height:48px;padding:10px 0 10px 20px;display:flex;align-items:center;gap:18px;border-left:1px solid #4c4c50;font-size:14px}
 .gallery-archive__close svg{width:25px;height:25px}
 .gallery-archive__close:hover{color:var(--acid)}
@@ -50,7 +50,7 @@
 .gallery-viewer{position:fixed;z-index:1100;inset:0;background:#08080a;color:#fff}
 .gallery-viewer__dialog{height:100%;display:grid;grid-template-rows:72px minmax(0,1fr) 94px}
 .gallery-viewer header{padding:0 clamp(16px,2.5vw,38px);display:grid;grid-template-columns:1fr auto auto;gap:30px;align-items:center;border-bottom:1px solid #38383b}
-.gallery-viewer header strong{font-size:21px;letter-spacing:-.015em}
+.gallery-viewer header strong{font-size:21px}
 .gallery-viewer header span{font-size:12px;letter-spacing:.09em;color:#b7b7b9}
 .gallery-viewer button{color:inherit}
 .gallery-viewer button:focus-visible{outline:3px solid var(--acid);outline-offset:-3px}
