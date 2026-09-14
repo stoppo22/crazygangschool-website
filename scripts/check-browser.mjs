@@ -88,10 +88,10 @@ try {
     assert.equal(await page.locator('.facts-bento,.people,.archive').count(), 0);
     assert.equal(await page.locator('.hero-description p').count(), 2);
     assert.equal(await page.locator('.hero-aside,[data-location]').count(), 0);
-    // Artistic direction sits in the hero, directly under the school name.
+    // Artistic direction sits in the hero, below the description paragraphs.
     const heroDirection = page.locator('.hero-main .hero-direction');
     assert.equal(await heroDirection.count(), 1, `${name}: hero artistic-direction missing`);
-    assert.equal(await heroDirection.evaluate(el => el.previousElementSibling?.id), 'hero-title', `${name}: artistic direction not directly under the school name`);
+    assert.equal(await heroDirection.evaluate(el => el.previousElementSibling?.className), 'hero-description', `${name}: artistic direction not directly under the description`);
     assert.match(await heroDirection.textContent(), /Marco Stopponi.+Stefano Stopponi/, `${name}: wrong artistic-direction names`);
     assert.deepEqual(await page.locator('main>section').evaluateAll(sections => sections.map(section => section.id)), ['inizio', 'discipline', 'docenti', 'ospiti', 'recensioni', 'galleria', 'dove-siamo', 'contatti']);
     assert.deepEqual(await page.locator('.course-panel').evaluateAll(links => links.map(link => link.getAttribute('href'))), courseRoutes.map(([slug]) => `/corsi/${slug}`));

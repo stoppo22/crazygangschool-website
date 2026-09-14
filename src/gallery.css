@@ -1,7 +1,7 @@
 .site-root{overflow-x:clip}
 .gallery{background:var(--ink);color:#fff;overflow:clip}
 .gallery-heading{width:min(100%,1180px);margin:0 auto clamp(70px,9vw,130px);display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.55fr);gap:50px;align-items:end}
-.gallery-heading h2{font-family:BarlowCondensed,Barlow,Cabinet,Arial,sans-serif;font-size:clamp(53px,6vw,92px);font-weight:900;line-height:.78;letter-spacing:-.02em}
+.gallery-heading h2{font-family:Montserrat,Arial,sans-serif;font-size:clamp(53px,6vw,92px);font-weight:800;line-height:.78;letter-spacing:-.02em}
 .gallery-heading p{max-width:360px;font-size:clamp(17px,1.55vw,23px);line-height:1.4}
 .gallery-curtain{width:min(100%,1380px);margin:0 auto;border-top:1px solid #4c4c50;border-bottom:1px solid #4c4c50}
 .tile-reveal{position:relative;width:100%}
