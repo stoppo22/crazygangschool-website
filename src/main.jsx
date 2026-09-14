@@ -204,7 +204,7 @@ function App() {
     {/* TODO(launch): sostituire le foto stock dei corsi e dell'hero con fotografie
         originali della scuola; verificare diritti e crediti delle immagini
         d'archivio della galleria. Vedi LAUNCH_CHECKLIST.md. */}
-    <footer className="footer"><p><strong>Crazy Gang School</strong><span>Roma, Colli Albani</span></p><a href="#inizio">Torna su <Arrow down /></a><small><a href="/privacy">Privacy</a> · <a href="/cookie">Cookie</a></small></footer>
+    <footer className="footer"><p><strong>Crazy Gang School</strong> <span>Roma, Colli Albani</span></p><a href="#inizio">Torna su <Arrow down /></a><small><a href="/privacy">Privacy</a> · <a href="/cookie">Cookie</a></small></footer>
   </div>;
 }
 
