@@ -16,23 +16,25 @@ export function LocationSection() {
 
   return <section id="dove-siamo" className="location section-space" tabIndex={-1} aria-labelledby="location-title">
     <div className="location__inner">
-      <div className="location__copy reveal">
-        <h2 id="location-title">Dove siamo</h2>
+      <div className="location__map-col reveal">
+        <h2 id="location-title">Puoi trovarci{' '}qui</h2>
+        <div className={`location-map ${active ? 'is-interactive' : ''}`}>
+          {active
+            ? <>
+                <iframe title="Mappa di Crazy Gang School a Roma" src={contact.mapsEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+                <button className="location-map__disable" type="button" onClick={() => setActive(false)}>Nascondi mappa</button>
+              </>
+            : <>
+                <button type="button" onClick={() => setActive(true)}><PinIcon /><span>Attiva la mappa</span></button>
+                <p className="location-map__note">Attivando la mappa vengono caricati contenuti di Google Maps, che può impostare cookie. Vedi la <a href="/cookie">Cookie Policy</a>.</p>
+              </>}
+        </div>
+      </div>
+      <div className="location__copy">
         <address><strong>Crazy Gang School</strong><span>{contact.address}</span><span>{contact.city}</span></address>
         <p className="location__metro">{contact.metro}</p>
         <p>A pochi passi dalla stazione.</p>
         <a href={contact.maps} target="_blank" rel="noreferrer">Apri su Google Maps <Arrow /><span className="sr-only"> (nuova scheda)</span></a>
-      </div>
-      <div className={`location-map ${active ? 'is-interactive' : ''}`}>
-        {active
-          ? <>
-              <iframe title="Mappa di Crazy Gang School a Roma" src={contact.mapsEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
-              <button className="location-map__disable" type="button" onClick={() => setActive(false)}>Nascondi mappa</button>
-            </>
-          : <>
-              <button type="button" onClick={() => setActive(true)}><PinIcon /><span>Attiva la mappa</span></button>
-              <p className="location-map__note">Attivando la mappa vengono caricati contenuti di Google Maps, che può impostare cookie. Vedi la <a href="/cookie">Cookie Policy</a>.</p>
-            </>}
       </div>
     </div>
   </section>;
