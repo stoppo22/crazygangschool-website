@@ -1,10 +1,11 @@
 @font-face{font-family:Cabinet;src:url('/fonts/cabinet-400.woff2') format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:Cabinet;src:url('/fonts/cabinet-700.woff2') format('woff2');font-weight:700;font-display:swap}
 @font-face{font-family:Cabinet;src:url('/fonts/cabinet-900.woff2') format('woff2');font-weight:900;font-display:swap}
+@font-face{font-family:Frutiger;src:url('/fonts/frutiger-regular.woff2') format('woff2');font-weight:400;font-stretch:normal;font-display:swap}
 @font-face{font-family:Frutiger;src:url('/fonts/frutiger-bold.woff2') format('woff2');font-weight:700;font-stretch:normal;font-display:swap}
 @font-face{font-family:Frutiger;src:url('/fonts/frutiger-condensed-bold.woff2') format('woff2');font-weight:700;font-stretch:condensed;font-display:swap}
 @font-face{font-family:Frutiger;src:url('/fonts/frutiger-condensed-extrabold.woff2') format('woff2');font-weight:800;font-stretch:condensed;font-display:swap}
-:root{font-family:Geist,Cabinet,Arial,sans-serif;color:#101011;background:#f4f0e8;font-synthesis:none;--ink:#101011;--paper:#f4f0e8;--acid:#d9ff43;--blue:#4d4cf5;--pink:#ff4f87;--line:#b9b5ad;--pad:clamp(23px,4.5vw,82px)}
+:root{font-family:Frutiger,Cabinet,Arial,sans-serif;color:#101011;background:#f4f0e8;font-synthesis:none;--ink:#101011;--paper:#f4f0e8;--acid:#d9ff43;--blue:#4d4cf5;--pink:#ff4f87;--line:#b9b5ad;--pad:clamp(23px,4.5vw,82px)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:90px}
 body{margin:0;min-width:320px;overflow-x:hidden;background:var(--paper)}
