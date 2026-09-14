@@ -8,10 +8,11 @@
 .location__copy>a{width:max-content;display:flex;align-items:center;gap:14px;margin-top:34px;padding:14px 0;border-bottom:1px solid var(--ink);font-size:14px;font-weight:800}
 .location__copy>a svg{width:21px;height:21px}
 .location__copy>a:focus-visible{outline:3px solid var(--blue);outline-offset:5px}
-.location-map{position:relative;height:480px;overflow:hidden;background:#d7d3ca;border:1px solid var(--ink)}
+.location-map{position:relative;height:480px;overflow:hidden;background:var(--acid);border:1px solid var(--ink)}
 .location-map iframe{width:100%;height:100%;border:0;filter:grayscale(1) contrast(1.04);pointer-events:none}
 .location-map.is-interactive iframe{pointer-events:auto;filter:none}
-.location-map>button{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;min-height:54px;max-width:min(320px,calc(100% - 32px));padding:14px 22px;display:flex;align-items:center;justify-content:center;background:var(--ink);color:#fff;font-weight:800;box-shadow:0 0 0 1px #fff;text-align:center}
+.location-map__pin{width:30px;height:30px}
+.location-map>button{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;min-height:54px;max-width:min(320px,calc(100% - 32px));padding:18px 22px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--ink);color:#fff;font-weight:800;box-shadow:0 0 0 1px #fff;text-align:center}
 .location-map>button:focus-visible{outline:4px solid var(--acid);outline-offset:4px}
 .location-map__note{position:absolute;left:16px;right:16px;bottom:14px;z-index:2;margin:0;font-size:11px;line-height:1.4;color:#37342c;text-align:center}
 .location-map__note a{color:inherit;text-decoration:underline}

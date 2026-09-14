@@ -5,6 +5,10 @@ function Arrow() {
   return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12" stroke="currentColor" strokeWidth="1.7" /></svg>;
 }
 
+function PinIcon() {
+  return <svg className="location-map__pin" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-7.6-7-12.2A7 7 0 0 1 19 8.8C19 13.4 12 21 12 21Z" stroke="currentColor" strokeWidth="1.7" /><circle cx="12" cy="8.8" r="2.6" stroke="currentColor" strokeWidth="1.7" /></svg>;
+}
+
 export function LocationSection() {
   // Privacy: the Google Maps iframe is not mounted until the visitor activates
   // it, so no request or cookie reaches Google on page load. See CookiePage.
@@ -26,7 +30,7 @@ export function LocationSection() {
               <button className="location-map__disable" type="button" onClick={() => setActive(false)}>Nascondi mappa</button>
             </>
           : <>
-              <button type="button" onClick={() => setActive(true)}>Attiva la mappa</button>
+              <button type="button" onClick={() => setActive(true)}><PinIcon /><span>Attiva la mappa</span></button>
               <p className="location-map__note">Attivando la mappa vengono caricati contenuti di Google Maps, che può impostare cookie. Vedi la <a href="/cookie">Cookie Policy</a>.</p>
             </>}
       </div>
