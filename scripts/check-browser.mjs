@@ -195,7 +195,7 @@ try {
     assert.equal(await pageLabel(), `1 di ${expectedPages}`);
     assert.deepEqual((await page.locator('.reviews__actions>a').allTextContents()).map(text => text.replace('(nuova scheda)', '').trim()), ['Leggi tutte le recensioni']);
     assert.ok(await page.locator('.reviews__actions>a').evaluateAll(links => links.every(link => link.href.startsWith('https://www.google.com/maps/place/Crazy+Gang+School/'))));
-    assert.deepEqual(await page.locator('#ospiti h2').textContent(), 'Ospiti della struttura');
+    assert.deepEqual(await page.locator('#ospiti h2').textContent(), 'Ospiti della scuola');
     assert.deepEqual(await page.locator('#ospiti .guests__links a').evaluateAll(links => links.map(a => `${a.textContent.replace('(nuova scheda)', '').trim()}|${a.href}|${a.target}|${a.rel}`)), ['AID Musical|http://www.aidmusical.it/|_blank|noreferrer', 'Musical Passion|https://www.musicalpassionschool.com/|_blank|noreferrer']);
     if (width > 820) assert.equal(await page.locator('.magic-tab>a[aria-current="page"]').textContent(), 'Recensioni');
     await page.screenshot({ path: `artifacts/${name}-reviews.png` });

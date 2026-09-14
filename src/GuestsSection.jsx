@@ -9,7 +9,7 @@ function Arrow() {
 export function GuestsSection() {
   return <section id="ospiti" className="guests" aria-labelledby="guests-title">
     <div className="guests__inner">
-      <h2 id="guests-title" className="guests__title">Ospiti della struttura</h2>
+      <h2 id="guests-title" className="guests__title">Ospiti della scuola</h2>
       <div className="guests__links">
         <a href="http://www.aidmusical.it/" target="_blank" rel="noreferrer">AID Musical <Arrow /><span className="sr-only"> (nuova scheda)</span></a>
         <a href="https://www.musicalpassionschool.com/" target="_blank" rel="noreferrer">Musical Passion <Arrow /><span className="sr-only"> (nuova scheda)</span></a>
