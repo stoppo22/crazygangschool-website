@@ -16,7 +16,7 @@
 .contact{padding:clamp(70px,7vw,105px) var(--pad)}
 .contact__inner{width:min(100%,1000px)}
 .contact-intro{grid-template-columns:1fr 2fr;margin-bottom:clamp(38px,4vw,58px)}
-.contact-intro h2{font-size:clamp(40px,4.5vw,69px)}
+.contact-intro h2{font-size:clamp(32px,3.6vw,55px)}
 .contact-channel{min-height:68px;padding:13px 0;grid-template-columns:105px minmax(0,3fr) auto}
 .contact-channel strong,.contact-channel--phones>div{font-size:clamp(16px,1.6vw,24px);overflow-wrap:anywhere}
 .contact-channel--pending strong{font-size:clamp(19px,2vw,30px)}
