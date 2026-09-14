@@ -7,7 +7,7 @@
 .magic-tab>a:focus-visible{outline:2px solid var(--acid);outline-offset:4px}
 .magic-tab__indicator{position:absolute;z-index:0;left:0;bottom:3px;height:3px;background:var(--acid);box-shadow:0 0 13px 2px rgba(217,255,67,.38);opacity:0;transform-origin:left center;transition:width .38s cubic-bezier(.2,.75,.2,1),transform .38s cubic-bezier(.2,.75,.2,1),opacity .15s ease}
 .magic-tab__indicator[data-ready=true]{opacity:1}
-.mobile-nav .mobile-nav__cta{margin-top:28px;padding:17px 18px;background:var(--acid);color:var(--ink);font-size:18px;font-weight:700;font-family:Frutiger,Cabinet,Arial,sans-serif;letter-spacing:.06em;border:0}
+.mobile-nav .mobile-nav__cta{margin-top:28px;padding:17px 18px;background:var(--acid);color:var(--ink);font-size:18px;font-weight:700;border:0}
 
 @media(max-width:1100px) and (min-width:821px){
   .magic-tab.desktop-nav{gap:17px;margin-right:21px;font-size:13.5px}
