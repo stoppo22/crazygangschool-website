@@ -32,6 +32,14 @@ if (existsSync('dist/index.html') && process.env.SITE_LAUNCHED !== 'true') {
 }
 
 const baseURL = process.env.BASE_URL || 'http://127.0.0.1:5173';
+
+// The Cloudflare Web Analytics beacon (injected into every build, see vite.config.js)
+// only accepts requests from the production origin, so against a local/preview origin
+// it always fails client-side with a CORS error. Stub it out with an empty module so
+// a real production script doesn't produce console noise this suite would otherwise
+// have to tolerate (aborting the request instead still logs its own "failed to load").
+const blockAnalyticsBeacon = (context) => context.route('https://static.cloudflareinsights.com/**', (route) =>
+  route.fulfill({ status: 200, contentType: 'application/javascript', body: '' }));
 const executablePath = process.env.BROWSER_PATH || ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(existsSync);
 await mkdir('artifacts', { recursive: true });
 const browser = await chromium.launch({ headless: true, ...(executablePath ? { executablePath } : {}) });
@@ -51,6 +59,7 @@ try {
   for (const [name, width, height] of [['desktop', 1440, 1000], ['mobile', 390, 844], ['small-mobile', 320, 740], ['tablet', 768, 1024], ['small-desktop', 1024, 768]]) {
     console.log(`Checking ${name}`);
     const context = await browser.newContext({ viewport: { width, height }, reducedMotion: 'reduce', isMobile: width < 600, hasTouch: width < 600 });
+    await blockAnalyticsBeacon(context);
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(`${name}: ${error.message}`));
     page.on('console', message => { if (message.type() === 'error') errors.push(`${name}: ${message.text()}`); });
@@ -290,6 +299,7 @@ try {
   {
     console.log('Checking wide-touch-tablet');
     const tabletCtx = await browser.newContext({ viewport: { width: 1024, height: 768 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
+    await blockAnalyticsBeacon(tabletCtx);
     const p = await tabletCtx.newPage();
     p.on('pageerror', error => errors.push(`wide-touch: ${error.message}`));
     p.on('console', message => { if (message.type() === 'error') errors.push(`wide-touch: ${message.text()}`); });
@@ -315,6 +325,7 @@ try {
   }
 
   const courseContext = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+  await blockAnalyticsBeacon(courseContext);
   const coursePage = await courseContext.newPage();
   coursePage.on('pageerror', error => errors.push(`courses: ${error.message}`));
   coursePage.on('console', message => { if (message.type() === 'error') errors.push(`courses: ${message.text()}`); });
@@ -397,6 +408,7 @@ try {
   await courseContext.close();
 
   const mobileCourseContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce', isMobile: true, hasTouch: true });
+  await blockAnalyticsBeacon(mobileCourseContext);
   const mobileCourse = await mobileCourseContext.newPage();
   mobileCourse.on('pageerror', error => errors.push(`course-mobile: ${error.message}`));
   mobileCourse.on('console', message => { if (message.type() === 'error') errors.push(`course-mobile: ${message.text()}`); });
@@ -413,6 +425,7 @@ try {
   await mobileCourseContext.close();
 
   const mobileMotionContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'no-preference', isMobile: true, hasTouch: true });
+  await blockAnalyticsBeacon(mobileMotionContext);
   const mobileMotion = await mobileMotionContext.newPage();
   mobileMotion.on('pageerror', error => errors.push(`mobile-motion: ${error.message}`));
   mobileMotion.on('console', message => { if (message.type() === 'error') errors.push(`mobile-motion: ${message.text()}`); });
@@ -426,6 +439,7 @@ try {
   await mobileMotionContext.close();
 
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'no-preference' });
+  await blockAnalyticsBeacon(context);
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(`motion: ${error.message}`));
   page.on('console', message => { if (message.type() === 'error') errors.push(`motion: ${message.text()}`); });
