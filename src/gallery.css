@@ -1,7 +1,7 @@
 .site-root{overflow-x:clip}
 .gallery{background:var(--ink);color:#fff;overflow:clip}
 .gallery-heading{width:min(100%,1180px);margin:0 auto clamp(70px,9vw,130px);display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.55fr);gap:50px;align-items:end}
-.gallery-heading h2{font-family:Montserrat,Arial,sans-serif;font-size:clamp(53px,6vw,92px);font-weight:800;line-height:.78;letter-spacing:-.02em}
+.gallery-heading h2{font-family:Montserrat,Arial,sans-serif;font-size:clamp(40px,4.5vw,69px);font-weight:800;line-height:.78;letter-spacing:-.02em}
 .gallery-heading p{max-width:360px;font-size:clamp(17px,1.55vw,23px);line-height:1.4}
 .gallery-curtain{width:min(100%,1380px);margin:0 auto;border-top:1px solid #4c4c50;border-bottom:1px solid #4c4c50}
 .tile-reveal{position:relative;width:100%}
@@ -22,7 +22,7 @@
 .gallery-curtain__action:hover{background:var(--acid);color:var(--ink);transform:translateY(-3px)}
 .gallery-curtain__action:focus-visible{outline:4px solid #fff;outline-offset:7px}
 .gallery-curtain__copy{display:block}
-.gallery-curtain__copy strong{display:block;font-size:clamp(44px,6.5vw,96px);line-height:.84}
+.gallery-curtain__copy strong{display:block;font-size:clamp(40px,4.5vw,69px);line-height:.84}
 .gallery-curtain__copy small{display:block;margin-top:24px;font-size:clamp(15px,1.35vw,20px);line-height:1.4}
 .gallery-curtain__link{min-width:190px;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid currentColor;font-size:15px;font-weight:800}
 .gallery-curtain__link svg{width:25px;height:25px}
@@ -73,5 +73,5 @@
 .gallery-viewer__strip img{width:100%;height:100%;object-fit:cover}
 @media(max-width:980px){.gallery-archive__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:820px),(hover:none){.gallery-heading{display:block;margin-bottom:64px}.gallery-heading p{margin-top:30px}.gallery-curtain__action{grid-template-columns:1fr;align-items:start}.gallery-curtain__link{width:100%}.gallery-archive__header{padding:0 16px}.gallery-archive__close span{display:none}.gallery-archive__close{padding-left:16px}.gallery-viewer__dialog{grid-template-rows:62px minmax(0,1fr) 76px}.gallery-viewer header{padding:0 12px;grid-template-columns:1fr auto auto;gap:14px}.gallery-viewer header strong{font-size:18px}.gallery-viewer__close{width:42px;height:42px}.gallery-viewer__stage{padding:8px 8px 64px}.gallery-viewer__stage figure{inset:8px 8px 64px;gap:8px}.gallery-viewer__stage figcaption{padding:0 4px;font-size:12px}.gallery-viewer__arrow{top:auto;bottom:5px;width:48px;height:48px;transform:none}.gallery-viewer__arrow--prev{left:calc(50% - 53px)}.gallery-viewer__arrow--next{right:calc(50% - 53px)}.gallery-viewer__strip{padding:7px 10px;gap:6px}.gallery-viewer__strip button{flex-basis:78px;height:60px}}
-@media(max-width:620px){.gallery-heading h2{font-size:clamp(50px,13.5vw,83px)}.gallery-curtain__action{padding:24px}.gallery-curtain__copy strong{font-size:clamp(42px,13vw,64px)}.gallery-curtain__copy small{max-width:270px}.tile-reveal__hint{bottom:22px}.tile-reveal__hint span{letter-spacing:.08em;padding:12px 17px}.tile-reveal__hint i{height:34px;margin-top:12px}.gallery-archive__grid{grid-template-columns:1fr;gap:42px}.gallery-photo:nth-child(n) img{aspect-ratio:auto}.gallery-viewer__stage figcaption small{display:none}}
+@media(max-width:620px){.gallery-heading h2{font-size:40px}.gallery-curtain__action{padding:24px}.gallery-curtain__copy strong{font-size:40px}.gallery-curtain__copy small{max-width:270px}.tile-reveal__hint{bottom:22px}.tile-reveal__hint span{letter-spacing:.08em;padding:12px 17px}.tile-reveal__hint i{height:34px;margin-top:12px}.gallery-archive__grid{grid-template-columns:1fr;gap:42px}.gallery-photo:nth-child(n) img{aspect-ratio:auto}.gallery-viewer__stage figcaption small{display:none}}
 @media(prefers-reduced-motion:reduce){.gallery-curtain__action,.gallery-photo img,.gallery-viewer__strip button{transition:none!important}.gallery-curtain__action:hover,.gallery-photo button:hover img{transform:none}.gallery-curtain{border-bottom:0}.tile-reveal__hint i{animation:none}}
