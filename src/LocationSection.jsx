@@ -15,9 +15,9 @@ export function LocationSection() {
   const [active, setActive] = useState(false);
 
   return <section id="dove-siamo" className="location section-space" tabIndex={-1} aria-labelledby="location-title">
-    <div className="location__inner">
-      <div className="location__map-col reveal">
-        <h2 id="location-title">Puoi trovarci{' '}qui</h2>
+    <div className="location__inner reveal">
+      <h2 id="location-title">Puoi trovarci{' '}qui</h2>
+      <div className="location__columns">
         <div className={`location-map ${active ? 'is-interactive' : ''}`}>
           {active
             ? <>
@@ -29,12 +29,12 @@ export function LocationSection() {
                 <p className="location-map__note">Attivando la mappa vengono caricati contenuti di Google Maps, che può impostare cookie. Vedi la <a href="/cookie">Cookie Policy</a>.</p>
               </>}
         </div>
-      </div>
-      <div className="location__copy">
-        <address><strong>Crazy Gang School</strong><span>{contact.address}</span><span>{contact.city}</span></address>
-        <p className="location__metro">{contact.metro}</p>
-        <p>A pochi passi dalla stazione.</p>
-        <a href={contact.maps} target="_blank" rel="noreferrer">Apri su Google Maps <Arrow /><span className="sr-only"> (nuova scheda)</span></a>
+        <div className="location__copy">
+          <address><strong>Crazy Gang School</strong><span>{contact.address}</span><span>{contact.city}</span></address>
+          <p className="location__metro">{contact.metro}</p>
+          <p>A pochi passi dalla stazione.</p>
+          <a href={contact.maps} target="_blank" rel="noreferrer">Apri su Google Maps <Arrow /><span className="sr-only"> (nuova scheda)</span></a>
+        </div>
       </div>
     </div>
   </section>;

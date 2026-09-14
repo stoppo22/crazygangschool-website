@@ -173,7 +173,7 @@ function App() {
       <Marquee />
 
       <section id="discipline" className="disciplines section-space" tabIndex={-1} aria-labelledby="discipline-title">
-        <div className="section-heading section-heading--wide reveal"><p>I corsi principali</p><h2 id="discipline-title">I nostri corsi</h2><p className="section-note">Orari in aggiornamento.</p></div>
+        <div className="section-heading section-heading--wide reveal"><h2 id="discipline-title">I nostri corsi</h2></div>
         <CourseAccordion courses={courses} />
         <div className="courses-gallery-link"><a className="button button--acid" href="#galleria">Vai alla galleria <Arrow /></a></div>
       </section>
