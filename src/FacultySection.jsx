@@ -4,7 +4,7 @@ import { faculty } from './content';
 import { Accordion } from './components/godui/Accordion';
 
 function TeacherPhoto({ teacher, mobile = false }) {
-  return <figure className={`faculty-photo ${mobile ? 'faculty-photo--mobile' : ''}`}><img src={teacher.image.src} width={teacher.image.width} height={teacher.image.height} alt={teacher.image.alt} loading="lazy" style={{ '--teacher-position': teacher.image.position }} />{teacher.image.source && <figcaption>Fotografia dal sito ufficiale Crazy Gang School</figcaption>}</figure>;
+  return <figure className={`faculty-photo ${mobile ? 'faculty-photo--mobile' : ''}`}><img src={teacher.image.src} width={teacher.image.width} height={teacher.image.height} alt={teacher.image.alt} loading="lazy" style={{ '--teacher-position': teacher.image.position }} /></figure>;
 }
 function TeacherName({ teacher }) {
   return <span className="teacher-name"><span className="teacher-name__given">{teacher.given}</span>{' '}<span className="teacher-name__surname">{teacher.surname}</span></span>;
