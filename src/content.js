@@ -27,7 +27,7 @@ const studioPlaceholder = placeholder('studio', [480, 900, 1100], 1100, 1650);
 const homeHero = {
   src: '/images/home-hero-832.webp',
   srcSet: [480, 832].map(size => `/images/home-hero-${size}.webp ${size}w`).join(', '),
-  width: 832, height: 1243, alt: 'Coppia di ballerini della Crazy Gang School in scena.', caption: '',
+  width: 832, height: 1045, alt: 'Coppia di ballerini della Crazy Gang School in scena.', caption: '',
   position: '50% 28%', mobilePosition: '50% 28%',
 };
 export const photos = {
@@ -64,7 +64,7 @@ const teacher = (id, given, surname, role, width, height, position = '50% 50%', 
 export const faculty = [
   teacher('marco-stopponi', 'Marco', 'Stopponi', 'Coreografo, insegnante, direttore artistico', 312, 305),
   teacher('stefano-stopponi', 'Stefano', 'Stopponi', 'Coreografo, insegnante, direttore artistico', 744, 872, '50% 50%', true),
-  teacher('lucrezia-stopponi', 'Lucrezia', 'Stopponi', 'Ballerina, insegnante Danza Moderna', 995, 1072, '50% -5%', true),
+  teacher('lucrezia-stopponi', 'Lucrezia', 'Stopponi', 'Ballerina, insegnante Danza Moderna', 995, 1072, '50% 3%', true),
   teacher('claudio-salvatori', 'Claudio', 'Salvatori', 'Insegnante Danza Moderna', 960, 960),
   teacher('dina-serri', 'Dina', 'Serri', 'Insegnante Danza Moderna', 1000, 1023),
   teacher('giulia-segneri', 'Giulia', 'Segneri', 'Insegnante Danza Moderna', 862, 1178),
