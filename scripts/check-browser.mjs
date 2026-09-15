@@ -82,7 +82,7 @@ try {
     assert.equal(brand.alt, 'Crazy Gang School');
     assert.ok(Math.abs(brand.ratio - 2307 / 1157) < .03, `${name}: logo distorted`);
     assert.equal(await page.locator('.course-panel').count(), 7);
-    assert.equal(await page.locator('[data-placeholder]').count(), 8);
+    assert.equal(await page.locator('[data-placeholder]').count(), 7);
     assert.equal(await page.locator('.sticky-scroll,.school-story,.sticky-scroll__step').count(), 0);
     assert.equal(await page.locator('#dove-siamo iframe').count(), 0, `${name}: map iframe present before consent`);
     assert.equal(await page.locator('.facts-bento,.people,.archive').count(), 0);

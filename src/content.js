@@ -24,8 +24,14 @@ const placeholder = (name, widths, width, height) => ({
 });
 const stagePlaceholder = placeholder('stage', [480, 900, 1300], 1400, 1869);
 const studioPlaceholder = placeholder('studio', [480, 900, 1100], 1100, 1650);
+const homeHero = {
+  src: '/images/home-hero-832.webp',
+  srcSet: [480, 832].map(size => `/images/home-hero-${size}.webp ${size}w`).join(', '),
+  width: 832, height: 1243, alt: 'Coppia di ballerini della Crazy Gang School in scena.', caption: '',
+  position: '50% 28%', mobilePosition: '50% 28%',
+};
 export const photos = {
-  heroMain: { ...stagePlaceholder, position: '50% 45%', mobilePosition: '50% 45%' },
+  heroMain: homeHero,
   heroDetail: { ...studioPlaceholder, position: '50% 32%', mobilePosition: '50% 32%' },
   disciplineOne: { ...studioPlaceholder, position: '50% 48%', mobilePosition: '50% 48%' },
   disciplineTwo: { ...stagePlaceholder, position: '50% 68%', mobilePosition: '50% 68%' },
@@ -44,27 +50,27 @@ export const disciplines = [
   { id: 'propedeutica', name: 'Propedeutica' },
 ];
 
-const teacher = (id, given, surname, role, width, height, position = '50% 50%') => {
+const teacher = (id, given, surname, role, width, height, position = '50% 50%', original = false) => {
   const name = surname ? `${given} ${surname}` : given;
   return {
     id, name, given, surname, role,
     image: {
       src: `/images/teachers/${id}.webp`, width, height, position,
       alt: name === 'Massimo e Tiziana' ? 'Ritratto di Massimo e Tiziana.' : `Ritratto di ${name}.`,
-      source: 'https://www.crazygangschool.com/insegnanti',
+      ...(original ? {} : { source: 'https://www.crazygangschool.com/insegnanti' }),
     },
   };
 };
 export const faculty = [
   teacher('marco-stopponi', 'Marco', 'Stopponi', 'Coreografo, insegnante, direttore artistico', 312, 305),
-  teacher('stefano-stopponi', 'Stefano', 'Stopponi', 'Coreografo, insegnante, direttore artistico', 344, 273),
-  teacher('lucrezia-stopponi', 'Lucrezia', 'Stopponi', 'Ballerina, insegnante Danza Moderna', 365, 513),
+  teacher('stefano-stopponi', 'Stefano', 'Stopponi', 'Coreografo, insegnante, direttore artistico', 744, 872, '50% 50%', true),
+  teacher('lucrezia-stopponi', 'Lucrezia', 'Stopponi', 'Ballerina, insegnante Danza Moderna', 995, 1072, '50% -5%', true),
   teacher('claudio-salvatori', 'Claudio', 'Salvatori', 'Insegnante Danza Moderna', 960, 960),
   teacher('dina-serri', 'Dina', 'Serri', 'Insegnante Danza Moderna', 1000, 1023),
   teacher('giulia-segneri', 'Giulia', 'Segneri', 'Insegnante Danza Moderna', 862, 1178),
   teacher('flavia-fraietta', 'Flavia', 'Fraietta', 'Insegnante Danza Classica e Propedeutica', 507, 478),
   teacher('emiliano-dangelo', 'Emiliano', "D'Angelo", 'Insegnante Hip Hop', 719, 601),
-  teacher('gaia-stopponi', 'Gaia', 'Stopponi', 'Insegnante Danza Moderna', 1000, 1117),
+  teacher('gaia-stopponi', 'Gaia', 'Stopponi', 'Insegnante Danza Moderna', 677, 894, '50% 42%', true),
   teacher('angelo-riolo', 'Angelo', 'Riolo', 'Insegnante Kung Fu e Kuai', 185, 183),
   teacher('massimo-e-tiziana', 'Massimo e', 'Tiziana', 'Insegnanti Danze Standard e Latino Americane', 1000, 667),
   teacher('gloria-di-domizio', 'Gloria', 'di Domizio', 'Insegnante Danza Moderna', 531, 569),
