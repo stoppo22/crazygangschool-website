@@ -62,7 +62,7 @@ const teacher = (id, given, surname, role, width, height, position = '50% 50%', 
   };
 };
 export const faculty = [
-  teacher('marco-stopponi', 'Marco', 'Stopponi', 'Coreografo, insegnante, direttore artistico', 312, 305),
+  teacher('marco-stopponi', 'Marco', 'Stopponi', 'Coreografo, insegnante, direttore artistico', 1000, 1250, '50% 25%', true),
   teacher('stefano-stopponi', 'Stefano', 'Stopponi', 'Coreografo, insegnante, direttore artistico', 1000, 1200, '50% 30%', true),
   teacher('lucrezia-stopponi', 'Lucrezia', 'Stopponi', 'Ballerina, insegnante Danza Moderna', 995, 1072, '50% 3%', true),
   teacher('claudio-salvatori', 'Claudio', 'Salvatori', 'Insegnante Danza Moderna', 1000, 1777, '50% 19%', true),
