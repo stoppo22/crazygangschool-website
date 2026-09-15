@@ -28,7 +28,7 @@ const homeHero = {
   src: '/images/home-hero-832.webp',
   srcSet: [480, 832].map(size => `/images/home-hero-${size}.webp ${size}w`).join(', '),
   width: 832, height: 1045, alt: 'Coppia di ballerini della Crazy Gang School in scena.', caption: '',
-  position: '50% 28%', mobilePosition: '50% 28%',
+  position: '50% 8%', mobilePosition: '50% 8%',
 };
 export const photos = {
   heroMain: homeHero,
