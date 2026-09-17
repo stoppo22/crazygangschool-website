@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { faculty } from './content';
 import { Accordion } from './components/godui/Accordion';
 
@@ -17,16 +17,24 @@ export function FacultySection() {
   const [preview, setPreview] = useState(null);
   const [listOpen, setListOpen] = useState(false);
   const reduceMotion = useReducedMotion();
+  const mobileProfileRef = useRef(null);
   const selectedTeacher = selected ? faculty.find(teacher => teacher.id === selected) : null;
   const activeId = preview ?? selected;
   const activeTeacher = activeId ? faculty.find(teacher => teacher.id === activeId) : null;
   const items = useMemo(() => faculty.map(teacher => ({ value: teacher.id, title: <span className="faculty-row"><span className="faculty-row__name"><TeacherName teacher={teacher} /></span><span className="faculty-row__line" aria-hidden="true" /></span>, content: null })), []);
-  const selectTeacher = value => { if (value) { setSelected(value); setListOpen(false); } };
+  const selectTeacher = value => {
+    if (!value) return;
+    setSelected(value);
+    setListOpen(false);
+    if (window.matchMedia('(max-width: 820px), (hover: none)').matches) {
+      requestAnimationFrame(() => mobileProfileRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' }));
+    }
+  };
   return <section id="docenti" className="faculty section-space" tabIndex={-1} aria-labelledby="faculty-title">
     {/* TODO(launch): confermare la composizione attuale del corpo docente prima della pubblicazione definitiva. Vedi LAUNCH_CHECKLIST.md. */}
     <header className="faculty-heading reveal"><h2 id="faculty-title">Insegnanti</h2></header>
     <div className="faculty-selector">
-      {selectedTeacher && <div className="faculty-mobile-profile" aria-live="polite"><TeacherProfile teacher={selectedTeacher} mobile /></div>}
+      {selectedTeacher && <div ref={mobileProfileRef} className="faculty-mobile-profile" aria-live="polite"><TeacherProfile teacher={selectedTeacher} mobile /></div>}
       <button className="faculty-disclosure" type="button" aria-expanded={listOpen} aria-controls="faculty-list" onClick={() => setListOpen(open => !open)}><span>{listOpen ? 'Chiudi elenco insegnanti' : 'Vedi tutti gli insegnanti'}</span><i aria-hidden="true">{listOpen ? '−' : '+'}</i></button>
       <Accordion id="faculty-list" data-mobile-open={listOpen ? 'true' : 'false'} className="faculty-list" items={items} value={selected} onValueChange={selectTeacher} onPreviewChange={setPreview} collapsible={false} animation="smooth" aria-label="Seleziona un insegnante" />
       <div className="faculty-preview" aria-live="polite"><AnimatePresence mode="wait" initial={false}>{activeTeacher ? <motion.div key={activeTeacher.id} className="faculty-preview__frame" initial={reduceMotion ? false : { opacity: 0, clipPath: 'inset(0 0 10% 0)', scale: 1.025 }} animate={{ opacity: 1, clipPath: 'inset(0 0 0% 0)', scale: 1 }} exit={reduceMotion ? undefined : { opacity: 0, clipPath: 'inset(10% 0 0 0)' }} transition={reduceMotion ? { duration: 0 } : { duration: .42, ease: [0.22, 1, 0.36, 1] }}><TeacherProfile teacher={activeTeacher} /></motion.div> : <motion.div key="empty" className="faculty-empty" initial={false}><strong>Scegli un insegnante</strong></motion.div>}</AnimatePresence></div>
