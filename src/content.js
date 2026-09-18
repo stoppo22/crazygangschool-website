@@ -50,7 +50,7 @@ export const disciplines = [
   { id: 'propedeutica', name: 'Propedeutica' },
 ];
 
-const teacher = (id, given, surname, role, width, height, position = '50% 50%', original = false) => {
+const teacher = (id, given, surname, role, width, height, position = '50% 50%', original = false, placeholder = false) => {
   const name = surname ? `${given} ${surname}` : given;
   return {
     id, name, given, surname, role,
@@ -58,22 +58,26 @@ const teacher = (id, given, surname, role, width, height, position = '50% 50%', 
       src: `/images/teachers/${id}.webp`, width, height, position,
       alt: name === 'Massimo e Tiziana' ? 'Ritratto di Massimo e Tiziana.' : `Ritratto di ${name}.`,
       ...(original ? {} : { source: 'https://www.crazygangschool.com/insegnanti' }),
+      ...(placeholder ? { placeholder: true } : {}),
     },
   };
 };
 export const faculty = [
   teacher('marco-stopponi', 'Marco', 'Stopponi', 'Coreografo, insegnante, direttore artistico', 1000, 1063, '50% 20%', true),
-  teacher('stefano-stopponi', 'Stefano', 'Stopponi', 'Coreografo, insegnante, direttore artistico', 1000, 1327, '50% 30%', true),
+  teacher('stefano-stopponi', 'Stefano', 'Stopponi', 'Coreografo, insegnante, direttore artistico', 1000, 1327, '50% 45%', true),
   teacher('lucrezia-stopponi', 'Lucrezia', 'Stopponi', 'Ballerina, insegnante Danza Moderna', 1000, 1200, '50% 15%', true),
   teacher('claudio-salvatori', 'Claudio', 'Salvatori', 'Insegnante Danza Moderna', 1000, 750, '50% 25%', true),
   teacher('dina-serri', 'Dina', 'Serri', 'Insegnante Danza Moderna', 1000, 1094, '50% 20%', true),
   teacher('giulia-segneri', 'Giulia', 'Segneri', 'Insegnante Danza Moderna', 1000, 1024, '50% 20%', true),
   teacher('flavia-fraietta', 'Flavia', 'Fraietta', 'Insegnante Danza Classica e Propedeutica', 1000, 1340, '40% 50%', true),
-  teacher('emiliano-dangelo', 'Emiliano', "D'Angelo", 'Insegnante Hip Hop', 1000, 1249, '50% 15%', true),
-  teacher('gaia-stopponi', 'Gaia', 'Stopponi', 'Insegnante Danza Moderna', 1000, 1328, '50% 30%', true),
+  teacher('emiliano-dangelo', 'Emiliano', "D'Angelo", 'Insegnante Hip Hop', 1000, 1327, '50% 15%', true),
+  teacher('gaia-stopponi', 'Gaia', 'Stopponi', 'Insegnante Danza Moderna', 1000, 1305, '50% 22%', true),
   teacher('angelo-riolo', 'Angelo', 'Riolo', 'Insegnante Kung Fu e Kuai', 1000, 1249, '50% 35%', true),
-  teacher('massimo-e-tiziana', 'Massimo e', 'Tiziana', 'Insegnanti Danze Standard e Latino Americane', 1000, 667),
+  teacher('massimo-e-tiziana', 'Massimo e', 'Tiziana', 'Insegnanti Danze Standard e Latino Americane', 1000, 1040, '50% 20%', true),
   teacher('gloria-di-domizio', 'Gloria', 'di Domizio', 'Insegnante Danza Moderna', 1000, 1250, '50% 20%', true),
+  teacher('michela-ritorto', 'Michela', 'Ritorto', 'Insegnante Danza Moderna', 1000, 1096, '50% 20%', true),
+  // TODO(launch): foto reale mancante, sostituire il placeholder generico. Vedi LAUNCH_CHECKLIST.md.
+  teacher('agnese-pini', 'Agnese', 'Pini', 'Insegnante Kung Fu', 1000, 1250, '50% 20%', true, true),
 ];
 
 export const contact = {

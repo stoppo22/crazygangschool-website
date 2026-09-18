@@ -134,7 +134,7 @@ try {
     await page.locator('#docenti').scrollIntoViewIfNeeded();
     await page.waitForTimeout(450);
     assert.equal(await page.locator('#docenti .direction').count(), 0, `${name}: artistic direction should have moved to the hero`);
-    assert.equal(await page.locator('.faculty-list .godui-accordion__trigger').count(), 12);
+    assert.equal(await page.locator('.faculty-list .godui-accordion__trigger').count(), 14);
     assert.equal(await page.locator('.faculty-list .faculty-row__role').count(), 0);
     assert.equal(await page.locator('.faculty-list .godui-accordion__item[data-open="true"]').count(), 0);
     if (width > 820) {
