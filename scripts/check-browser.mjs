@@ -341,7 +341,7 @@ try {
     assert.ok(await coursePage.locator('[data-schedule-group]').count() >= 1, `${slug}: missing schedule groups`);
     assert.ok(await coursePage.locator('.schedule-session').count() >= 1, `${slug}: missing schedule sessions`);
     assert.equal(await coursePage.getByText('Orari in aggiornamento. Contatta la scuola per informazioni.', { exact: true }).count(), 0);
-    assert.equal(await coursePage.locator('a[href="/#discipline"]').count(), 3);
+    assert.equal(await coursePage.locator('a[href="/#discipline"]').count(), 2);
     assert.ok((await coursePage.locator('a[href^="mailto:"]').count()) >= 2);
     const courseWa = coursePage.locator('.course-contact a[href^="https://wa.me/"]');
     assert.equal(await courseWa.count(), 1, `${slug}: WhatsApp CTA missing`);
