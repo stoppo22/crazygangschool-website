@@ -32,6 +32,7 @@ export const courses = [
       { name: 'Over avanzato', age: 'Adulti', sessions: [session('Martedì', '20:00', '21:30')] },
       { name: 'Over principianti', age: 'Adulti', sessions: [session('Giovedì', '20:00', '21:00')] },
     ],
+    scheduleSplitAt: 5,
     image: image('dance-modern', 1800, 1164, 'Ballerina contemporanea in movimento davanti a un fondale arancione.', 'Israyosoy S. · Pexels', 'https://www.pexels.com/photo/contemporary-dancer-in-vibrant-motion-28972636/', '48% 44%'),
   },
   {
@@ -52,6 +53,7 @@ export const courses = [
       { name: 'Principianti / Intermedio', age: '15+ e adulti', sessions: [session('Venerdì', '18:00', '19:00')] },
       { name: 'Professionale', age: '15+ e adulti', sessions: [session('Lunedì', '19:00', '20:30'), session('Mercoledì', '19:00', '20:30')] },
     ],
+    scheduleSplitAt: 2,
     image: image('dance-classical', 1800, 1198, 'Giovane ballerina in una sala danza davanti allo specchio.', 'Đậu Photograph · Pexels', 'https://www.pexels.com/photo/artistic-dance-pose-in-modern-ballet-studio-30826528/', '50% 38%'),
   },
   {

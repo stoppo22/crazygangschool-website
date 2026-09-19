@@ -21,27 +21,52 @@ function Arrow({ back = false }) {
   return <svg className={back ? 'is-back' : ''} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12" stroke="currentColor" strokeWidth="1.7" /></svg>;
 }
 
+function ScheduleCard({ group, color, style }) {
+  return <article className={`schedule-group schedule-group--${color}`} data-schedule-group style={style}>
+    <header className="schedule-group__identity">
+      <h3 data-schedule-name>{group.name}</h3>
+      <p>{group.age}{group.level ? <> · <span>{group.level}</span></> : null}</p>
+    </header>
+    <div className="schedule-group__sessions">
+      {group.sessions.map(item => <div className="schedule-session" key={`${item.day}-${item.start}`}>
+        <span className="schedule-session__day schedule-session__day--short" aria-hidden="true">{shortDays[item.day]}</span>
+        <span className="schedule-session__day schedule-session__day--long">{item.day}</span>
+        <p><time dateTime={item.start}>{item.start}</time><span aria-hidden="true"> — </span><span className="sr-only">–</span><time dateTime={item.end}>{item.end}</time></p>
+      </div>)}
+    </div>
+  </article>;
+}
+
+function ScheduleGroupList({ groups }) {
+  return <div className="course-schedule__list">
+    {groups.map((group, index) => <ScheduleCard group={group} color={index % 3} key={group.name} />)}
+  </div>;
+}
+
+// Two columns sharing one grid: children in column 1, adults in column 2, each
+// placed on the grid row matching its position so adjacent cards (same row)
+// always stretch to an equal height. DOM order stays grouped (all children,
+// then the "Bambini"/"Ragazzi e adulti" title, then all adults) so the mobile
+// layout — which drops the grid and reads top to bottom — stays coherent.
+function ScheduleColumns({ kids, adults }) {
+  return <div className="course-schedule__columns">
+    <h3 className="schedule-column__title" style={{ '--col': 1, '--row': 1 }}>Bambini</h3>
+    {kids.map((group, index) => <ScheduleCard group={group} color={index % 3} style={{ '--col': 1, '--row': index + 2 }} key={group.name} />)}
+    <h3 className="schedule-column__title" style={{ '--col': 2, '--row': 1 }}>Ragazzi e adulti</h3>
+    {adults.map((group, index) => <ScheduleCard group={group} color={index % 3} style={{ '--col': 2, '--row': index + 2 }} key={group.name} />)}
+  </div>;
+}
+
 function CourseSchedule({ course }) {
   const headingId = `${course.slug}-schedule-title`;
+  const split = course.scheduleSplitAt;
   return <section className="course-schedule course-reveal" aria-labelledby={headingId}>
     <header className="course-schedule__header">
       <h2 id={headingId}>I nostri corsi</h2>
     </header>
-    <div className="course-schedule__list">
-      {course.schedule.map(group => <article className="schedule-group" data-schedule-group key={group.name}>
-        <header className="schedule-group__identity">
-          <h3 data-schedule-name>{group.name}</h3>
-          <p>{group.age}{group.level ? <> · <span>{group.level}</span></> : null}</p>
-        </header>
-        <div className="schedule-group__sessions">
-          {group.sessions.map(item => <div className="schedule-session" key={`${item.day}-${item.start}`}>
-            <span className="schedule-session__day schedule-session__day--short" aria-hidden="true">{shortDays[item.day]}</span>
-            <span className="schedule-session__day schedule-session__day--long">{item.day}</span>
-            <p><time dateTime={item.start}>{item.start}</time><span aria-hidden="true"> — </span><span className="sr-only">–</span><time dateTime={item.end}>{item.end}</time></p>
-          </div>)}
-        </div>
-      </article>)}
-    </div>
+    {split
+      ? <ScheduleColumns kids={course.schedule.slice(0, split)} adults={course.schedule.slice(split)} />
+      : <ScheduleGroupList groups={course.schedule} />}
   </section>;
 }
 
