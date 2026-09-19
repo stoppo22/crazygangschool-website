@@ -143,6 +143,11 @@ function Marquee() {
 
 function App() {
   const root = useRef(null);
+  useEffect(() => {
+    if (!window.location.hash) return;
+    const target = document.getElementById(window.location.hash.slice(1));
+    if (target) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+  }, []);
   useGSAP(() => {
     const media = gsap.matchMedia();
     media.add({ motion: '(prefers-reduced-motion: no-preference)' }, ({ conditions }) => {

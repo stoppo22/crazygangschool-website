@@ -26,7 +26,7 @@ function CourseSchedule({ course }) {
   return <section className="course-schedule course-reveal" aria-labelledby={headingId}>
     <header className="course-schedule__header">
       <p>Giorni e fasce orarie</p>
-      <h2 id={headingId}>Orari</h2>
+      <h2 id={headingId}>I nostri corsi</h2>
     </header>
     <div className="course-schedule__list">
       {course.schedule.map(group => <article className="schedule-group" data-schedule-group key={group.name}>
@@ -90,7 +90,7 @@ export function CoursePage({ course }) {
     <header className="course-nav"><a href="/" className="course-brand" aria-label="Crazy Gang School, home"><img src="/brand/crazy-gang-640.webp" width="2307" height="1157" alt="Crazy Gang School" /></a><a href="/#discipline" className="course-nav__back"><Arrow back /> Tutti i corsi</a><a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${course.title}`)}`}>Contatta la scuola <Arrow /></a></header>
     <main>
       <section className="course-hero">
-        <div className="course-hero__copy"><a href="/#discipline" className="course-back"><Arrow back /> Torna ai corsi</a><h1 className="course-hero__title"><span>{course.title}</span></h1><p>{course.summary}</p></div>
+        <h1 className="course-hero__title"><span>{course.title}</span></h1>
       </section>
 
       <section className="course-information">
