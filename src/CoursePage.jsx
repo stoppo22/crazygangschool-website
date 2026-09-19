@@ -125,7 +125,7 @@ export function CoursePage({ course }) {
 
       <section className="course-contact" aria-labelledby="course-contact-title">
         <div className="course-contact__inner">
-          <header><p>Canali di contatto</p><h2 id="course-contact-title">Contatti</h2></header>
+          <header><h2 id="course-contact-title">Contatti</h2></header>
           <div className="course-contact__channels">
             <a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${course.title}`)}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
             <a href={`tel:${contact.phone}`}><span>Telefono</span><strong>06 788 3621</strong><Arrow /></a>

@@ -191,7 +191,7 @@ function App() {
 
       <section id="contatti" className="contact" tabIndex={-1} aria-labelledby="contact-title">
         <div className="contact__inner">
-          <div className="contact-intro"><p>Canali di contatto</p><h2 id="contact-title">Contatti</h2></div>
+          <div className="contact-intro"><h2 id="contact-title">Contatti</h2></div>
           <div className="contact-layout">
             <div className="contact-channels">
               <a className="contact-channel" href={`mailto:${contact.email}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
