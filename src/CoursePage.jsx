@@ -25,7 +25,6 @@ function CourseSchedule({ course }) {
   const headingId = `${course.slug}-schedule-title`;
   return <section className="course-schedule course-reveal" aria-labelledby={headingId}>
     <header className="course-schedule__header">
-      <p>Giorni e fasce orarie</p>
       <h2 id={headingId}>I nostri corsi</h2>
     </header>
     <div className="course-schedule__list">
