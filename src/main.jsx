@@ -138,7 +138,7 @@ function Navigation() {
 
 function Marquee() {
   const names = courses.map(item => item.title).join(' · ');
-  return <div className="marquee" aria-label={`Discipline: ${names}`}><div className="marquee__track" aria-hidden="true"><span>{names} · </span><span>{names} · </span></div></div>;
+  return <div className="marquee" aria-label={`Discipline: ${names}`}><div className="marquee__track" aria-hidden="true"><span>{names} · {names} · </span></div></div>;
 }
 
 function App() {
