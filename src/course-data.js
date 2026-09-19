@@ -28,7 +28,7 @@ export const courses = [
       { name: 'Special D Blue', age: '11+ anni', level: 'Avanzato', sessions: [session('Lunedì', '18:00', '19:00'), session('Mercoledì', '17:00', '18:00'), session('Venerdì', '18:30', '19:30')] },
       { name: 'Intermedi', age: '14+ anni', sessions: [session('Lunedì', '18:00', '19:30'), session('Mercoledì', '18:00', '19:30')] },
       { name: 'Special B', age: '14+ anni', sessions: [session('Lunedì', '16:30', '18:00'), session('Mercoledì', '16:30', '18:00'), session('Venerdì', '18:00', '19:00')] },
-      { name: 'Special A', age: '14+ anni', sessions: [session('Lunedì', '20:00', '21:30'), session('Mercoledì', '20:00', '21:30'), session('Venerdì', '19:00', '20:30')] },
+      { name: 'Special A', age: '14+ anni', level: 'Avanzato', sessions: [session('Lunedì', '20:00', '21:30'), session('Mercoledì', '20:00', '21:30'), session('Venerdì', '19:00', '20:30')] },
       { name: 'Over avanzato', age: 'Adulti', sessions: [session('Martedì', '20:00', '21:30')] },
       { name: 'Over principianti', age: 'Adulti', sessions: [session('Giovedì', '20:00', '21:00')] },
     ],
