@@ -3,9 +3,10 @@ import { contact } from './content';
 
 // Recensioni pubbliche trascritte a mano dalla scheda Google ufficiale
 // (contact.maps → CID 0x132f61f808a89c81:0xe5f28e8c08f3ea59, Largo Orazi e
-// Curiazi 12, Roma), verificate una per una il 9 settembre 2026. Testo fedele,
-// nessuna riscrittura; "[…]" segnala un taglio in una recensione lunga. Le date
-// non sono pubblicate perché diverse recensioni sono datate. Ogni voce:
+// Curiazi 12, Roma), verificate una per una il 9 settembre 2026 (le ultime due,
+// Aurora Ceccarelli e Nunzia, il 19 settembre 2026). Testo fedele, nessuna
+// riscrittura; "[…]" segnala un taglio in una recensione lunga. Le date non
+// sono pubblicate perché diverse recensioni sono datate. Ogni voce:
 // { id, author, rating, text, date?: { iso, label } }.
 const verifiedReviews = [
   {
@@ -39,6 +40,20 @@ const verifiedReviews = [
     author: 'Fabiola Cossuto',
     rating: 5,
     text: 'Una delle migliori scuole di danza della capitale.',
+  },
+  {
+    id: 'aurora-ceccarelli',
+    author: 'Aurora Ceccarelli',
+    rating: 5,
+    text:
+      'Un luogo magico, questo mi sento di dire. Quando entri nella Crazy Gang School non te ne vai più, per la professionalità, la passione, l\'impegno dei Maestri e per la loro capacità di creare un clima familiare, molto raro, che dona gioia. La consiglio a tutti, grandi e piccini, non ve ne pentirete anzi, non andarci potrebbe essere un\'occasione persa! W la Crazy Gang!',
+  },
+  {
+    id: 'nunzia',
+    author: 'Nunzia',
+    rating: 5,
+    text:
+      'Conosco questa scuola da quando avevo 18 anni .. l\'ho riscoperta a 44 trovandomi in un gruppo "over" fantastico! Mai avrei immaginato di riprendere a ballare e ad emozionarmi così a questa età. I maestri Marco, Stefano e Claudio sono sempre meravigliosamente professionali e coinvolgenti e nella scuola si respira un clima di amore per la danza e per l\'arte unito ad un sentimento di unione vera tra tutti i corsi. In assoluto la migliore scuola!',
   },
 ];
 

@@ -172,13 +172,13 @@ try {
     await page.waitForTimeout(220);
     assert.equal((await page.locator('.reviews__rating strong').textContent()).trim(), '4,8');
     assert.equal(await page.locator('#recensioni .review-carousel').count(), 1);
-    assert.equal(await page.locator('#recensioni .review-card').count(), 5);
-    assert.equal(await page.locator('#recensioni blockquote').count(), 5);
+    assert.equal(await page.locator('#recensioni .review-card').count(), 7);
+    assert.equal(await page.locator('#recensioni blockquote').count(), 7);
     assert.equal(await page.locator('#recensioni .review-card footer strong').first().textContent(), 'Martina');
     assert.equal(await page.locator('#recensioni .review-card time').count(), 0);
     assert.equal(await page.locator('.review-carousel__controls button:disabled').count(), 0);
-    // Carousel pages by how many cards are visible: 2 pages on desktop (3-up), 5 on mobile (1-up).
-    const expectedPages = width > 820 ? 2 : 5;
+    // Carousel pages by how many cards are visible: 3 pages on desktop (3-up), 7 on mobile (1-up).
+    const expectedPages = width > 820 ? 3 : 7;
     const pageLabel = () => page.locator('.review-carousel__controls span').textContent().then(t => t.trim());
     assert.equal(await pageLabel(), `1 di ${expectedPages}`);
     for (let step = 1; step < expectedPages; step++) {
