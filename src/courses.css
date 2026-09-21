@@ -27,8 +27,8 @@
 .course-brand{width:120px;height:62px}
 .course-brand img{width:100%;height:100%;object-fit:contain}
 .course-hero{padding:clamp(56px,8vw,120px) var(--pad) clamp(10px,1.5vw,20px);text-align:center}
-.course-hero__title{overflow:hidden}
-.course-hero__title span{display:block;font-family:Montserrat,Arial,sans-serif;font-size:clamp(32px,3.6vw,55px);font-weight:700;line-height:1;letter-spacing:normal}
+.course-hero__title{overflow:hidden;padding-bottom:.18em;margin-bottom:-.18em}
+.course-hero__title span{display:block;font-family:Montserrat,Arial,sans-serif;font-size:clamp(32px,3.6vw,55px);font-weight:700;line-height:1.15;letter-spacing:normal}
 
 .course-information{padding:clamp(8px,1vw,16px) var(--pad) clamp(120px,15vw,240px)}
 .related-courses>div:first-child>p{font-size:12px;text-transform:uppercase;letter-spacing:.1em}

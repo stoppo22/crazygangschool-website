@@ -42,6 +42,7 @@ export const COURSE_SLUGS = [
   'k-pop',
   'kung-fu',
   'hip-hop',
+  'salsa-bachata-lady-style',
   'danze-latino-americane',
 ];
 
