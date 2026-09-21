@@ -27,8 +27,8 @@ const studioPlaceholder = placeholder('studio', [480, 900, 1100], 1100, 1650);
 const homeHero = {
   src: '/images/home-hero-832.webp',
   srcSet: [480, 832].map(size => `/images/home-hero-${size}.webp ${size}w`).join(', '),
-  width: 832, height: 1045, alt: 'Coppia di ballerini della Crazy Gang School in scena.', caption: '',
-  position: '50% 0%', mobilePosition: '50% 0%',
+  width: 832, height: 1248, alt: 'Coppia di ballerini della Crazy Gang School in scena, tra fumo scenico blu.', caption: '',
+  position: '50% 55%', mobilePosition: '50% 55%',
 };
 export const photos = {
   heroMain: homeHero,
@@ -73,7 +73,7 @@ export const faculty = [
   teacher('emiliano-dangelo', 'Emiliano', "D'Angelo", 'Insegnante Hip Hop', 1000, 1327, '50% 15%', true),
   teacher('gaia-stopponi', 'Gaia', 'Stopponi', 'Insegnante Danza Moderna', 896, 1190, '50% 50%', true),
   teacher('angelo-riolo', 'Angelo', 'Riolo', 'Insegnante Kung Fu e Kuai', 1000, 1249, '50% 35%', true),
-  teacher('massimo-e-tiziana', 'Massimo e', 'Tiziana', 'Insegnanti Danze Standard e Latino Americane', 1000, 1040, '50% 20%', true),
+  teacher('massimo-e-tiziana', 'Massimo e', 'Tiziana', 'Insegnanti Danze Standard e Latino Americane', 1000, 971, '50% 25%', true),
   teacher('gloria-di-domizio', 'Gloria', 'di Domizio', 'Insegnante Danza Moderna', 1000, 1250, '50% 20%', true),
   teacher('michela-ritorto', 'Michela', 'Ritorto', 'Insegnante Danza Moderna', 1000, 1096, '50% 20%', true),
   // TODO(launch): foto reale mancante, sostituire il placeholder generico. Vedi LAUNCH_CHECKLIST.md.

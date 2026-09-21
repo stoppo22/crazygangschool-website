@@ -46,7 +46,7 @@ export function CourseAccordion({ courses }) {
       <span className="course-panel__shade" aria-hidden="true" />
       {/* TODO(launch): foto stock temporanea (data-placeholder), sostituire con foto originale del corso */}
       <span className="course-panel__compact">{course.title}</span>
-      <span className="course-panel__content"><strong>{course.title}</strong><small>{course.preview}</small><span>Apri il corso <PanelArrow /></span></span>
+      <span className="course-panel__content"><strong>{course.title}</strong><span>Apri il corso <PanelArrow /></span></span>
     </motion.a>)}
   </div>;
 }

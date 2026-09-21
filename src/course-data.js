@@ -87,7 +87,7 @@ export const courses = [
     schedule: [
       { name: 'K-Pop', age: '9+ anni', sessions: [session('Martedì', '19:00', '20:00'), session('Giovedì', '19:00', '20:00')] },
     ],
-    image: image('kpop', 1800, 1200, 'Gruppo di giovani in movimento in uno studio illuminato da luci al neon.', 'Yan Krukau · Pexels', 'https://www.pexels.com/photo/a-group-of-people-dancing-7312375/', '50% 45%'),
+    image: image('kpop', 1800, 2400, 'Gruppo di allieve del corso di K-Pop in posa durante una sessione fotografica.', undefined, undefined, '50% 30%'),
   },
   {
     slug: 'kung-fu',
