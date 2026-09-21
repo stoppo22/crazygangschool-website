@@ -6,6 +6,7 @@ import { contact } from './content';
 import { courses } from './course-data';
 import { applyHead } from './head';
 import { SITE_URL, absoluteUrl } from './site';
+import { MailIcon, PhoneIcon, InstagramIcon, FacebookIcon, WhatsAppIcon } from './icons';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -127,11 +128,11 @@ export function CoursePage({ course }) {
         <div className="course-contact__inner">
           <header><h2 id="course-contact-title">Contatti</h2></header>
           <div className="course-contact__channels">
-            <a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${course.title}`)}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
-            <a href={`tel:${contact.phone}`}><span>Telefono</span><strong>06 788 3621</strong><Arrow /></a>
-            <a href={contact.instagram} target="_blank" rel="noreferrer"><span>Social</span><strong>Instagram</strong><Arrow /></a>
-            <a href={contact.facebook} target="_blank" rel="noreferrer"><span>Social</span><strong>Facebook</strong><Arrow /></a>
-            <a href={contact.whatsapp} target="_blank" rel="noreferrer"><span>Social</span><strong>WhatsApp</strong><Arrow /></a>
+            <a href={`mailto:${contact.email}?subject=${encodeURIComponent(`Informazioni: ${course.title}`)}`}><span className="course-contact__icon"><MailIcon /></span><span className="sr-only">Email: </span><strong>{contact.email}</strong><Arrow /></a>
+            <a href={`tel:${contact.phone}`}><span className="course-contact__icon"><PhoneIcon /></span><span className="sr-only">Telefono: </span><strong>06 788 3621</strong><Arrow /></a>
+            <a href={contact.instagram} target="_blank" rel="noreferrer"><span className="course-contact__icon"><InstagramIcon /></span><strong>Instagram</strong><Arrow /></a>
+            <a href={contact.facebook} target="_blank" rel="noreferrer"><span className="course-contact__icon"><FacebookIcon /></span><strong>Facebook</strong><Arrow /></a>
+            <a href={contact.whatsapp} target="_blank" rel="noreferrer"><span className="course-contact__icon"><WhatsAppIcon /></span><strong>WhatsApp</strong><Arrow /></a>
           </div>
         </div>
       </section>

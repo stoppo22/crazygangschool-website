@@ -14,6 +14,7 @@ import { ReviewsSection } from './ReviewsSection';
 import { LocationSection } from './LocationSection';
 import { AnimatedGallery } from './AnimatedGallery';
 import { PrivacyPage, CookiePage, NotFoundPage } from './LegalPage';
+import { MailIcon, PhoneIcon, InstagramIcon, FacebookIcon, WhatsAppIcon } from './icons';
 import './styles.css';
 import './sections.css';
 import './chapters.css';
@@ -194,11 +195,11 @@ function App() {
           <div className="contact-intro"><h2 id="contact-title">Contatti</h2></div>
           <div className="contact-layout">
             <div className="contact-channels">
-              <a className="contact-channel" href={`mailto:${contact.email}`}><span>Email</span><strong>{contact.email}</strong><Arrow /></a>
-              <a className="contact-channel" href={`tel:${contact.phone}`}><span>Telefono</span><strong>06 788 3621</strong><Arrow /></a>
-              <a className="contact-channel" href={contact.instagram} target="_blank" rel="noreferrer"><span>Social</span><strong>Instagram</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
-              <a className="contact-channel" href={contact.facebook} target="_blank" rel="noreferrer"><span>Social</span><strong>Facebook</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
-              <a className="contact-channel" href={contact.whatsapp} target="_blank" rel="noreferrer"><span>Social</span><strong>WhatsApp</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
+              <a className="contact-channel" href={`mailto:${contact.email}`}><span className="contact-channel__icon"><MailIcon /></span><span className="sr-only">Email: </span><strong>{contact.email}</strong><Arrow /></a>
+              <a className="contact-channel" href={`tel:${contact.phone}`}><span className="contact-channel__icon"><PhoneIcon /></span><span className="sr-only">Telefono: </span><strong>06 788 3621</strong><Arrow /></a>
+              <a className="contact-channel" href={contact.instagram} target="_blank" rel="noreferrer"><span className="contact-channel__icon"><InstagramIcon /></span><strong>Instagram</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
+              <a className="contact-channel" href={contact.facebook} target="_blank" rel="noreferrer"><span className="contact-channel__icon"><FacebookIcon /></span><strong>Facebook</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
+              <a className="contact-channel" href={contact.whatsapp} target="_blank" rel="noreferrer"><span className="contact-channel__icon"><WhatsAppIcon /></span><strong>WhatsApp</strong><Arrow /><span className="sr-only"> (nuova scheda)</span></a>
             </div>
             <ContactForm />
           </div>
