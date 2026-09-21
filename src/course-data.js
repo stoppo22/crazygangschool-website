@@ -26,7 +26,7 @@ export const courses = [
       { name: 'Junior', age: '9–11 anni', level: 'Avanzato', sessions: [session('Martedì', '18:00', '19:00'), session('Giovedì', '18:00', '19:00'), session('Venerdì', '17:00', '18:30')] },
       { name: 'Special D Red', age: '11+ anni', level: 'Avanzato', sessions: [session('Lunedì', '17:00', '18:30'), session('Mercoledì', '18:00', '19:30'), session('Venerdì', '18:30', '19:30')] },
       { name: 'Special D Blue', age: '11+ anni', level: 'Avanzato', sessions: [session('Lunedì', '18:00', '19:00'), session('Mercoledì', '17:00', '18:00'), session('Venerdì', '18:30', '19:30')] },
-      { name: 'Intermedi', age: '14+ anni', sessions: [session('Lunedì', '18:00', '19:30'), session('Mercoledì', '18:00', '19:30')] },
+      { name: 'Intermedi', age: '14+ anni', sessions: [session('Lunedì', '18:30', '20:00'), session('Mercoledì', '18:30', '20:00')] },
       { name: 'Special B', age: '14+ anni', sessions: [session('Lunedì', '16:30', '18:00'), session('Mercoledì', '16:30', '18:00'), session('Venerdì', '18:00', '19:00')] },
       { name: 'Special A', age: '14+ anni', level: 'Avanzato', sessions: [session('Lunedì', '20:00', '21:30'), session('Mercoledì', '20:00', '21:30'), session('Venerdì', '19:00', '20:30')] },
       { name: 'Over avanzato', age: 'Adulti', sessions: [session('Martedì', '20:00', '21:30')] },
@@ -149,7 +149,7 @@ export const courses = [
     slug: 'danze-latino-americane',
     title: 'Danze Latino Americane',
     preview: 'Standard · Latino Americane · Latin Style',
-    metaTitle: 'Danze Standard e Latino Americane a Roma — Crazy Gang School',
+    metaTitle: 'Danze Latino Americane a Roma — Crazy Gang School',
     metaDescription:
       'Danze standard e latino-americane e latin style per single, livello amatoriale e competizione, per tutte le età, alla Crazy Gang School di Roma.',
     summary: 'Percorsi Standard, Latino Americane e Latin Style per single, livello amatoriale e competizione.',

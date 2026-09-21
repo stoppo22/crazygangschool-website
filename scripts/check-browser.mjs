@@ -52,6 +52,7 @@ const courseRoutes = [
   ['k-pop', 'K-Pop'],
   ['kung-fu', 'Kung Fu'],
   ['hip-hop', 'Hip Hop'],
+  ['salsa-bachata-lady-style', 'Salsa, Bachata e Lady Style'],
   ['danze-latino-americane', 'Danze Latino Americane'],
 ];
 
@@ -81,8 +82,8 @@ try {
     const brand = await page.locator('.site-header .brand img').evaluate(img => ({ alt: img.alt, ratio: img.getBoundingClientRect().width / img.getBoundingClientRect().height }));
     assert.equal(brand.alt, 'Crazy Gang School');
     assert.ok(Math.abs(brand.ratio - 2307 / 1157) < .03, `${name}: logo distorted`);
-    assert.equal(await page.locator('.course-panel').count(), 7);
-    assert.equal(await page.locator('[data-placeholder]').count(), 7);
+    assert.equal(await page.locator('.course-panel').count(), 8);
+    assert.equal(await page.locator('[data-placeholder]').count(), 8);
     assert.equal(await page.locator('.sticky-scroll,.school-story,.sticky-scroll__step').count(), 0);
     assert.equal(await page.locator('#dove-siamo iframe').count(), 0, `${name}: map iframe present before consent`);
     assert.equal(await page.locator('.facts-bento,.people,.archive').count(), 0);
@@ -317,7 +318,7 @@ try {
       h: Math.round(el.getBoundingClientRect().height),
       contentOpacity: Number(getComputedStyle(el.querySelector('.course-panel__content')).opacity),
     })));
-    assert.equal(panels.length, 7, 'wide-touch: wrong panel count');
+    assert.equal(panels.length, 8, 'wide-touch: wrong panel count');
     assert.ok(panels.every(x => x.h >= 280 && x.contentOpacity > 0.95), 'wide-touch: accordion not in tap-friendly layout');
     await p.screenshot({ path: 'artifacts/wide-touch-tablet.png', fullPage: true });
     await tabletCtx.close();
