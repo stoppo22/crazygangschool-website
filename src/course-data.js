@@ -71,7 +71,7 @@ export const courses = [
       { name: 'Tap principianti', age: '14+ anni', sessions: [session('Giovedì', '18:00', '19:00')] },
       { name: 'Tap intermedio / avanzato', age: '14+ anni', sessions: [session('Giovedì', '19:00', '20:00')] },
     ],
-    image: image('tap', 1800, 2225, 'Dettaglio di scarpe da tip tap durante una performance.', 'Jay Brand · Pexels', 'https://www.pexels.com/photo/32448644', '50% 67%'),
+    image: image('tap', 1800, 1005, 'Ballerine di tip tap con bombetta durante uno spettacolo.', undefined, undefined, '40% 50%'),
   },
   {
     slug: 'k-pop',
@@ -105,7 +105,7 @@ export const courses = [
       { name: 'Kung Fu Ragazzi', age: '11+ anni', sessions: [session('Martedì', '19:00', '20:30'), session('Giovedì', '19:00', '20:30')] },
       { name: 'Kung Fu Adulti', age: 'Adulti', sessions: [session('Martedì', '19:00', '20:30'), session('Giovedì', '19:00', '20:30')] },
     ],
-    image: image('kung-fu', 1800, 2398, 'Praticante di arti marziali concentrato in una posizione tecnica.', 'Alireza Heidarpour · Pexels', 'https://www.pexels.com/photo/martial-artist-in-focused-kung-fu-pose-29817841/', '50% 30%'),
+    image: image('kung-fu', 1800, 1005, 'Due allievi di kung fu in una dimostrazione sul palco.', undefined, undefined, '50% 50%'),
   },
   {
     slug: 'hip-hop',
@@ -160,7 +160,7 @@ export const courses = [
       { name: 'Danze Standard', age: 'Adulti', sessions: [session('Mercoledì', '21:00', '22:30'), session('Venerdì', '21:00', '22:30')] },
       { name: 'Latin Style per single', age: 'Adulti', sessions: [session('Venerdì', '20:00', '21:00')] },
     ],
-    image: image('latin', 3265, 4898, 'Coppia che balla tango in uno spazio urbano.', 'Nathana Rebouças · Unsplash', 'https://unsplash.com/photos/couple-dancing-photograph-Zunukrg0Grg', '50% 48%'),
+    image: image('latin', 1800, 1005, 'Coppia di danze standard in abito rosso e frac su una pista illuminata.', undefined, undefined, '60% 50%'),
   },
 ];
 
