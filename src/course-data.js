@@ -47,7 +47,7 @@ export const courses = [
     levels: ['Propedeutica', 'Avviamento', 'Perfezionamento', 'Principianti / Intermedio', 'Professionale'],
     programs: ['Danza classica bambini', 'Danza classica ragazzi e adulti'],
     schedule: [
-      { name: 'Propedeutica', age: '5+ anni', sessions: [session('Mercoledì', '17:00', '18:00')] },
+      { name: 'Primi Passi', age: '5+ anni', sessions: [session('Mercoledì', '17:00', '18:00')] },
       { name: 'Avviamento', age: '8–10 anni', sessions: [session('Lunedì', '17:00', '18:00'), session('Mercoledì', '18:00', '19:00')] },
       { name: 'Perfezionamento', age: '11–13 anni', sessions: [session('Lunedì', '18:00', '19:00'), session('Venerdì', '19:00', '20:00')] },
       { name: 'Principianti / Intermedio', age: '15+ e adulti', sessions: [session('Venerdì', '18:00', '19:00')] },
