@@ -46,7 +46,7 @@ export function PrivacyPage() {
 
       <section>
         <h2>Titolare del trattamento</h2>
-        <p>[Denominazione dell’associazione / società o nome e cognome della persona fisica], [indirizzo della sede], codice fiscale / P. IVA [•]. Recapiti: <a href={`mailto:${contact.email}`}>{contact.email}</a> — <a href={`tel:${contact.phone}`}>06 7883621</a>.</p>
+        <p>[Denominazione dell’associazione / società o nome e cognome della persona fisica], Largo Orazi e Curiazi 12, 00181 Roma RM, P. IVA 13323281009. Recapiti: <a href={`mailto:${contact.email}`}>{contact.email}</a> — <a href={`tel:${contact.phone}`}>06 7883621</a>.</p>
       </section>
 
       <section>
