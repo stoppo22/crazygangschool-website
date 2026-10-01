@@ -11,11 +11,7 @@ Solo i punti legali e quelli strettamente necessari per pubblicare il sito. Cont
 - [x] **Data "Ultimo aggiornamento"** sulle pagine Privacy e Cookie: impostata al 1 ottobre 2026.
 - [x] **Esposizione dati fiscali nel footer del sito** (art. 35 D.P.R. 633/1972): aggiunta denominazione e P.IVA nel footer homepage (`src/main.jsx`). Manca solo l'eventuale numero di iscrizione al Registro Nazionale delle Attività Sportive Dilettantistiche, se ASD affiliata CONI.
 
-## 2. Liberatorie fotografiche
-
-- [ ] Le foto d'archivio della galleria ritraggono allievi, alcuni minorenni nei saggi passati. Verificare il possesso delle liberatorie firmate dai genitori/allievi prima della pubblicazione pubblica, o selezionare scatti con volti non identificabili.
-
-## 3. Switch tecnico di lancio
+## 2. Switch tecnico di lancio
 
 - [ ] **Dominio definitivo di produzione**: impostare `SITE_URL` su Cloudflare (default: `https://www.crazygangschool.com`) e configurare il redirect 301 dal dominio secondario, se esiste, per evitare contenuti duplicati.
 - [ ] **Verifica cookie live su Cloudflare**: al deploy sul dominio definitivo, controllare con devtools che non vengano impostati cookie non tecnici.
@@ -29,7 +25,7 @@ Solo i punti legali e quelli strettamente necessari per pubblicare il sito. Cont
 
 ---
 
-## 4. Elementi già verificati e sicuri per la pubblicazione
+## 3. Elementi già verificati e sicuri per la pubblicazione
 
 - Sede confermata: **Largo Orazi e Curiazi, 12, 00181 Roma** (fermata Metro A Colli Albani).
 - Coordinate geografiche e scheda verificata su Google Maps.
