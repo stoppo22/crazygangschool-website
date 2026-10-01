@@ -23,10 +23,10 @@ function PageChrome({ children, className = '' }) {
   </div>;
 }
 
-// TODO(launch): completare i campi tra parentesi quadre (soggetto titolare,
-// C.F./P. IVA, tempi di conservazione, date) e far verificare il testo da un
-// consulente prima della pubblicazione. Dettaglio dei trattamenti in
-// PRIVACY-NOTES.md e in LAUNCH_CHECKLIST.md.
+// TODO(launch): definire i tempi di conservazione dati (sezione
+// "Conservazione") e far verificare il testo da un consulente prima della
+// pubblicazione. Dettaglio dei trattamenti in PRIVACY-NOTES.md e in
+// LAUNCH_CHECKLIST.md.
 
 export function PrivacyPage() {
   useEffect(() => {
@@ -46,7 +46,7 @@ export function PrivacyPage() {
 
       <section>
         <h2>Titolare del trattamento</h2>
-        <p>[Denominazione dell’associazione / società o nome e cognome della persona fisica], Largo Orazi e Curiazi 12, 00181 Roma RM, P. IVA 13323281009. Recapiti: <a href={`mailto:${contact.email}`}>{contact.email}</a> — <a href={`tel:${contact.phone}`}>06 7883621</a>.</p>
+        <p>ASD Sport Dance, Largo Orazi e Curiazi 12, 00181 Roma RM, P. IVA 13323281009. Recapiti: <a href={`mailto:${contact.email}`}>{contact.email}</a> — <a href={`tel:${contact.phone}`}>06 7883621</a>.</p>
       </section>
 
       <section>
@@ -93,7 +93,7 @@ export function PrivacyPage() {
         <p>Il sito ha finalità informative e non raccoglie consapevolmente dati di minori tramite moduli online. Le iscrizioni dei minori sono gestite dalla scuola al di fuori del sito, con il consenso di chi esercita la responsabilità genitoriale.</p>
       </section>
 
-      <p className="legal-updated">Ultimo aggiornamento: [data]. L’informativa può essere modificata; le versioni aggiornate sono pubblicate su questa pagina.</p>
+      <p className="legal-updated">Ultimo aggiornamento: 1 ottobre 2026. L’informativa può essere modificata; le versioni aggiornate sono pubblicate su questa pagina.</p>
     </main>
   </PageChrome>;
 }
@@ -156,7 +156,7 @@ export function CookiePage() {
         <p>Bloccare i cookie tecnici può compromettere il funzionamento del sito.</p>
       </section>
 
-      <p className="legal-updated">Ultimo aggiornamento: [data]. Per il trattamento degli altri dati vedi la <a href="/privacy">Privacy Policy</a>.</p>
+      <p className="legal-updated">Ultimo aggiornamento: 1 ottobre 2026. Per il trattamento degli altri dati vedi la <a href="/privacy">Privacy Policy</a>.</p>
     </main>
   </PageChrome>;
 }
