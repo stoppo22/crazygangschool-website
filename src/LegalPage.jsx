@@ -23,8 +23,7 @@ function PageChrome({ children, className = '' }) {
   </div>;
 }
 
-// TODO(launch): definire i tempi di conservazione dati (sezione
-// "Conservazione") e far verificare il testo da un consulente prima della
+// TODO(launch): far verificare il testo da un consulente prima della
 // pubblicazione. Dettaglio dei trattamenti in PRIVACY-NOTES.md e in
 // LAUNCH_CHECKLIST.md.
 
@@ -75,7 +74,7 @@ export function PrivacyPage() {
 
       <section>
         <h2>Conservazione</h2>
-        <p>I dati di navigazione e le statistiche aggregate sono conservati per il tempo necessario alle finalità di sicurezza e di misurazione e comunque non oltre [periodo da definire]. Le comunicazioni via email o telefono sono conservate per il tempo necessario a gestire la richiesta e, se questa dà seguito a un’iscrizione, per la durata degli obblighi contrattuali e fiscali applicabili [periodo da definire].</p>
+        <p>I dati di navigazione e le statistiche aggregate sono conservati per il tempo necessario alle finalità di sicurezza e di misurazione e comunque non oltre 12 mesi. Le comunicazioni via email o telefono sono conservate per il tempo necessario a gestire la richiesta e, se questa non dà seguito a un’iscrizione, per non oltre 24 mesi dalla richiesta; se invece dà seguito a un’iscrizione, per la durata del rapporto e per i successivi 10 anni, come previsto dagli obblighi di conservazione delle scritture contabili e fiscali (art. 2220 del Codice Civile).</p>
       </section>
 
       <section>

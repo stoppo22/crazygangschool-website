@@ -7,7 +7,7 @@ Solo i punti legali e quelli strettamente necessari per pubblicare il sito. Cont
 ## 1. Dati legali e fiscali obbligatori
 
 - [x] **Titolare del trattamento** (`src/LegalPage.jsx`): ASD Sport Dance, Largo Orazi e Curiazi 12, 00181 Roma RM, P.IVA 13323281009.
-- [ ] **Tempi di conservazione dati** (`src/LegalPage.jsx`, sezione "Conservazione"): da definire o confermare un criterio standard (es. 10 anni per obblighi fiscali/contrattuali, 2 anni per richieste senza seguito).
+- [x] **Tempi di conservazione dati** (`src/LegalPage.jsx`, sezione "Conservazione"): 12 mesi per log/statistiche aggregate, 24 mesi per richieste senza seguito, durata rapporto + 10 anni per chi si iscrive (art. 2220 Codice Civile).
 - [x] **Data "Ultimo aggiornamento"** sulle pagine Privacy e Cookie: impostata al 1 ottobre 2026.
 - [x] **Esposizione dati fiscali nel footer del sito** (art. 35 D.P.R. 633/1972): aggiunta denominazione e P.IVA nel footer homepage (`src/main.jsx`). Manca solo l'eventuale numero di iscrizione al Registro Nazionale delle Attività Sportive Dilettantistiche, se ASD affiliata CONI.
 
