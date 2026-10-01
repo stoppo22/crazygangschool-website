@@ -122,7 +122,7 @@ export const courses = [
       { name: 'Hip Hop Baby', age: '5+ anni', sessions: [session('Martedì', '17:00', '18:00'), session('Giovedì', '17:00', '18:00')] },
       { name: 'Hip Hop Ragazzi', age: '11+ anni', sessions: [session('Martedì', '18:00', '19:00'), session('Giovedì', '18:00', '19:00')] },
     ],
-    image: image('hip-hop', 1800, 2772, 'Danzatore hip hop durante una performance davanti a un murale.', 'Beatriz Braga · Pexels', 'https://www.pexels.com/photo/street-dancer-performing-break-dance-11063348/', '48% 45%'),
+    image: image('hip-hop', 1800, 2700, 'Ballerino di break dance in una figura acrobatica su una mano.', undefined, undefined, '50% 40%'),
   },
   {
     slug: 'salsa-bachata-lady-style',
