@@ -33,7 +33,7 @@ export const courses = [
       { name: 'Over principianti', age: 'Adulti', sessions: [session('Giovedì', '20:00', '21:00')] },
     ],
     scheduleSplitAt: 5,
-    image: image('dance-modern', 1800, 1164, 'Ballerina contemporanea in movimento davanti a un fondale arancione.', 'Israyosoy S. · Pexels', 'https://www.pexels.com/photo/contemporary-dancer-in-vibrant-motion-28972636/', '48% 44%'),
+    image: image('dance-modern', 1800, 1005, 'Coppia di ballerini in coreografia hip hop durante uno spettacolo.', undefined, undefined, '50% 35%'),
   },
   {
     slug: 'danza-classica',
@@ -54,7 +54,7 @@ export const courses = [
       { name: 'Professionale', age: '15+ e adulti', sessions: [session('Lunedì', '19:00', '20:30'), session('Mercoledì', '19:00', '20:30')] },
     ],
     scheduleSplitAt: 2,
-    image: image('dance-classical', 1800, 1198, 'Giovane ballerina in una sala danza davanti allo specchio.', 'Đậu Photograph · Pexels', 'https://www.pexels.com/photo/artistic-dance-pose-in-modern-ballet-studio-30826528/', '50% 38%'),
+    image: image('dance-classical', 1800, 1170, 'Gruppo di ballerine classiche en pointe abbracciate sul palco.', undefined, undefined, '50% 35%'),
   },
   {
     slug: 'tip-tap',
@@ -143,7 +143,7 @@ export const courses = [
       { name: 'Bachata Moderna — 1° livello', age: 'Adulti', sessions: [session('Mercoledì', '22:00', '23:00')] },
       { name: 'Lady Style', age: 'Adulti', sessions: [session('Giovedì', '21:30', '22:30')] },
     ],
-    image: image('salsa-bachata', 2000, 2680, 'Coppia in abito da ballo durante una figura di salsa.', 'Pixabay · Pexels', 'https://www.pexels.com/photo/man-and-woman-dancing-270789/', '50% 40%'),
+    image: image('salsa-bachata', 1066, 1600, 'Tre insegnanti del corso di salsa e bachata in posa.', undefined, undefined, '50% 30%'),
   },
   {
     slug: 'danze-latino-americane',
