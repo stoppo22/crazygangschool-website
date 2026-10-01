@@ -125,6 +125,23 @@ export const courses = [
     image: image('hip-hop', 959, 946, 'Ballerino di break dance in una figura acrobatica davanti a un muro con graffiti.', undefined, undefined, '55% 40%'),
   },
   {
+    slug: 'danze-latino-americane',
+    title: 'Danze Latino Americane',
+    preview: 'Standard · Latino Americane · Latin Style',
+    metaTitle: 'Danze Latino Americane a Roma — Crazy Gang School',
+    metaDescription:
+      'Danze standard e latino-americane e latin style per single, livello amatoriale e competizione, per tutte le età, alla Crazy Gang School di Roma.',
+    summary: 'Percorsi Standard, Latino Americane e Latin Style per single, livello amatoriale e competizione.',
+    ages: ['Tutte le età', 'I gruppi con orario indicato sono per adulti'],
+    levels: ['Percorsi per single: amatoriale e competizione'],
+    programs: ['Danze Standard', 'Danze Latino Americane', 'Latin Style per single', 'Samba', 'Cha Cha Cha', 'Rumba', 'Paso Doble', 'Jive'],
+    schedule: [
+      { name: 'Danze Standard', age: 'Adulti', sessions: [session('Mercoledì', '21:00', '22:30'), session('Venerdì', '21:00', '22:30')] },
+      { name: 'Latin Style per single', age: 'Adulti', sessions: [session('Venerdì', '20:00', '21:00')] },
+    ],
+    image: image('latin', 1800, 1005, 'Coppia di danze standard in abito rosso e frac su una pista illuminata.', undefined, undefined, '60% 50%'),
+  },
+  {
     slug: 'salsa-bachata-lady-style',
     title: 'Salsa, Bachata e Lady Style',
     preview: 'Salsa Cubana · Bachata · Lady Style',
@@ -144,23 +161,6 @@ export const courses = [
       { name: 'Lady Style', age: 'Adulti', sessions: [session('Giovedì', '21:30', '22:30')] },
     ],
     image: image('salsa-bachata', 1066, 1600, 'Tre insegnanti del corso di salsa e bachata in posa.', undefined, undefined, '50% 30%'),
-  },
-  {
-    slug: 'danze-latino-americane',
-    title: 'Danze Latino Americane',
-    preview: 'Standard · Latino Americane · Latin Style',
-    metaTitle: 'Danze Latino Americane a Roma — Crazy Gang School',
-    metaDescription:
-      'Danze standard e latino-americane e latin style per single, livello amatoriale e competizione, per tutte le età, alla Crazy Gang School di Roma.',
-    summary: 'Percorsi Standard, Latino Americane e Latin Style per single, livello amatoriale e competizione.',
-    ages: ['Tutte le età', 'I gruppi con orario indicato sono per adulti'],
-    levels: ['Percorsi per single: amatoriale e competizione'],
-    programs: ['Danze Standard', 'Danze Latino Americane', 'Latin Style per single', 'Samba', 'Cha Cha Cha', 'Rumba', 'Paso Doble', 'Jive'],
-    schedule: [
-      { name: 'Danze Standard', age: 'Adulti', sessions: [session('Mercoledì', '21:00', '22:30'), session('Venerdì', '21:00', '22:30')] },
-      { name: 'Latin Style per single', age: 'Adulti', sessions: [session('Venerdì', '20:00', '21:00')] },
-    ],
-    image: image('latin', 1800, 1005, 'Coppia di danze standard in abito rosso e frac su una pista illuminata.', undefined, undefined, '60% 50%'),
   },
 ];
 

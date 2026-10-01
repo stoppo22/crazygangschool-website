@@ -42,8 +42,8 @@ export const COURSE_SLUGS = [
   'k-pop',
   'kung-fu',
   'hip-hop',
-  'salsa-bachata-lady-style',
   'danze-latino-americane',
+  'salsa-bachata-lady-style',
 ];
 
 // Extra indexable routes beyond the homepage and the course pages.

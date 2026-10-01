@@ -64,6 +64,7 @@ Course routes:
 - `/corsi/kung-fu`
 - `/corsi/hip-hop`
 - `/corsi/danze-latino-americane`
+- `/corsi/salsa-bachata-lady-style`
 
 ## SEO
 

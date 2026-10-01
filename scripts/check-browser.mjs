@@ -52,8 +52,8 @@ const courseRoutes = [
   ['k-pop', 'K-Pop'],
   ['kung-fu', 'Kung Fu'],
   ['hip-hop', 'Hip Hop'],
-  ['salsa-bachata-lady-style', 'Salsa, Bachata e Lady Style'],
   ['danze-latino-americane', 'Danze Latino Americane'],
+  ['salsa-bachata-lady-style', 'Salsa, Bachata e Lady Style'],
 ];
 
 try {
