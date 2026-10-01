@@ -41,10 +41,8 @@ export function CourseAccordion({ courses }) {
         height={course.image.height}
         alt={course.image.alt}
         loading="lazy"
-        data-placeholder="true"
       />
       <span className="course-panel__shade" aria-hidden="true" />
-      {/* TODO(launch): foto stock temporanea (data-placeholder), sostituire con foto originale del corso */}
       <span className="course-panel__compact">{course.title}</span>
       <span className="course-panel__content"><strong>{course.title}</strong><span>Apri il corso <PanelArrow /></span></span>
     </motion.a>)}

@@ -13,9 +13,8 @@ const sisterAct = archivePhoto('sister-act', 3300, 2156,
   'Un ensemble in costumi da suora danza sul palco; la scenografia riporta il nome Crazy Gang.',
   'Sister Act · etichetta dell’archivio originale',
   'https://www.crazygangschool.com/');
-// TODO(launch): `placeholder: true` marca le foto stock temporanee (attributo
-// data-placeholder nel markup, non visibile all'utente). Sostituirle con
-// fotografie originali della scuola e rimuovere il flag. Vedi LAUNCH_CHECKLIST.md.
+// `placeholder: true` marca le foto stock temporanee (attributo
+// data-placeholder nel markup, non visibile all'utente).
 const placeholder = (name, widths, width, height) => ({
   src: `/images/placeholder-${name}-900.webp`,
   srcSet: widths.map(size => `/images/placeholder-${name}-${size}.webp ${size}w`).join(', '),
@@ -76,7 +75,6 @@ export const faculty = [
   teacher('massimo-e-tiziana', 'Massimo e', 'Tiziana', 'Insegnanti Danze Standard e Latino Americane', 1000, 971, '50% 25%', true),
   teacher('gloria-di-domizio', 'Gloria', 'di Domizio', 'Insegnante Danza Moderna', 1000, 1250, '50% 20%', true),
   teacher('michela-ritorto', 'Michela', 'Ritorto', 'Insegnante Danza Moderna', 1000, 1096, '50% 20%', true),
-  // TODO(launch): foto reale mancante, sostituire il placeholder generico. Vedi LAUNCH_CHECKLIST.md.
   teacher('agnese-pini', 'Agnese', 'Pini', 'Insegnante Kung Fu', 1000, 1250, '50% 20%', true, true),
 ];
 

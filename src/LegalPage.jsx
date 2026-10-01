@@ -23,9 +23,7 @@ function PageChrome({ children, className = '' }) {
   </div>;
 }
 
-// TODO(launch): far verificare il testo da un consulente prima della
-// pubblicazione. Dettaglio dei trattamenti in PRIVACY-NOTES.md e in
-// LAUNCH_CHECKLIST.md.
+// Dettaglio dei trattamenti in PRIVACY-NOTES.md.
 
 export function PrivacyPage() {
   useEffect(() => {

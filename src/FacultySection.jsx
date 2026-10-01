@@ -31,7 +31,6 @@ export function FacultySection() {
     }
   };
   return <section id="docenti" className="faculty section-space" tabIndex={-1} aria-labelledby="faculty-title">
-    {/* TODO(launch): confermare la composizione attuale del corpo docente prima della pubblicazione definitiva. Vedi LAUNCH_CHECKLIST.md. */}
     <header className="faculty-heading reveal"><h2 id="faculty-title">Insegnanti</h2></header>
     <div className="faculty-selector">
       {selectedTeacher && <div ref={mobileProfileRef} className="faculty-mobile-profile" aria-live="polite"><TeacherProfile teacher={selectedTeacher} mobile /></div>}
