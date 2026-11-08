@@ -6,3 +6,32 @@
 /corsi/*   /   200
 /privacy   /   200
 /cookie    /   200
+
+# Old Wix site URLs (indexed by Google before the relaunch) -> new pages.
+# 301 so search engines transfer the old listings to the new addresses.
+/insegnanti                           /#docenti                          301
+/staff                                /#docenti                          301
+/danza                                /corsi/danza-moderna               301
+/contemporaneo                        /corsi/danza-moderna               301
+/danza-classica                       /corsi/danza-classica              301
+/danza-classica-1-s87qy               /corsi/danza-classica              301
+/hip-hop                              /corsi/hip-hop                     301
+/kung-fu                              /corsi/kung-fu                     301
+/copia-di-kung-fu-kendo-kuai          /corsi/kung-fu                     301
+/tap                                  /corsi/tip-tap                     301
+/danze-latino-americane               /corsi/danze-latino-americane      301
+/copia-di-salsa-standard-e-latino-amer /corsi/danze-latino-americane     301
+/corsi                                /#discipline                       301
+/attivita                             /#discipline                       301
+/galleria                             /#galleria                         301
+/copia-di-galleria                    /#galleria                         301
+/contatti                             /#contatti                         301
+/iscrizioni                           /#contatti                         301
+/la-scuola                            /                                  301
+/baby-gang                            /                                  301
+/eventi                               /                                  301
+/animazione                           /                                  301
+/flamenco-bollywood                   /                                  301
+/home                                 /                                  301
+/home2                                /                                  301
+/coming-soon                          /                                  301
