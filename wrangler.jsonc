@@ -4,6 +4,12 @@
   // Deploy config lives here; see README "Deploy" and LAUNCH_CHECKLIST.
   "name": "crazygangschool-website",
   "compatibility_date": "2025-09-01",
+  // Production domain. Cloudflare creates the DNS record and certificate.
+  // The bare domain (crazygangschool.com) is redirected to www by a
+  // Redirect Rule configured in the Cloudflare dashboard.
+  "routes": [
+    { "pattern": "www.crazygangschool.com", "custom_domain": true }
+  ],
   "assets": {
     "directory": "./dist",
     // Any path that is not a static asset and does not match a rule in
