@@ -99,8 +99,11 @@ Course routes:
   served `dist/404.html` with a real `404` status (via `not_found_handling`). An
   unknown course slug such as `/corsi/xyz` matches the `/corsi/*` rewrite, so the
   app loads and renders its own `noindex` 404 view (status `200`).
-- No custom `_headers` file: Cloudflare already sets long-lived caching for the
-  hashed files under `/assets`.
+- `public/_headers` (copied to `dist/_headers`) sets the security headers: a strict
+  CSP (same-origin only, plus the Cloudflare Web Analytics beacon and the Google
+  Maps iframe), `X-Frame-Options`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`
+  and HSTS. Any new third-party script, embed or font host must be added to the CSP.
+  Cloudflare already sets long-lived caching for the hashed files under `/assets`.
 - Set the `SITE_URL` variable in the Cloudflare project to the final production
   origin before the first production deploy (otherwise the `seo.config.js`
   fallback is used for canonical / Open Graph / sitemap URLs).
