@@ -19,7 +19,7 @@ Solo i punti legali e quelli strettamente necessari per pubblicare il sito. Cont
 - [x] **Token Web Analytics**: beacon attivo in produzione (`CF_ANALYTICS_TOKEN` in `seo.config.js`). Da controllare solo che i dati arrivino nella dashboard Cloudflare Web Analytics.
 - [x] **Sblocco indicizzazione (go-live)**: `SITE_LAUNCHED=true` impostato su Cloudflare; meta robots `index, follow`, `robots.txt` aperto, `sitemap.xml` con 11 URL `www`.
 - [x] **Google Search Console**: proprietà Dominio verificata (record TXT in Cloudflare DNS — non cancellarlo) e sitemap inviata.
-- [ ] **Sitemap in Search Console**: stato iniziale "Impossibile recuperare" (cache del vecchio `robots.txt`). Ricontrollare dopo 24–48 ore: deve diventare "Operazione riuscita" con 11 pagine.
+- [x] **Sitemap in Search Console**: stato "Riuscita" (8 novembre 2026). Il primo "Impossibile recuperare" era dovuto alla cache del vecchio `robots.txt`.
 - [ ] **Pagine del vecchio sito Wix**: controllare in Search Console eventuali URL vecchi indicizzati (es. `/insegnanti`, `/baby-gang`) che ora danno 404 e aggiungere redirect verso le pagine nuove.
 - [ ] **Dominio registrato su Wix**: non disdire il piano Wix finché il dominio non è trasferito altrove.
 
