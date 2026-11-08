@@ -75,7 +75,7 @@ export const faculty = [
   teacher('massimo-e-tiziana', 'Massimo e', 'Tiziana', 'Insegnanti Danze Standard e Latino Americane', 1000, 971, '50% 25%', true),
   teacher('gloria-di-domizio', 'Gloria', 'di Domizio', 'Insegnante Danza Moderna', 1000, 1250, '50% 20%', true),
   teacher('michela-ritorto', 'Michela', 'Ritorto', 'Insegnante Danza Moderna', 1000, 1096, '50% 20%', true),
-  teacher('agnese-pini', 'Agnese', 'Pini', 'Insegnante Kung Fu', 1000, 1250, '50% 20%', true, true),
+  teacher('agnese-pini', 'Agnese', 'Pini', 'Insegnante Kung Fu', 680, 850, '50% 25%', true),
 ];
 
 export const contact = {

@@ -65,6 +65,8 @@ The browser loads only local WebP variants. Source-page links and credits are al
 
 The 13 portraits in `public/images/teachers/` were downloaded on 6 September 2026 from the corresponding named image links on the official [Insegnanti page](https://www.crazygangschool.com/insegnanti). They are matched only to the names attached to those images on that page; no stock portrait is used for a real person. The original JPEG files are retained in `source-assets/teacher-originals/` and the browser-ready WebP files can be reproduced with `python scripts/prepare-teacher-images.py`.
 
+The portrait of Agnese Pini (`public/images/teachers/agnese-pini.webp`, 680 × 850 px) is a 4:5 crop, centred on her, of the school's kung fu photograph (`source-assets/course-placeholders/kung-fu.jpg`, also used for the Kung Fu course); the cropped original is kept in `source-assets/teacher-originals/agnese-pini.jpg`. It replaces the earlier grey placeholder. Do not re-run `scripts/prepare-teacher-placeholder.py agnese-pini`, which would overwrite it.
+
 These are source-site materials. Current staff composition, image rights, photographer credits and consent for reuse remain **NEEDS VERIFICATION** before launch (see `LAUNCH_CHECKLIST.md`).
 
 ## Typography and launch
