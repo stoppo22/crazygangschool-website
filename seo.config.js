@@ -4,11 +4,9 @@
 //
 // Dominio di produzione. Alimenta canonical, Open Graph, robots.txt, sitemap.xml
 // e i placeholder %SITE_URL% in index.html.
-// TODO(launch): confermare il dominio definitivo e impostarlo con la variabile
-// d'ambiente SITE_URL nel progetto Cloudflare Pages. Se si usano più domini
-// (es. crazygangschool.com e crazygangschool.it), SOLO UNO è quello canonico
-// impostato qui; gli altri devono fare redirect 301 verso di esso a livello
-// Cloudflare, per evitare contenuti duplicati.
+// Dominio canonico confermato: www.crazygangschool.com. L'indirizzo senza www
+// (crazygangschool.com) fa redirect 301 verso di esso tramite una Redirect Rule
+// Cloudflare, per evitare contenuti duplicati. SITE_URL resta sovrascrivibile.
 export const SITE_URL = (process.env.SITE_URL || 'https://www.crazygangschool.com').replace(/\/$/, '');
 
 // Safety switch: the site is served noindex/nofollow AND robots.txt "Disallow: /"

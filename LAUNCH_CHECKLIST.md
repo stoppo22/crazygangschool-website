@@ -13,15 +13,15 @@ Solo i punti legali e quelli strettamente necessari per pubblicare il sito. Cont
 
 ## 2. Switch tecnico di lancio
 
-- [ ] **Dominio definitivo di produzione**: impostare `SITE_URL` su Cloudflare (default: `https://www.crazygangschool.com`) e configurare il redirect 301 dal dominio secondario, se esiste, per evitare contenuti duplicati.
-- [ ] **Verifica cookie live su Cloudflare**: al deploy sul dominio definitivo, controllare con devtools che non vengano impostati cookie non tecnici.
-- [ ] **Token Web Analytics**: verificare il token cookieless di Cloudflare Web Analytics in `seo.config.js` (`CF_ANALYTICS_TOKEN`).
-- [ ] **Sblocco indicizzazione (go-live finale)**: il sito è blindato con `noindex, nofollow` e `robots.txt Disallow: /`. Solo a contenuti legali completati, impostare su Cloudflare:
-  ```
-  SITE_LAUNCHED=true
-  ```
-  Questo trasforma i meta robots in `index, follow` e apre `robots.txt`/`sitemap.xml` ai motori di ricerca.
-- [ ] **Google Search Console**: inviare la sitemap (`https://<dominio>/sitemap.xml`) subito dopo lo sblocco indicizzazione.
+- [x] **Dominio definitivo**: `https://www.crazygangschool.com` (custom domain del worker `crazygangschool-website`, DNS su Cloudflare, nameserver cambiati da Wix). `crazygangschool.com` → 301 → `www` tramite Redirect Rule; `http` → `https` con "Always Use HTTPS".
+- [x] **Verifica cookie live su Cloudflare**: nessun cookie né prima né dopo l'attivazione della mappa (8 novembre 2026).
+- [x] **Header di sicurezza**: `public/_headers` (CSP, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy, HSTS) attivi in produzione, nessun errore CSP in console.
+- [x] **Token Web Analytics**: beacon attivo in produzione (`CF_ANALYTICS_TOKEN` in `seo.config.js`). Da controllare solo che i dati arrivino nella dashboard Cloudflare Web Analytics.
+- [x] **Sblocco indicizzazione (go-live)**: `SITE_LAUNCHED=true` impostato su Cloudflare; meta robots `index, follow`, `robots.txt` aperto, `sitemap.xml` con 11 URL `www`.
+- [x] **Google Search Console**: proprietà Dominio verificata (record TXT in Cloudflare DNS — non cancellarlo) e sitemap inviata.
+- [ ] **Sitemap in Search Console**: stato iniziale "Impossibile recuperare" (cache del vecchio `robots.txt`). Ricontrollare dopo 24–48 ore: deve diventare "Operazione riuscita" con 11 pagine.
+- [ ] **Pagine del vecchio sito Wix**: controllare in Search Console eventuali URL vecchi indicizzati (es. `/insegnanti`, `/baby-gang`) che ora danno 404 e aggiungere redirect verso le pagine nuove.
+- [ ] **Dominio registrato su Wix**: non disdire il piano Wix finché il dominio non è trasferito altrove.
 
 ---
 

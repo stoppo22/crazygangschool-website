@@ -69,8 +69,8 @@ Course routes:
 ## SEO
 
 - `seo.config.js` is the single source of truth for the production origin
-  (`SITE_URL`, default `https://www.crazygangschool.com` — **confirm www vs apex
-  before launch**, override with the `SITE_URL` env var at build time), site
+  (`SITE_URL`, default `https://www.crazygangschool.com` — the confirmed canonical
+  origin, `www`; override with the `SITE_URL` env var at build time), site
   name, default description and the route list. The Vite plugin substitutes the
   `%SITE_URL%` placeholders in `index.html` (canonical, Open Graph, JSON-LD) with
   this value, so the domain lives in exactly one place.
@@ -126,9 +126,9 @@ consent banner**; adding any cookie-based tracker, pixel, booking widget or
 embedded video later would mean introducing a consent manager with prior
 blocking and extending the Cookie Policy.
 
-`/privacy` and `/cookie` (`src/LegalPage.jsx`) are complete drafts; the owner
-must fill the bracketed facts (data controller + tax code, retention periods,
-dates) and have the text reviewed before launch. `PRIVACY-NOTES.md` records the
+`/privacy` and `/cookie` (`src/LegalPage.jsx`) carry the data controller (ASD Sport
+Dance), retention periods and update dates; a legal review of the text is still
+advisable. `PRIVACY-NOTES.md` records the
 processing inventory and the reasoning. See `LAUNCH_CHECKLIST.md`.
 
 ## Content boundaries
@@ -143,6 +143,6 @@ processing inventory and the reasoning. See `LAUNCH_CHECKLIST.md`.
   simulated.
 - The reviews section shows the verified Google rating plus five review texts
   transcribed verbatim from the public listing; removable on request.
-- Hero and course images are labelled stock placeholders (`data-placeholder`,
-  `placeholder: true`); the gallery uses documented historical photographs.
-  Image rights and credits remain to be confirmed.
+- Hero and course images are real photographs of the school (see `ASSETS.md`
+  for provenance); the gallery uses documented historical photographs. Any
+  leftover `placeholder` flag in `src/content.js` is a non-visible code marker.
